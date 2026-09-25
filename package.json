@@ -1,0 +1,9 @@
+{
+  "name": "legwork",
+  "private": true,
+  "type": "module",
+  "description": "A detective casebook: spend your hours on the right leads, then file your report.",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  }
+}
