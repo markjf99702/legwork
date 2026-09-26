@@ -790,3 +790,368 @@ The security desk is easier. Visitor badges aren’t medical records, the guard 
       ],
     },
 
+    theo: {
+      title: 'Theo Marsh',
+      text: `Theo Marsh has the basement records office to himself: two monitors, a space heater and a bag of pretzels the size of a pillow. “Carver Avenue!” he says, before you’ve sat down. “I saw it on the news. What do you need?”`,
+      again: `Theo spins his chair around. “Back for more?”`,
+      choices: [
+        {
+          label: 'Ask about the laundromat’s money',
+          cost: 0.5,
+          text: `Theo types while he talks. “Gary Lusk owns 1842 Carver outright, which is the good news. The bad news: two years behind on property taxes, eighteen thousand four hundred. A water shutoff notice in June, paid late.”
+
+He taps the screen. “Here’s the one I like. Laundromats live on water. City water records: his usage is down forty-one percent in two years. The SpinCity on Dunmore opened two years ago this month.” He crunches a pretzel. “He isn’t washing half the clothes he used to.”`,
+          clues: ['gary_broke'],
+        },
+        {
+          label: 'Ask about Pete’s money',
+          cost: 0.5,
+          text: `“Northshore Savings recorded a notice of default on 1840 Carver on October 15th. Three payments missed: August, September, October.” Theo scrolls. “And a collections judgment in September. St. Brigid’s Hospital against Peter and Marie Delacroix, fourteen thousand three hundred.”
+
+He stops scrolling and looks at you. “That’s not a store problem. That’s somebody sick.”`,
+        },
+        {
+          label: 'Ask him to trace the Lakeshore truck',
+          if: 'truck_sunday',
+          text: `“A white truck with a sailboat on it? That’s Lakeshore Truck & Storage, on Harbor Road. There’s only the one.” He’s already dialing. “They’ll say they need a subpoena and then they’ll tell me anyway. Give me an hour and a half.”`,
+          timer: {
+            in: 1.5,
+            title: 'Theo Marsh',
+            text: `Theo calls back, pleased with himself.
+
+> LAKESHORE TRUCK & STORAGE · 2600 HARBOR RD
+> Truck L-3318 (15-ft box) · Renter: LUSK, GARY
+> Out: SUN 20:35 · In: MON 07:50
+> Same account: storage unit 214 (10x15), from SUN.
+> Three months paid in advance, cash.
+
+“Same counter, same night,” Theo says. “He rented the truck and the unit in one go.”`,
+            clues: ['truck_rental'],
+          },
+        },
+        {
+          label: 'Ask him to run Curtis Webb',
+          if: 'curtis_threat | curtis_gas',
+          text: `“Curtis Webb, twenty-four. Retail theft at nineteen, a phone charger from a drugstore, paid the fine. Nothing since. Lives on Ferris with a Jada Price, who works nights at Calder Downs. A silver ’09 Civic, and forty-one dollars in parking tickets.” Theo grins. “Not exactly a criminal mastermind.”`,
+        },
+        {
+          label: 'Ask about Harborline Development',
+          if: 'harborline_heard | nora_voicemail',
+          text: `“Harborline has bought four parcels on the 1800 block of Carver in fourteen months: the old bakery, the shoe repair, the two-flat on the corner and a parking lot. Clean deals, all of them.” He pulls up a map. “The last two buildings on that end of the block are 1840 and 1842.” He shrugs. “Pete’s and Gary’s. The hole in the doughnut.”`,
+        },
+      ],
+    },
+
+    lab: {
+      title: 'Crime lab',
+      text: `The crime lab is two floors under police headquarters, and it smells of solvent and burned coffee. Dr. Anjali Rao is at a bench with a magnifier on an arm, doing something delicate to a scrap of cloth. She finishes before she looks up.
+
+“Detective. What have you brought me?”`,
+      again: `Dr. Rao looks up from her bench. “Detective. What else have you got?”`,
+      choices: [
+        {
+          label: 'Hand her the gas can',
+          if: 'can_found',
+          text: `Dr. Rao turns the evidence bag under the light without opening it.
+
+“Surefill, five gallon. The base slumped, but it didn’t burn through.” She tilts it. “It sat in a puddle from the hoses. Water protects things. There’s paper on the bottom, under the melt. A label.” She sets it down. “Three hours. I’ll send you what I find, and only what I find.”`,
+          timer: {
+            in: 3,
+            title: 'Dr. Rao',
+            text: `Dr. Rao’s report on the gas can:
+
+> ITEM 1: Fuel can, red polyethylene, 5 gal. Surefill SF-5.
+> Residue: gasoline.
+> Base: paper price label, partly legible under infrared:
+> “DELACROIX HDW · $24.99 · 9-25”
+> Latent prints: none usable (surface melted).
+
+Under it she has written, by hand: *The water saved the label. The heat took everything else.*`,
+            clues: ['can_sticker'],
+          },
+        },
+        {
+          label: 'Hand her the camera recorder',
+          if: 'dvr_taken',
+          text: `Dr. Rao draws a finger through the soot on the recorder’s case and looks at it.
+
+“Smoke and water on the outside. The inside may be fine.” She lifts the coiled cord off the top, looks at the clean plug, and then at you. “Two hours.”`,
+          timer: {
+            in: 2,
+            title: 'Dr. Rao',
+            text: `Dr. Rao on the laundromat’s camera recorder:
+
+> ITEM 2: 8-channel DVR, Carver Coin Laundry.
+> Exterior: soot, water. Interior: dry. Powers on normally.
+> Event log, 11 months: no disk, fan or overheat faults.
+> Last entry: SAT 22:14:07  POWER LOSS
+> Footage ends SAT 22:14.
+
+Her note: *Nothing wrong with it. Somebody pulled the plug.*`,
+            clues: ['dvr_unplugged'],
+          },
+        },
+        {
+          label: 'Ask about the fire debris',
+          text: `“Frank Lowry’s debris samples went to the state lab. They’ll come back gasoline in three weeks.” Dr. Rao doesn’t look up. “They always do. Nobody burns down a building with lemonade.”`,
+        },
+      ],
+    },
+
+    insurer: {
+      title: 'Great Lakes Mutual',
+      text: `Beth Haskins of Great Lakes Mutual’s special investigations unit picks up in her car. She was a sheriff’s deputy for twenty-two years before this, she tells you, so she knows what you can and can’t say, and she’d appreciate the same courtesy.
+
+“Carver Coin Laundry,” she says. “I wondered when somebody from Port Calder PD would call. [if time >= 5]He filed his claim this afternoon, by the way. In person.[else]He hasn’t filed yet. He will.[/if]”`,
+      again: `Beth Haskins picks up on the second ring. “Detective. Tell me something good.”`,
+      set: ['beth_called'],
+      choices: [
+        {
+          label: 'Ask about Gary’s coverage',
+          text: `“He called his agent at 8:02 this morning to report the loss. Our system flagged it before he hung up, because five weeks ago he raised his limits. A lot. Building and contents both.” A turn signal ticks. “A fire five weeks after a big increase lands on my desk automatically.
+
+“For the numbers and the paper, I need a written request from the DA’s office under the arson reporting act. Get me that, and you can have the whole file. I’d like you to have it.”`,
+          clues: ['coverage_raised'],
+          set: ['beth_request'],
+        },
+        {
+          label: 'Ask whether he has filed a claim',
+          if: 'time >= 5 & !claim_washers',
+          text: `“Ten to three, in person, at our office on Garland Street. Building and contents, total loss.” Paper rustles. “He stapled the equipment schedule from his policy to the form and wrote ‘all destroyed’ across it. Sixteen washers. Four of them are Harwood forty-pound front-loaders, bought last year, eighty-four hundred apiece.” A pause. “I’ll be out Thursday to count them.”`,
+          clues: ['claim_washers'],
+        },
+        {
+          label: 'Tell her about the missing washers',
+          if: 'truck_sunday | gary_repair | empty_spaces',
+          text: `Beth is quiet on the line for a moment. You can hear her writing.
+
+[if claim_washers]“Those four Harwoods are on his claim,” she says. “Destroyed in the fire, it says. Eighty-four hundred apiece.”[else]“When he files,” she says, “I’ll be looking for four Harwoods.”[/if] [if truck_rental]“And a storage unit on Harbor Road. Detective, if those machines are in unit 214, I will buy you lunch for a year. Get a warrant. I can’t.”[else]“Find me those machines, Detective, and I’ll buy you lunch for a year.”[/if]`,
+        },
+      ],
+    },
+
+    tricounty: {
+      title: 'Tri-County Commercial Laundry',
+      text: `Tri-County Commercial Laundry Service answers on the fourth ring. “Tri-County, this is Rhonda.” Behind her there’s a radio, and a man swearing at a dryer drum.
+
+She looks up Carver Coin Laundry while you wait. “Lusk, 1842 Carver. We were out there a year ago March, a door lock on a dryer. That’s the last ticket.” Keys clack. “Nothing this month. Nothing Sunday. Hon, nobody here works Sundays. And we don’t haul washers anywhere. We fix them where they stand. That’s the whole business.”
+
+A pause. “Who told you we had four of his machines?”`,
+      clues: ['no_ticket'],
+      choices: [
+        {
+          label: 'Ask what four new Harwoods are worth',
+          text: `“The forty-pound front-loaders? Eight thousand, eighty-five hundred apiece, new.” Rhonda whistles. “Why? Somebody lose four?”`,
+        },
+      ],
+    },
+
+    pellegrino: {
+      title: 'ADA Gus Pellegrino',
+      text: `Assistant District Attorney Gus Pellegrino takes your call in a courthouse stairwell between hearings, and his voice echoes. “Carver Avenue,” he says. “Frank Lowry already has me at eleven tomorrow. Are you calling to help him or to ruin his morning?”`,
+      again: `Gus picks up on the first ring. “Go.”`,
+      choices: [
+        {
+          label: 'Ask him to request Great Lakes Mutual’s file',
+          if: 'beth_request',
+          text: `“The arson reporting act. Insurers have to hand over what they’ve got when we ask in writing, and nobody can sue them for it.” Keys clatter. “It’s a form letter. It’ll be in her inbox in ten minutes. Give her an hour.”`,
+          timer: {
+            in: 1,
+            title: 'Beth Haskins',
+            text: `Beth Haskins emails the file, with a note: *As promised. B.H.*
+
+> GREAT LAKES MUTUAL · POLICY CPP-44-81920
+> LUSK, GARY · dba CARVER COIN LAUNDRY · 1842 CARVER AVE
+> Endorsement effective 9/23:
+>   Building            $380,000  ->  $650,000
+>   Business property    $85,000  ->  $160,000
+>   Annual premium        $4,920  ->    $8,760
+> Premium history: 3 of last 6 installments paid late.
+
+[if nora_meaning]$650,000. You’ve heard that number today. It’s what Harborline offered Gary for his building.[/if]`,
+            clues: ['coverage_file'],
+          },
+        },
+        {
+          id: 'warrant-yes',
+          label: 'Ask for a warrant for unit 214',
+          if: 'truck_rental & !storage_search & (claim_washers | no_ticket | empty_spaces)',
+          text: `You give it to him in order: four washers out the back door into a Lakeshore truck on Sunday night, a storage unit rented at the same counter, [if no_ticket]a repair company that never saw them, [/if][if empty_spaces]four empty spaces with the water lines capped, [/if][if claim_washers]and a claim this afternoon that says they burned.[else]and a man telling everybody they were out for repair.[/if]
+
+“That’s insurance fraud before it’s arson,” Gus says, “and I like it either way. Judge Moravec is in chambers. Give me forty minutes.”`,
+          go: 'storage',
+        },
+        {
+          id: 'warrant-no',
+          label: 'Ask for a warrant for unit 214',
+          if: 'truck_rental & !storage_search & !(claim_washers | no_ticket | empty_spaces)',
+          text: `“He rented a truck and a storage unit,” Gus says. “Half of Port Calder has a storage unit. What’s in it that shouldn’t be, and why should a judge care? Bring me that.”`,
+        },
+      ],
+    },
+
+    storage: {
+      title: 'Lakeshore Truck & Storage',
+      text: `The warrant comes through. Lakeshore Truck & Storage is a long cinder-block building on Harbor Road with its rental trucks lined up out front, white, a blue sailboat on every one. The manager walks you down a corridor of orange roll-up doors to number 214 and cuts the padlock with bolt cutters. He seems to enjoy it.`,
+      again: `The manager is waiting by unit 214 with his bolt cutters over his shoulder.`,
+      choices: [
+        {
+          label: 'Open the unit',
+          cost: 1,
+          text: `The door rattles up.
+
+Four washers stand in a row on pallets, shrink-wrapped: Harwood front-loaders, forty-pound, the stainless still bright under the plastic. [if claim_washers]You read the serial plates off against Beth Haskins’s copy of the claim. All four are on it, marked *destroyed*.[else]You photograph each serial plate for Great Lakes Mutual.[/if]
+
+On top of the last one is a cardboard box. Inside, wrapped in a bath towel, are a framed dollar bill with *Carver Coin Laundry · first dollar · 1998* written on the mat, and an old photograph of a woman in cat-eye glasses standing in front of the laundromat on its opening day.
+
+He saved the things he couldn’t replace. You stand there with that for a moment before you call it in.`,
+          clues: ['storage_search'],
+          go: 'board',
+        },
+      ],
+    },
+  },
+
+  events: [
+    {
+      at: 2,
+      title: 'Mercy General',
+      text: `A nurse from Mercy General calls. Walter Abernathy is awake, off the mask and asking about his cat. “He can talk,” she says. “Ten minutes. Don’t make him laugh, it makes him cough.”`,
+      set: ['walter_awake'],
+    },
+    {
+      at: 5,
+      if: 'beth_called',
+      title: 'Beth Haskins',
+      text: `Beth Haskins calls back. “He filed. Ten to three, in person, at our office on Garland Street. Building and contents, total loss.” Paper rustles. “He stapled the equipment schedule from his policy to the form and wrote ‘all destroyed’ across it. Sixteen washers. Four of them are Harwood forty-pound front-loaders, bought last year, eighty-four hundred apiece.”
+
+A pause. “I’ll be out Thursday to count them.”`,
+      clues: ['claim_washers'],
+    },
+    {
+      at: 6.5,
+      if: '@laundromat & !gary_walter',
+      title: 'Gary Lusk',
+      text: `Gary Lusk calls your cell. He’s outside somewhere; you can hear buses.
+
+“Detective, it’s Gary. Gary Lusk. I didn’t want to say this this morning, Pete’s my neighbor. But at the block party in August, Pete had a couple of beers, and he said to me, ‘Some days I’d like to put a match to the whole place and walk away.’” A pause. “I figured he was joking. Now I don’t know. I just thought you should know.”`,
+      set: ['gary_called'],
+    },
+    {
+      at: 8,
+      if: '!lowry_convinced',
+      title: 'Frank Lowry',
+      text: `Frank Lowry calls as the day shift goes home. “Courtesy call. Pete Delacroix comes in at nine tomorrow, and I see Pellegrino at eleven with the file.” He sounds as tired as he must be. “If you’ve got something else, Detective, now’s the time.”`,
+    },
+    {
+      at: 8,
+      if: 'lowry_convinced',
+      title: 'Frank Lowry',
+      text: `Frank Lowry calls as the day shift goes home. “I told Pete he doesn’t need to come in tomorrow. Told him myself, on his porch. His wife made me take a coffee cake.” A pause. “I’ll walk the Lusk file over to Pellegrino in the morning. Put my name next to yours.”`,
+    },
+  ],
+
+  report: [
+    {
+      id: 'who',
+      q: 'Who set the fire?',
+      options: {
+        gary: 'Gary Lusk, who owns the laundromat',
+        pete: 'Pete Delacroix, who owns the hardware store',
+        curtis: 'Curtis Webb, the clerk Pete fired',
+        nora: 'Nora Kessling, or someone Harborline hired',
+        stranger: 'Someone else, a stranger off the street',
+      },
+      answer: 'gary',
+      points: 40,
+      why: 'The can was the one Surefill on Pete’s last delivery, and Marie’s book puts it on Gary’s account. Gary had a key to Pete’s alley door, and Walter heard Gary’s back door at 2:55. Pete was at St. Brigid’s all night, Curtis was filling his car, and Nora was in Toronto.',
+    },
+    {
+      id: 'target',
+      q: 'Whose building was the fire really meant to destroy?',
+      options: {
+        laundromat: 'Gary’s laundromat, through the shared wall',
+        hardware: 'Pete’s hardware store',
+        scare: 'Neither: it was meant to scare Pete into selling',
+      },
+      answer: 'laundromat',
+      points: 15,
+      why: 'The gasoline ran along the shared wall and nowhere near Pete’s thinner and lamp oil, so the fire would climb the wall and go through it. The laundromat was the building whose coverage had just gone up and whose best machines had just gone out. Starting at Pete’s door was the frame.',
+    },
+    {
+      id: 'motive',
+      q: 'Why did he do it?',
+      options: {
+        insurance: 'To collect on the laundromat’s insurance',
+        grudge: 'To get even with Pete for killing the Harborline sale',
+        harborline: 'Harborline paid him to clear the block',
+        mortgage: 'To get out from under a mortgage he couldn’t pay',
+      },
+      answer: 'insurance',
+      points: 15,
+      why: 'The laundromat had been losing money for two years, and Harborline wouldn’t buy it without Pete’s building. Five weeks before the fire Gary raised his coverage, the building to $650,000, Harborline’s price. The afternoon after the fire he filed a claim.',
+    },
+    {
+      id: 'can',
+      q: 'What ties Gary to the gas can?',
+      options: {
+        ledger: 'Marie Delacroix’s house-account book',
+        sticker: 'The Delacroix price sticker on the can',
+        prints: 'His fingerprints on the handle',
+        witness: 'Yolanda Pierce saw him carry it',
+      },
+      answer: 'ledger',
+      points: 15,
+      why: 'The sticker only says the can came from Pete’s store. Its date says it was the one Surefill on the 9-25 delivery, and Marie’s book shows that can going on Gary’s account on 10/7. The store’s copy burned; hers was at home.',
+    },
+    {
+      id: 'before',
+      q: 'What did Gary take out of the laundromat before the fire?',
+      options: {
+        washers: 'His four newest washers',
+        cash: 'The cash from the coin boxes',
+        records: 'His books and records',
+        nothing: 'Nothing. He lost everything.',
+      },
+      answer: 'washers',
+      points: 15,
+      why: 'Yolanda Pierce watched four washers go into a Lakeshore truck on Sunday night. Tri-County never had them, and the truck and a storage unit were rented in Gary’s name. His claim lists them as burned.',
+    },
+  ],
+
+  outcomes: {
+    gary: `Gary Lusk was charged on Wednesday afternoon with aggravated arson of an occupied building and with insurance fraud. Great Lakes Mutual denied his claim and took the four washers. He pleaded guilty in February, and asked his lawyer to pass a letter to Walter Abernathy. Walter didn’t open it.
+
+Frank Lowry called Pete himself. Pete called his insurance company that Wednesday, because Marie made him, and the building money went to Northshore Savings, as she had said it would. In the spring Harborline bought both lots, Pete’s from Pete and Gary’s from his bankruptcy trustee, for less than they had offered in October. It was enough to pay the bank and St. Brigid’s. Marie finished her chemo in January. Walter spent the winter in Milwaukee, in Diane’s guest room, and took Pearl.`,
+    pete: `Pete Delacroix was brought in at nine on Wednesday morning, as Frank Lowry had planned, and charged at noon. His legal aid lawyer had St. Brigid’s visitor log by Thursday: badge in at 11:42 p.m., badge out at 4:55 a.m., and a charge nurse who had brought him coffee at three. The charge was dropped the next week. By then the whole block knew about Marie, which was the one thing she had asked for. In March, Beth Haskins of Great Lakes Mutual found four washers in a storage unit on Harbor Road, and the case came back to your desk with a note from Lieutenant Okafor that said only: *Chain.*`,
+    curtis: `Curtis Webb was arrested at the apartment on Ferris Street, in front of Jada. His public defender had the Speedy Mart footage the next morning: two people pushing a dead Civic up to pump three, and a young man filling its tank. The charge was dropped. Frank Lowry went back to Pete Delacroix, which was where he had wanted to be all along, and it took a hospital visitor log to stop him. Gary Lusk’s claim sat on Beth Haskins’s desk, unpaid, into the spring.`,
+    nora: `Your report named Nora Kessling. Harborline’s lawyers sent Lieutenant Okafor a boarding pass, a Toronto hotel bill and a letter explaining in some detail why a fire was the worst thing that could have happened to their deal. Nothing tied Nora to Carver Avenue but a voicemail. Frank Lowry charged Pete Delacroix instead, and it took St. Brigid’s records to undo it.`,
+    default: `Your report blamed a stranger. Lieutenant Okafor asked how a stranger came to have a key to Pete’s alley door and a gas can off Pete’s shelf, and you didn’t have an answer. Frank Lowry charged Pete Delacroix on Wednesday morning. Gary Lusk went back to his squeegee and waited for Great Lakes Mutual to pay.`,
+  },
+
+  solution: {
+    text: `Gary Lusk’s laundromat had been dying for two years, ever since the SpinCity opened on Dunmore. His water use was down by forty percent and his property taxes were two years behind. The one way out he could see was Harborline’s offer of $650,000 for his building. But Harborline wanted both buildings or neither, and Pete Delacroix wouldn’t sell.
+
+So Gary found the money somewhere else. Five weeks before the fire he raised his coverage with Great Lakes Mutual, the building to $650,000, Harborline’s number. On October 7th he bought a Surefill gas can at Delacroix Hardware and put it on his house account, because a can off Pete’s shelf would look like Pete’s. It was the only Surefill on Pete’s last delivery.
+
+Then he got ready. Last week he asked his tenant, Walter Abernathy, twice when he was leaving for his daughter’s and when he’d be back. On Saturday night he pulled the plug on his camera recorder, and later said it broke. On Sunday night he rented a truck and a storage unit on Harbor Road and, with two hired men, loaded his four newest washers out the back door while Yolanda Pierce watched from her porch. On Monday he put up a sign: out for repair.
+
+At 2:55 on Tuesday morning he let himself in the laundromat’s back door to get the can, and never thought about the buzzer. He opened Pete’s alley door with the spare key the two men had swapped in 2009, poured gasoline along the base of the wall the buildings share, and lit it from the doorway at about 3:10. He left the can in the alley for the Fire Marshal to find. The fire was meant to climb that wall and take his own building with it, and it very nearly did.
+
+He didn’t know Walter was home. Walter had missed his cat and taken the Monday bus back from Milwaukee, and the ladder company carried him down at 3:24. That afternoon Gary filed a claim that listed the four hidden washers as destroyed.
+
+Pete Delacroix was at St. Brigid’s all night with his wife, Marie, who is in chemotherapy. He lied to Lowry about where he was because she didn’t want the block to know, and her illness is where the money went. His store was underinsured, and any payout goes to the bank. Curtis Webb, who said the store should burn, bought gas at 1:50 because his car had run dry, and the Speedy Mart camera shows him filling its tank. Nora Kessling was in Toronto, and she meant that Pete would regret the price. The fire was the worst thing that could have happened to her deal.
+
+The can gave Gary away. The store’s copy of the house accounts burned. Marie’s didn’t.`,
+    chain: ['pour_trail', 'door_key', 'gary_key', 'pete_er', 'can_sticker', 'one_can', 'ledger', 'buzzer', 'gary_asked', 'truck_sunday', 'coverage_raised'],
+    walk: [
+      '@scene', 'Ask how the fire', 'Ask about the alley', 'Ask about the gas', 'Ask about the laundromat',
+      '@lab', 'Hand her the gas',
+      '@delacroix', 'Ask Marie', 'Ask who has keys',
+      '@abernathy', 'Ask what he heard', 'Ask about Gary', 'Ask who has been',
+      '@yolanda', 'Ask whether',
+      '@insurer', 'Ask about Gary',
+      '@delacroix', 'Ask about the gas can', 'Ask who bought',
+    ],
+  },
+};
