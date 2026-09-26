@@ -188,7 +188,7 @@ He doesn’t answer that.[else]“Three months of it, the morning after eleven t
 
 “It shows you setting it at 10:08. If you’d come back at 10:25, you’d have had to turn it off to get in. There’s nothing.”
 
-“Then I came in without — maybe it didn’t — ” He stops, and looks toward the front of the store, where Irene is. “I think I want to talk to a lawyer.”`,
+“Then I came in without—maybe it didn’t—” He stops, and looks toward the front of the store, where Irene is. “I think I want to talk to a lawyer.”`,
           clues: ['danny_lawyer'],
           go: 'board',
         },
