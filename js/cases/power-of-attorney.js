@@ -42,24 +42,25 @@ export default {
   clues: {
     last_seen: { title: 'Last seen October 4', text: 'Dot Villanueva last saw Harold on the morning of Saturday, October 4, in his driveway. She is vague about the rest.', who: ['dot', 'harold'] },
     kevin_upstate: { title: 'Kevin’s story to Dot', text: 'On October 8 Kevin told Dot that Harold had gone to stay with a friend upstate, and brushed her off when she asked which friend. Two days earlier he had been pounding on Harold’s door.', who: ['kevin', 'dot'] },
-    hip_march: { title: 'A new hip in March', text: 'Harold had a hip replacement at Mercy General in March. Dot drove him home from the hospital.', who: ['harold', 'dot'] },
+    hip_march: { title: 'A new hip in March', text: 'Harold had his hip replaced at Mercy General in March and spent about a week in the hospital.', who: ['harold'] },
     skaggs_plate: { title: 'A man in a gray Hyundai', text: 'Sunday afternoon a man with a big mustache sat outside Harold’s house for three hours, then asked the neighbors where Harold goes and who visits him. Dot wrote down his plate.', who: ['dot'], at: 'Sun 13:30' },
     shouting: { title: 'Shouting next door', text: 'On the night of September 30 Dot heard Kevin and Harold arguing. Kevin said “for your own good,” twice. Harold told him to get out of his house.', who: ['kevin', 'harold', 'dot'] },
     dot_goodbye: { title: 'Harold’s goodbye', text: 'Harold left on his own on October 4. He gave Dot the cat and said, “If Kevin asks, you haven’t seen me.” He told her Kevin meant to put him in a home. Dot thinks he went to a former student who has a bakery in Lakeview.', who: ['harold', 'dot', 'kevin'] },
-    left_on_purpose: { title: 'He packed', text: 'No sign of a struggle at 1416 Alder. A suitcase, his toiletries, his pill organizer and his cane are gone, and the bed is made. A neighbor saw him load the Buick himself, whistling.', who: ['harold'] },
+    left_on_purpose: { title: 'He packed', text: 'No sign of a struggle at 1416 Alder. A suitcase, his toiletries, his pill organizer and his cane are gone, and the bed is made.', who: ['harold'] },
+    seen_leaving: { title: 'He left whistling', text: 'Early on October 4 a neighbor saw Harold load a suitcase into the Buick by himself, whistling. Nobody else was with him.', who: ['harold'] },
     rosa_card: { title: 'A card from Rosa Delgado', text: 'On Harold’s mantel, a Christmas card from Rosa of Delgado’s Bakery, 214 Lake Street, Lakeview, signed “your favorite lab disaster.”', who: ['rosa', 'harold'] },
     maple_packet: { title: 'Welcome to Maple Crest', text: 'A welcome packet from Maple Crest Memory Care, postmarked October 3, came for Harold after he left. It gives his move-in date as Monday, October 6, and promises that the doors are secured.', who: ['harold'] },
     in_hospital: { title: 'At Mercy General, March 12–18', text: 'Harold was an inpatient at Mercy General from March 12 to March 18. His hip was replaced on March 13, and he couldn’t walk without help.', who: ['harold'] },
     freezer_note: { title: '“I NEVER SIGNED THIS”', text: 'Hidden in Harold’s freezer: copies of his bank papers, with “I NEVER SIGNED THIS — H.B.” written across the power of attorney, and a note: “9/29, A. Feld, Northshore. Fraud claim.”', who: ['harold', 'aaron'] },
     statement: { title: 'Where the savings went', text: 'Harold’s savings fell from $212,406 in March to $9,012 in September, in fourteen transfers to Beck Realty Group LLC. A $190,000 home equity line opened on his house in April is fully drawn.', who: ['harold', 'kevin'] },
     poa_copy: { title: 'The power of attorney', text: 'A durable financial power of attorney naming Kevin as Harold’s agent, dated March 14. It was notarized at Ship & Sign on Dunmore Street by Sheila Kraft, who certifies that Harold “personally appeared” before her.', who: ['kevin', 'sheila', 'harold'] },
-    kevin_story: { title: 'Kevin’s shifting story', text: 'Kevin said Harold was upstate with a friend named Walt, but couldn’t say Walt who. Then he said Harold has dementia and wandered off, that Dr. Osei had written a letter, and that a bed was waiting at Maple Crest.', who: ['kevin'] },
-    cash_4000: { title: '$4,000 in cash', text: 'On October 3, the day before he left, Harold withdrew $4,000 in cash from Northshore Savings. Kevin says someone is “working him.”', who: ['harold', 'kevin'] },
+    kevin_story: { title: 'Kevin’s shifting story', text: 'Kevin said Harold was upstate with a friend named Stan, but couldn’t say Stan who. Then he said Harold has dementia and wandered off, that Dr. Osei had written a letter, and that a bed was waiting at Maple Crest.', who: ['kevin'] },
+    cash_4000: { title: '$4,000 in cash', text: 'On October 3, the day before he left, Harold withdrew $4,000 in cash from Northshore Savings.', who: ['harold'] },
     skaggs_hired: { title: 'Kevin hired a PI', text: 'Kevin is paying Donnie Skaggs, a private investigator, $65 an hour to find Harold.', who: ['kevin', 'skaggs'] },
     kevin_debts: { title: 'Kevin’s flip went bad', text: 'Beck Realty Group bought 12 Overlook Drive for $610,000 on a hard-money loan. The lender filed to foreclose in March; in May, Kevin paid $186,000 to stop it. There are still $140,000 in contractors’ liens on the house.', who: ['kevin'] },
     buick_ticket: { title: 'A ticket in Lakeview', text: 'Harold’s Buick was ticketed at 6:52 a.m. on Thursday, October 9, in the loading zone at 214 Lake Street, Lakeview. That’s Delgado’s Bakery.', who: ['harold'] },
     library_card: { title: 'Library books in Lakeview', text: 'Harold’s phone has been off since 8:12 a.m. on October 4. On Friday his library card checked out two books at the Lakeview branch.', who: ['harold'] },
-    sheila_kevin: { title: 'Sheila lives with Kevin', text: 'Sheila Kraft, the notary on Harold’s power of attorney, is Kevin Beck’s girlfriend. Her car is registered to his loft at 19 Canal Street.', who: ['sheila', 'kevin'] },
+    sheila_kevin: { title: 'Sheila is Kevin’s girlfriend', text: 'Sheila Kraft, the notary who stamped Harold’s power of attorney, is Kevin Beck’s girlfriend.', who: ['sheila', 'kevin'] },
     aaron_met_harold: { title: 'Harold went to the bank', text: 'On September 29 Harold brought his statement to Northshore Savings and said he never signed a power of attorney. Aaron Feld found him sharp and certain, opened a fraud claim and stopped the bank from honoring the POA.', who: ['aaron', 'harold'] },
     bank_records: { title: 'Northshore’s records', text: 'Acting under the POA, Kevin sent Harold’s statements to his own office on April 2, opened the $190,000 home equity line on April 21, and moved $203,393 of Harold’s savings to Beck Realty Group. The only withdrawal Harold made himself was $4,000 in cash, in person, on October 3.', who: ['kevin', 'harold', 'aaron'] },
     journal_entry: { title: 'The notary journal', text: 'Sheila Kraft’s journal records Harold Beck appearing at 4:40 p.m. on March 14 to sign a power of attorney, identified by his driver’s license. The signature is big and shaky. There’s a thumbprint.', who: ['sheila', 'harold'] },
@@ -69,7 +70,7 @@ export default {
     osei_denies: { title: 'Dr. Osei didn’t write it', text: 'Dr. Osei never wrote the dementia letter. It’s on letterhead from an office suite she left last year, and she has never signed her name that way.', who: ['osei', 'kevin'] },
     maple_app: { title: 'The Maple Crest application', text: 'Kevin toured Maple Crest on September 12 and applied on September 22, listing advanced dementia. A room was held for October 6. He planned to pay from the sale of Harold’s house.', who: ['kevin', 'paula'] },
     maple_letter: { title: 'A letter from “Dr. Osei”', text: 'Kevin’s Maple Crest application included a letter dated September 19, signed as Dr. Miriam A. Osei, saying Harold has advanced vascular dementia and can’t manage his affairs.', who: ['kevin', 'osei', 'paula'] },
-    rosa_lying: { title: 'A gold Buick under a tarp', text: 'Harold’s gold Buick is under a tarp behind Delgado’s Bakery, and yesterday’s crossword is on Rosa’s counter, done in ink in small capitals.', who: ['rosa', 'harold'] },
+    rosa_lying: { title: 'A gold Buick under a tarp', text: 'Harold’s gold Buick is under a tarp behind Delgado’s Bakery, and Sunday’s crossword is on Rosa’s counter, done in ink in small capitals.', who: ['rosa', 'harold'] },
     harold_found: { title: 'Harold is safe', text: 'Harold Beck is alive, well and entirely himself, living in Rosa Delgado’s spare room above the bakery. He came on his own.', who: ['harold', 'rosa'] },
     harold_story: { title: 'Why Harold ran', text: 'When Harold confronted him about the money, Kevin said he was “getting confused” and that he had a place for him at Maple Crest, “for his own good.” Harold believed he could make it happen, and ran.', who: ['harold', 'kevin'] },
     cash_explained: { title: 'The $4,000', text: 'The $4,000 is Harold’s own living money. He took it out so Kevin couldn’t, and spends it on the bakery’s flour because Rosa won’t take rent.', who: ['harold', 'rosa'] },
@@ -77,7 +78,7 @@ export default {
     lab_result: { title: 'Not Harold’s hand', text: 'Dr. Rao: the signature in the notary journal wasn’t written by Harold Beck, and the thumbprint isn’t his.', who: ['harold', 'sheila'] },
     search_found: { title: 'The search of Beck Realty', text: 'In Kevin’s office: a legal pad with Harold’s signature practiced twenty-two times, Harold’s missing bank statements, and a file of Dr. Osei’s old letterhead.', who: ['kevin'] },
     kevin_at_bakery: { title: 'Kevin at the bakery', text: 'At 7:25 p.m. Monday Kevin pounded on the back door of Delgado’s Bakery, shouting for his uncle, until Rosa called 911. Lakeview police sent him home.', who: ['kevin', 'rosa'], at: 'Mon 19:25' },
-    skaggs_lakeview: { title: 'Skaggs found him', text: 'Donnie Skaggs traced Harold’s Buick to Delgado’s Bakery and went in to ask about it on Monday morning. He was waiting to be sure before he told Kevin.', who: ['skaggs', 'kevin', 'rosa'], at: 'Mon 7:30' },
+    skaggs_lakeview: { title: 'Skaggs found him', text: 'By Monday morning Donnie Skaggs had traced Harold’s Buick to Delgado’s Bakery, 214 Lake Street, Lakeview. He was making sure before he told Kevin.', who: ['skaggs', 'kevin', 'rosa'], at: 'Mon 7:30' },
     kevin_caught: { title: 'Kevin blamed the notary', text: 'Told that Harold was in Mercy General on March 14, Kevin said he must have had a day pass, then that “Sheila” got the date wrong. Then he asked for a lawyer.', who: ['kevin', 'sheila'] },
   },
 
@@ -104,7 +105,7 @@ export default {
 
 “Don’t let him out. That’s Bunsen. He’s Harold’s. He hates me.” She scoops him up, and he goes limp with contempt. “Come in. I made coffee cake, and nobody’s here to eat it.”
 
-On her kitchen table is yesterday’s Sunday crossword, untouched, with a pencil laid across it.`,
+On her kitchen table is Sunday’s crossword, untouched, with a pencil laid across it.`,
       again: `Dot has the door open before you reach it. [if harold_found]“Well? Is he eating?”[else]“Well?” Bunsen glares at you from the top of the refrigerator.[/if]`,
       choices: [
         {
@@ -130,8 +131,8 @@ She counts on her fingers. “Healthy as a horse. Had the hip done at Mercy in M
           clues: ['kevin_upstate'],
         },
         {
-          label: 'Ask why she called today',
-          text: `“Because he missed the crossword again yesterday. That’s two.” She takes a pharmacy receipt off the refrigerator. “And because yesterday afternoon a man sat out front in a gray car for three hours, then went door to door asking about Harold. Where does he go, who comes to see him. Mustache like a push broom.”
+          label: 'Ask why she called the police',
+          text: `“Because he missed the crossword again on Sunday. That’s two.” She takes a pharmacy receipt off the refrigerator. “And because Sunday afternoon a man sat out front in a gray car for three hours, then went door to door asking about Harold. Where does he go, who comes to see him. Mustache like a push broom.”
 
 On the back of the receipt, in firm capitals, is a license plate.
 
@@ -155,7 +156,7 @@ Then, more quietly: “I want you to find him. I don’t want you to find him *f
           if: '!dot_goodbye & (freezer_note | statement | bank_records | osei_denies | sheila_confesses | (poa_copy & in_hospital) | petition)',
           text: `You tell her [if petition]that Kevin has asked a court to declare Harold incompetent, and [/if]what you’ve found. She listens without interrupting, which you gather is a first.
 
-“I knew it and couldn’t prove it, and he made me promise.” She takes a breath. “He came over that Saturday with a suitcase and the cat. He said Kevin was going to put him in a home with locked doors and tell everybody he’s senile. He said, ‘Dorothy, if Kevin asks, you haven’t seen me.’ Nobody calls me Dorothy but him.
+“I knew it, and he made me promise.” She takes a breath. “He came over that Saturday with a suitcase and the cat. He said Kevin was going to put him in a home with locked doors and tell everybody he’s senile. He said, ‘Dorothy, if Kevin asks, you haven’t seen me.’ Nobody calls me Dorothy but him.
 
 “He didn’t say where. But every Christmas a girl he taught sends him pan dulce from her bakery out in Lakeview.” She wipes her eyes with the heel of her hand. “If you find him, tell him Dorothy says the crossword’s waiting. Then he’ll know you’re all right.”`,
           clues: ['dot_goodbye'],
@@ -171,10 +172,10 @@ Then: “Lakeview. The pan dulce.” She laughs, and blows her nose. “Tell him
         {
           label: 'Knock on doors along Alder Street',
           cost: 0.75,
-          text: `You work Alder Street a door at a time. The Park girl, home from college, saw Harold early on the fourth, loading a suitcase into the Buick by himself. “He had his cane, and he was whistling,” she says. “Like he was going on vacation.”
+          text: `You work Alder Street a door at a time. The Moreno girl, home from college, saw Harold early on the fourth, loading a suitcase into the Buick by himself. “He had his cane, and he was whistling,” she says. “Like he was going on vacation.”
 
 The mail carrier says nobody asked her to hold Harold’s mail. “Funny thing, though. Nothing from his bank since spring. Old folks always get a bank statement.”`,
-          clues: ['left_on_purpose'],
+          clues: ['seen_leaving'],
         },
       ],
     },
@@ -233,14 +234,14 @@ BANK has statements through March. Then nothing.`,
         {
           label: 'Search the house top to bottom',
           cost: 1.25,
-          text: `Drawers, mattress, closets, the tops of cabinets. Nothing, until you open the freezer. Behind the peas is a sealed bag of folded papers: copies of Northshore statements and a power of attorney, with a summary on top in small upright printing.
+          text: `Drawers, mattress, closets. Nothing, until you open the freezer. Behind the peas is a sealed bag of papers: copies of Northshore statements and a power of attorney, with a summary on top in small upright printing.
 
 > SAVINGS, MAR 22 .................. $212,406.18
 > 14 TRANSFERS TO BECK REALTY GROUP, APR–SEP
 > SAVINGS, SEP 22 .................... $9,012.55
 > HOME EQUITY LINE, OPENED APR 21 .. $190,000.00
 
-The power of attorney names Kevin as agent. It’s dated March 14, notarized at Ship & Sign on Dunmore Street by Sheila Kraft, who swears Harold “personally appeared.” Across it, in capitals pressed hard enough to dent the paper: **I NEVER SIGNED THIS — H.B.** A sticky note: *9/29, A. Feld, Northshore. Fraud claim.*
+The power of attorney names Kevin as agent. It’s dated March 14 and notarized at Ship & Sign on Dunmore Street by Sheila Kraft, who swears Harold “personally appeared.” Across it, in capitals pressed hard enough to dent the paper: **I NEVER SIGNED THIS — H.B.** A sticky note: *9/29, A. Feld, Northshore. Fraud claim.*
 
 Dot, who has come in after all, reads over your shoulder and says a word that surprises you both.`,
           clues: ['freezer_note', 'statement', 'poa_copy'],
@@ -252,16 +253,16 @@ Dot, who has come in after all, reads over your shoulder and says a word that su
       title: 'Beck Realty Group',
       text: `Beck Realty Group is a storefront between a vape shop and a tax preparer. Kevin Beck comes out from behind his desk with his hand already out: forty-four, a good suit gone a little tight, very white teeth. [if kevin_at_bakery]The knuckles of his right hand are scraped raw.[else]His phone buzzes face down on the desk, and he ignores it.[/if]
 
-“Detective. Kevin. Sit, sit. Dot called you. Of course Dot called you.” [if petition]His raincoat is still on; he’s just back from somewhere. [/if]“Look, I know how this looks.”`,
-      again: `[if kevin_at_bakery]Kevin looks as if he hasn’t slept. “They treated me like a criminal,” he says. “In front of my own uncle.”[else]Kevin gets up again, with a little less enthusiasm. “Detective. What else can I do for you?”[/if]`,
+“Detective. Kevin. Sit, sit. Dot called you. Of course Dot called you.” [if petition]His raincoat is still on; he’s just back from somewhere. [/if]“Look, I appreciate the concern. I do.”`,
+      again: `[if kevin_at_bakery]Kevin looks as if he hasn’t slept. “They treated me like a criminal,” he says. “In front of the whole street.”[else]Kevin gets up again, with a little less enthusiasm. “Detective. What else can I do for you?”[/if]`,
       choices: [
         {
           label: 'Ask where Harold is',
-          text: `“Upstate. With a friend. An old teaching buddy, Walt.”
+          text: `“Upstate. With a friend. An old teaching buddy, Stan.”
 
-“Walt who?”
+“Stan who?”
 
-“Walt…” He snaps his fingers. You wait. He sits back. “Okay. Honestly? I don’t know where he is. I said upstate so the street wouldn’t be in his business. He’s been going downhill since Aunt June died. Leaving the stove on, getting lost. His doctor, Osei, wrote a letter. I had a place lined up, Maple Crest, and he got scared and wandered off.” He spreads his hands. “I’ve got a professional looking. I didn’t want to make it a police thing.”`,
+“Stan…” He snaps his fingers. You wait. He sits back. “Okay. Honestly? I don’t know where he is. I said upstate so the street wouldn’t be in his business. He’s been going downhill since Aunt June died. Leaving the stove on, getting lost. His doctor, Osei, wrote a letter. I had a place lined up, Maple Crest, and he got scared and wandered off.” He spreads his hands. “I’ve got a professional looking. I didn’t want to make it a police thing.”`,
           clues: ['kevin_story'],
           set: ['osei_known', 'maple_known'],
         },
@@ -281,7 +282,7 @@ The signature is big, loopy and shaky. [if saw_signature]It looks nothing like t
         },
         {
           label: 'Ask about Harold’s money',
-          text: `“I handle his bills, his bank, all of it.” He leans in. “The day before he took off, he went into the bank and took out four thousand dollars. Cash. Somebody’s working him, Detective. Some woman, some church. That’s what keeps me up at night.”`,
+          text: `“I handle his bills, his bank, all of it.” He leans in. “Right before he took off, he went into the bank and took out four thousand dollars. Cash. Somebody’s working him, Detective. Some woman, some church. That’s what keeps me up at night.”`,
           clues: ['cash_4000'],
         },
         {
@@ -296,7 +297,7 @@ He seems to find this comforting.`,
         {
           label: 'Look around the office while he takes a call',
           cost: 0.5,
-          text: `The call is from someone named Marco, and it isn’t going well. On Kevin’s desk: a flyer for 12 Overlook Drive, “Bluffside Queen Anne, Fully Restored,” stamped PRICE REDUCED twice. A stack of envelopes with red stripes. A Maple Crest folder. And a framed photo of Kevin on a pontoon boat, his arm around a blond woman in big sunglasses.
+          text: `Kevin takes a call from someone named Marco in the back hallway. It isn’t going well. On his desk: a flyer for 12 Overlook Drive, “Bluffside Queen Anne, Fully Restored,” stamped PRICE REDUCED twice. A stack of envelopes with red stripes. A Maple Crest folder. And a framed photo of Kevin on a pontoon boat, his arm around a blond woman in big sunglasses.
 
 Kevin comes back with his smile on again. “Contractors,” he says.`,
           set: ['saw_photo', 'maple_known'],
@@ -306,7 +307,7 @@ Kevin comes back with his smile on again. “Contractors,” he says.`,
           if: '!sheila_kevin',
           cost: 1,
           once: true,
-          text: `You wait in your car across University Avenue. At twenty past, Kevin comes out, checks the street and drives north, to a narrow shop on Dunmore Street called **Ship & Sign**, NOTARY painted on the glass. Through the window you watch him lean across the counter and kiss the blond woman behind it. They talk with their heads close together. She shakes hers a lot. When he leaves, she stands at the counter a long time without moving.
+          text: `You wait in your car across University Avenue. At twenty past, Kevin comes out, checks the street and drives north, to a narrow shop on Dunmore Street called **Ship & Sign**, with S. KRAFT, NOTARY PUBLIC painted on the glass. Through the window you watch him lean across the counter and kiss the blond woman behind it. They talk with their heads close together. She shakes hers a lot. When he leaves, she stands at the counter a long time without moving.
 
 [if poa_copy]Ship & Sign: where Harold’s power of attorney was notarized.[/if]`,
           clues: ['sheila_kevin'],
@@ -405,9 +406,7 @@ He closes the door. “Mr. Beck is missing? Is he all right?” He hears himself
         {
           label: 'Tell him why you’re worried',
           if: 'freezer_note | kevin_story | poa_copy',
-          text: `[if freezer_note]You show him the sticky note from Harold’s freezer, with his name on it.[else]You tell him what Kevin Beck is saying: that his uncle has dementia and wandered off.[/if]
-
-Aaron is quiet. Then he decides something.
+          text: `[if freezer_note]You show him the sticky note from Harold’s freezer, with his name on it.[else]You tell him Kevin Beck says his uncle has dementia.[/if] Aaron is quiet. Then he decides something.
 
 “Mr. Beck came in on September 29 with his statement and sat in that chair for an hour. He was not confused. He found an error in our fee schedule while he waited.” He straightens a pen. “He said he never signed a power of attorney. I opened a fraud claim and flagged it, so we won’t honor it. I told him to go to the police. He said, ‘He’s my brother’s boy. I’ll talk to him first.’”`,
           clues: ['aaron_met_harold'],
@@ -424,7 +423,7 @@ Aaron is quiet. Then he decides something.
       choices: [
         {
           label: 'Ask for a subpoena for Harold’s bank records',
-          text: `“Easy. A missing man and money moving under a power of attorney.” You hear him writing. “It’ll be at Northshore within the hour. Banks are slow even when they’re trying. Figure three hours.”`,
+          text: `“Easy. A missing man and money moving under a power of attorney.” You hear him writing. “Banks are slow even when they’re trying. Figure three hours.”`,
           timer: {
             in: 3,
             title: 'Northshore Savings',
@@ -505,7 +504,7 @@ The signature sprawls across the box in big, trembling loops. [if saw_signature]
         {
           label: 'Ask about her and Kevin',
           if: 'saw_photo | sheila_kevin',
-          text: `[if saw_photo]You mention the photo on Kevin’s desk: the pontoon boat, the big sunglasses.[else]You mention the white Lexus registered at 19 Canal Street.[/if]
+          text: `[if saw_photo]You mention the photo on Kevin’s desk: the pontoon boat, the big sunglasses.[else]You tell her you know about Kevin.[/if]
 
 Sheila goes red from the collar up. “So we live together. That isn’t illegal. I can notarize for my boyfriend. I mean, for his *uncle*.” She hears it. “It was all legal.”`,
           clues: ['sheila_kevin'],
@@ -649,7 +648,7 @@ You think of Harold being told this was for his own good.`,
           if: '!harold_found',
           text: `On the cork board, a teenage girl in safety goggles and a scorched lab coat grins while a much younger Harold Beck pretends to faint behind her.
 
-By the register, under the tip jar, is yesterday’s Sunday crossword, finished in ink in small upright capitals.
+By the register, under the tip jar, is Sunday’s crossword, finished in ink in small upright capitals.
 
 Through the swinging door you can see the back lot. Beside the dumpster, under a blue tarp, a gold fender shows where the tarp doesn’t reach.`,
           clues: ['rosa_lying'],
@@ -691,7 +690,7 @@ Rosa stops with a tray of conchas halfway to the case. For a second she looks ab
 
 Harold Beck is in the armchair with a cane across his knees. He is small and neat, in a cardigan with leather elbow patches, and he stands when you come in, carefully, because of the hip, and because he was raised to.
 
-“You’ll be the detective,” he says, dry and exact. “I suppose it was Dorothy. It was always going to be Dorothy.” His hand shakes, just slightly, when he offers it. “Please sit. I’ll tell you everything, in order.”`,
+“You’ll be the detective,” he says, dry and exact. “I suppose it was Dorothy. It was always going to be Dorothy.” His hand shakes, just slightly, when he offers it. “Please sit. I’ll tell it in order.”`,
       again: `Harold looks up from his book[if kevin_at_bakery], and past you at the stairs, before he relaxes[/if]. “Detective. Come in. Rosa has made coffee strong enough to titrate.”`,
       clues: ['harold_found'],
       choices: [
@@ -713,7 +712,7 @@ He smiles, not nicely. “The bank showed me the date. On the fourteenth of Marc
         {
           label: 'Ask about the $4,000',
           if: 'cash_4000',
-          text: `Harold looks faintly offended. “It’s mine. Most of what Kevin had left me. I took it out on the Friday so he couldn’t.” He nods at the dresser. “Rosa won’t take a penny in rent, so I buy her flour, fifty pounds at a time, and she pretends not to notice. She was a terrible chemist and she is a superb baker. Baking is only chemistry you can eat.”`,
+          text: `Harold looks faintly offended. “It’s mine. I took it out on the Friday, before Kevin could.” He nods at the dresser. “Rosa won’t take a penny in rent, so I buy her flour, fifty pounds at a time, and she pretends not to notice. She was a terrible chemist and she is a superb baker. Baking is only chemistry you can eat.”`,
           clues: ['cash_explained'],
         },
         {
@@ -723,9 +722,9 @@ He smiles, not nicely. “The bank showed me the date. On the fourteenth of Marc
         {
           label: 'Tell him about the guardianship petition',
           if: 'petition',
-          text: `He listens without interrupting, then writes the date inside the cover of his library book.
+          text: `He listens, then writes the date inside the cover of his library book.
 
-“Then I’ll be there at a quarter to nine, in a tie, and the judge may ask me anything she likes. The date. The president. Avogadro’s number.” He caps the pen. “And Dorothy will come whether she can or not.”`,
+“I’ll be there at a quarter to nine, in a tie, and the judge may ask me anything she likes. The date. The president. Avogadro’s number.” He caps the pen. “And Dorothy will come whether she can or not.”`,
         },
         {
           label: 'Go through the papers Harold brought',
@@ -789,7 +788,7 @@ She adds nothing to it. She never does.`,
 
 “He said dementia.” He puts the sandwich down. “I got a mother in Lakeview, Detective.”
 
-[if kevin_at_bakery]“I already called him. Last night. I told him the bakery.” He rubs his face. “That’s on me.”[else]He opens a notebook. “Delgado’s Bakery, 214 Lake Street. The Buick’s out back under a tarp. I went in Monday morning and bought a cinnamon roll.” He tears out the page. “I’ll tell Kevin it was the wrong Buick. Then I’ll send him my bill.”[/if]`,
+[if kevin_at_bakery]“I already called him. I told him the bakery.” He rubs his face. “That’s on me.”[else]He opens a notebook. “Delgado’s Bakery, 214 Lake Street. The Buick’s out back under a tarp. I went in Monday morning and bought a cinnamon roll.” He tears out the page. “I’ll tell Kevin it was the wrong Buick. Then I’ll send him my bill.”[/if]`,
           clues: ['skaggs_lakeview'],
           set: ['skaggs_warned'],
         },
@@ -806,7 +805,7 @@ She adds nothing to it. She never does.`,
 
 Paper rustles. “Kevin swears Harold signed the power of attorney ‘in my presence’ on March 14. It’s attached, notarized by a Sheila Kraft at Ship & Sign. He says Harold has advanced dementia and is ‘at grave risk.’ There’s a letter from a Dr. Miriam Osei, and a bed waiting at Maple Crest. Hearing’s Wednesday at nine.”
 
-[if harold_found]A pause. “It says nobody knows where Harold is. You know, don’t you?”[/if]`,
+[if harold_found]A pause. “It says nobody knows where Harold is. You know, don’t you?”[else]He’s sending you the file.[/if]`,
       clues: ['petition', 'poa_copy'],
       set: ['maple_known', 'osei_known'],
     },
@@ -814,7 +813,7 @@ Paper rustles. “Kevin swears Harold signed the power of attorney ‘in my pres
       at: 10.5,
       if: '!skaggs_warned & !kevin_lawyer & !search_found',
       title: 'Lakeview PD',
-      text: `A Lakeview sergeant calls at 7:30. Five minutes ago a man pounded on the back door of Delgado’s Bakery, shouting “Uncle Harold!” until the glass cracked, and Rosa Delgado called 911. The man was Kevin Beck. [if harold_found]The sergeant sent him home, and she’s keeping a car on Lake Street tonight. The old man upstairs asked her to spell her name so he could write it down.[else]He waved a power of attorney and said Ms. Delgado was keeping his confused uncle from his family to get at his money.
+      text: `A Lakeview sergeant calls at 7:30. Five minutes ago a man pounded on the back door of Delgado’s Bakery, shouting “Uncle Harold!” until the glass cracked, and Rosa Delgado called 911. The man was Kevin Beck. [if harold_found]The sergeant sent him home and is keeping a car on Lake Street tonight. The old man upstairs asked her to spell her name so he could write it down.[else]He waved a power of attorney and said Ms. Delgado was keeping his confused uncle from him to get at his money.
 
 “Thing is,” the sergeant says, “I went upstairs and met the uncle. He corrected my grammar. Then he asked for you by name.” She’s keeping a car outside tonight.[/if]`,
       clues: ['kevin_at_bakery'],
@@ -858,7 +857,7 @@ Paper rustles. “Kevin swears Harold signed the power of attorney ‘in my pres
         dementia: 'Dr. Osei’s cognitive screen shows Harold doesn’t have dementia',
         cash: 'Harold withdrew $4,000 in cash the day before he left',
         recorded: 'It wasn’t recorded with the county until April 21',
-        walt: 'Kevin couldn’t name the friend upstate',
+        stan: 'Kevin couldn’t name the friend upstate',
       },
       answer: 'hospital',
       points: 15,
@@ -895,9 +894,9 @@ Paper rustles. “Kevin swears Harold signed the power of attorney ‘in my pres
   ],
 
   outcomes: {
-    kevin: `Kevin Beck was arrested on Tuesday afternoon for forgery and financial exploitation of an elder, and his guardianship petition was withdrawn. Harold went to court on Wednesday anyway, in a tie, and sat in the front row between Dot and Dr. Osei.
+    kevin: `Kevin Beck was arrested on Tuesday afternoon for forgery and financial exploitation of an elder, and his guardianship petition was withdrawn. Harold went to court on Wednesday anyway, in a tie, and sat between Dot and Dr. Osei.
 
-Sheila Kraft surrendered her notary commission and agreed to testify. Northshore voided the home equity line. The savings were harder: most of it was in Overlook Drive, and when the house sold at a loss, the court sent what was left to Harold.
+Sheila Kraft surrendered her notary commission and agreed to testify. Northshore voided the home equity line. The savings were harder: most of the money was in Overlook Drive, which sold at a loss.
 
 He went home to Alder Street on Thursday. That Sunday he and Dot finished the crossword by eleven. She let him use pen.`,
     sheila: `You named Sheila Kraft. She had stamped the paper, and she lost her commission for it, but the money went straight past her into Beck Realty Group. Lieutenant Okafor sent the report back with one line circled: *Whose account?*
@@ -916,11 +915,11 @@ Harold laughed until he had to sit down. Nobody else did. Kevin Beck’s petitio
   },
 
   solution: {
-    text: `Harold Beck never signed a financial power of attorney. From March 12 to 18 he was on 4 West at Mercy General with a new hip. Meanwhile his nephew Kevin, who was minding his wallet, took a power of attorney signed in Harold’s name to Ship & Sign, with Harold’s driver’s license. The notary, Sheila Kraft, is Kevin’s girlfriend. Kevin said Harold was waiting in the car; she didn’t check, wrote that Harold “personally appeared” on March 14, and let Kevin press the thumbprint.
+    text: `Harold Beck never signed a financial power of attorney. From March 12 to 18 he was on 4 West at Mercy General with a new hip. Meanwhile his nephew Kevin, who was minding his wallet, took a forged power of attorney and Harold’s driver’s license to Ship & Sign. The notary, Sheila Kraft, is Kevin’s girlfriend. Kevin said Harold was waiting in the car; she didn’t check, wrote that Harold “personally appeared” on March 14, and let Kevin press the thumbprint.
 
-Kevin’s flip on Overlook Drive was in foreclosure. With the power of attorney he had Harold’s statements sent to his office, borrowed $190,000 against Harold’s house and moved $203,393 of Harold’s savings into Beck Realty Group. By September it was gone, so he forged a letter from Dr. Osei, who had just scored Harold 28 out of 30, and reserved a room at Maple Crest. With Harold locked away, Kevin could sell the house, and nobody would believe an old man who said he never signed anything.
+Kevin’s flip on Overlook Drive was in foreclosure. With the power of attorney he redirected Harold’s statements, borrowed $190,000 against Harold’s house and moved $203,393 of Harold’s savings into Beck Realty Group. By September it was gone, so he forged a letter from Dr. Osei, who had just scored Harold 28 out of 30, and reserved a room at Maple Crest. With Harold locked away, Kevin could sell the house, and nobody would believe an old man who said he never signed anything.
 
-Then a statement reached Alder Street. Harold took it to Aaron Feld at Northshore, then confronted Kevin, who told him he was confused and that Maple Crest was for his own good. Harold withdrew $4,000 of his own money, hid copies of the papers in his freezer, left the cat with Dot and drove to Rosa Delgado, a former student Kevin had never heard of. Kevin’s investigator, Donnie Skaggs, found the bakery on Monday; that afternoon Kevin petitioned to be made Harold’s guardian.
+Then a statement reached Alder Street. Harold took it to Aaron Feld at Northshore, then confronted Kevin, who told him he was confused and that Maple Crest was for his own good. Harold withdrew $4,000, hid copies of the papers in his freezer, left the cat with Dot and drove to Rosa Delgado, a former student Kevin had never heard of. Kevin’s investigator, Donnie Skaggs, the man in the gray car, found the bakery on Monday; that afternoon Kevin petitioned to be made Harold’s guardian.
 
 The dementia story was Kevin’s cover. Rosa lied to protect Harold, not to use him, and the $4,000 was his living money. Dot held back because Harold asked her to.`,
     chain: ['poa_copy', 'in_hospital', 'statement', 'sheila_kevin', 'harold_found', 'harold_story'],
