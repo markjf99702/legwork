@@ -25,7 +25,7 @@
 - **The report** asks who did it, and then the questions a guess won’t get: how, why, where the money went, what proves the alibi false. Afterward you see what really happened, which clues proved it (and which you missed), and the lieutenant’s shorter route next to yours.
 - **The cases**
   1. **The Night Deposit** · theft · a grocery’s Saturday takings never reach the bank, and the safe wasn’t forced
-  2. **Shared Wall** · arson · a hardware store burns, and its broke owner looks guilty
+  2. **The Shared Wall** · arson · a hardware store burns, and its broke owner looks guilty
   3. **Harbor Road** · hit-and-run · a nurse cycling home from the night shift, and a councilman’s family with a story ready
   4. **Power of Attorney** · missing person · an 81-year-old chemistry teacher, gone nine days, and a nephew who says he’s fine
   5. **The Heron** · art theft · a painting cut from its frame during the donors’ dinner

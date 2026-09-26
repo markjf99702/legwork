@@ -16,7 +16,7 @@ export default {
 
 “Ben Tolliver. Fifty-two. Ran a charter boat out of Calder Marina, salmon and lake trout. Thirty years on the same dock.”
 
-> INCIDENT 26-12207 · DEATH INVESTIGATION · CALDER MARINA, B DOCK
+> INCIDENT 26-14583 · DEATH INVESTIGATION · CALDER MARINA, B DOCK
 > Reported 6:44 a.m. Friday by Gordon Nilsen, dockmaster.
 > Adult male face down in the water between the vessel SECOND WIND
 > (slip B-14) and the dock. Found by a dockhand at approx. 6:40 a.m.
