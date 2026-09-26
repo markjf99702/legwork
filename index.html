@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Legwork</title>
+  <meta name="description" content="A detective casebook. Six grounded crimes in a Great Lakes city: spend your working hours on the right leads, catch the lie, and file your report before the deadline.">
+  <meta property="og:title" content="Legwork">
+  <meta property="og:description" content="A detective casebook. Spend your hours on the right leads, catch the lie, file your report.">
+  <meta property="og:image" content="https://junkdrawer.works/legwork/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#e8dfcc" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#16181b" media="(prefers-color-scheme: dark)">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <link rel="preload" href="fonts/source-serif-4.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/courier-prime.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/special-elite.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/app.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <header class="bar">
+    <a class="brand" href="#/" aria-label="Legwork: all cases">
+      <img src="icon.svg" alt="" width="28" height="28">
+      <span>Legwork</span>
+    </a>
+    <div id="barCase" class="bar-case"></div>
+  </header>
+  <main id="app" tabindex="-1"></main>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <noscript><p class="noscript">Legwork needs JavaScript to run the cases.</p></noscript>
+</body>
+</html>

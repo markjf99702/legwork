@@ -152,7 +152,7 @@ export function timeLeft(def, st) {
 
 export function newState(def) {
   const st = {
-    v: 1, t: 0, clues: {}, flags: {}, visits: {}, used: {}, entered: {},
+    v: 1, t: 0, clues: {}, src: {}, flags: {}, visits: {}, used: {}, entered: {},
     timers: [], fired: {}, log: [], inbox: [], fresh: {}, seenLeads: {},
     scene: null, done: false, report: null,
   };
@@ -161,18 +161,19 @@ export function newState(def) {
   return st;
 }
 
-function gainClue(def, st, id, sink) {
+function gainClue(def, st, id, sink, from) {
   if (id in st.clues) return;
   st.clues[id] = st.t;
+  (st.src ||= {})[id] = from ?? null; // the lead you were at; null when it came in by phone, mail or the lab
   st.fresh[id] = true;
   if (sink) sink.push({ kind: 'clue', id });
 }
 
 // Effects shared by scenes, choices, events and timers:
 //   clues: [...]  set: [...]  unset: [...]  timer: { in, text, title, clues, set }
-function applyEffects(def, st, fx, sink) {
+function applyEffects(def, st, fx, sink, from) {
   if (!fx) return;
-  for (const id of fx.clues || []) gainClue(def, st, id, sink);
+  for (const id of fx.clues || []) gainClue(def, st, id, sink, from);
   for (const id of fx.set || []) st.flags[id] = true;
   for (const id of fx.unset || []) delete st.flags[id];
   if (fx.timer) {
@@ -231,6 +232,7 @@ export function leads(def, st) {
 export function visit(def, st, id) {
   const s = leadStatus(def, st, id);
   if (!s.visible || !s.open) throw new Error(`Can't go to ${id}: ${s.why || 'not available'}`);
+  st.scene = null;
   st.visits[id] = s.visits + 1;
   st.log.push({ t: st.t, lead: id });
   spend(def, st, s.cost);
@@ -248,13 +250,13 @@ function enter(def, st, sceneId) {
   st.scene.id = sceneId;
   const text = first || !sc.again ? sc.text : sc.again;
   st.scene.lines.push({ kind: 'scene', title: sc.title || '', text: resolveText(text, st, def) });
-  if (first) applyEffects(def, st, sc, st.scene.lines);
+  if (first) applyEffects(def, st, sc, st.scene.lines, st.scene.lead);
 }
 
 const choiceKey = (sceneId, c) => `${sceneId}:${c.id || c.label}`;
 
 export function choices(def, st) {
-  if (!st.scene) return [];
+  if (!st.scene || st.scene.ended) return [];
   const sc = def.scenes[st.scene.id];
   const left = timeLeft(def, st);
   return (sc.choices || [])
@@ -267,6 +269,7 @@ export function choices(def, st) {
       key: choiceKey(st.scene.id, c), label: c.label, cost: c.cost || 0,
       enabled: (c.cost || 0) <= left + 1e-9, why: (c.cost || 0) > left + 1e-9 ? 'Not enough time' : '',
       leaves: c.go === 'board',
+      nav: !!c.go && c.go !== 'board' && !c.text, // just a move to another room or person
     }));
 }
 
@@ -281,8 +284,9 @@ export function choose(def, st, key) {
   spend(def, st, c.cost || 0);
   st.scene.lines.push({ kind: 'you', text: c.say || c.label, cost: c.cost || 0 });
   if (c.text) st.scene.lines.push({ kind: 'reply', text: resolveText(c.text, st, def) });
-  applyEffects(def, st, c, st.scene.lines);
-  if (c.go === 'board') leave(def, st);
+  applyEffects(def, st, c, st.scene.lines, st.scene.lead);
+  // A choice that ends the scene keeps its text on screen until you head back to the board.
+  if (c.go === 'board') st.scene.ended = true;
   else if (c.go) enter(def, st, c.go);
 }
 

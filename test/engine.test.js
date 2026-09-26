@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   parseCond, test as cond, resolveText, clockAt, hoursLabel, deadline, newState, leads, visit, choices, choose,
-  walk, grade, fileReport, timeLeft,
+  walk, grade, fileReport, timeLeft, leave,
 } from '../js/engine.js';
 import { toHTML } from '../js/text.js';
 
@@ -111,8 +111,11 @@ test('choices: once by default, costs, subscenes, leaving', () => {
   assert.ok(choices(tiny, st).find(c => c.label === 'Upstairs'), 'navigation stays');
   choose(tiny, st, choices(tiny, st).find(c => c.label === 'Upstairs').key);
   choose(tiny, st, choices(tiny, st).find(c => c.label === 'Leave').key);
-  assert.equal(st.scene, null);
+  assert.equal(st.scene.ended, true, 'the last words stay on screen');
+  assert.deepEqual(choices(tiny, st), []);
   assert.equal(st.flags.left, true);
+  leave(tiny, st);
+  assert.equal(st.scene, null);
 });
 
 test('revisits cost less, once-leads close, and leads cost more than the time left are shut', () => {
