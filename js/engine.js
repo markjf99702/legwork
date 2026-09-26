@@ -182,8 +182,9 @@ function applyEffects(def, st, fx, sink, from) {
   }
 }
 
-// Spend working hours. Timers and events that come due are applied and land in the inbox,
-// to be shown when you're next back at the board.
+// Spend working hours. Timers and events that come due are applied and land in the inbox. When you're
+// in a scene (including on the way there) the message shows up right there, as your phone ringing, and
+// is marked read; otherwise it waits on the board.
 function spend(def, st, hours) {
   st.t = round(st.t + (hours || 0));
   for (;;) {
@@ -198,7 +199,10 @@ function spend(def, st, hours) {
     if (item.if && !test(item.if, st, def)) continue;
     const got = [];
     applyEffects(def, st, { clues: item.clues, set: item.set, unset: item.unset }, got);
-    if (item.text) st.inbox.push({ at: d.at, title: item.title || 'Word comes in', text: resolveText(item.text, st, def), clues: got.map(g => g.id) });
+    if (!item.text) continue;
+    const msg = { at: d.at, title: item.title || 'Word comes in', text: resolveText(item.text, st, def), clues: got.map(g => g.id), read: !!st.scene };
+    st.inbox.push(msg);
+    if (st.scene) st.scene.lines.push({ kind: 'msg', at: msg.at, title: msg.title, text: msg.text, clues: msg.clues });
   }
 }
 
@@ -232,11 +236,10 @@ export function leads(def, st) {
 export function visit(def, st, id) {
   const s = leadStatus(def, st, id);
   if (!s.visible || !s.open) throw new Error(`Can't go to ${id}: ${s.why || 'not available'}`);
-  st.scene = null;
+  st.scene = { lead: id, id: null, lines: [] }; // before the travel time, so calls on the way show up here
   st.visits[id] = s.visits + 1;
   st.log.push({ t: st.t, lead: id });
   spend(def, st, s.cost);
-  st.scene = { lead: id, id: null, lines: [] };
   enter(def, st, s.lead.scene || id);
 }
 

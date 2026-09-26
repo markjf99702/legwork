@@ -147,6 +147,11 @@ test('timers and events arrive in the inbox when their time comes', () => {
   assert.deepEqual(st.inbox.map(m => m.text), ['They fled.', 'Results.']);
   assert.deepEqual(st.inbox[1].clues, ['late']);
   assert.equal(timeLeft(tiny, st), 2.5);
+  // Both came in on the way to a lead, so they show at the top of that scene and count as read.
+  assert.ok(st.inbox.every(m => m.read));
+  assert.equal(st.scene.lines[0].kind, 'msg');
+  assert.equal(st.scene.lines[0].text, 'Results.');
+  assert.equal(st.scene.lines[1].kind, 'scene');
 });
 
 test('walking a route and grading a report', () => {

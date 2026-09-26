@@ -218,7 +218,7 @@ function board(def, st) {
   ].filter(([, list]) => list.length);
   const left = E.timeLeft(def, st);
   const anyOpen = all.some(s => s.open);
-  const inbox = st.inbox.map((m, i) => `<div class="msg" role="note">
+  const inbox = st.inbox.map((m, i) => m.read ? '' : `<div class="msg" role="note">
       <h3>${esc(m.title)} · ${esc(E.clockAt(def, m.at).label)}</h3>
       <div class="prose">${html(m.text)}</div>
       ${m.clues?.length ? `<p class="got">Noted: ${m.clues.map(c => esc(def.clues[c]?.title)).join(' · ')}</p>` : ''}
@@ -258,7 +258,7 @@ function board(def, st) {
     go(`#/case/${def.id}/scene`);
   }));
   app.querySelectorAll('[data-dismiss]').forEach(b => b.addEventListener('click', () => {
-    st.inbox.splice(Number(b.dataset.dismiss), 1);
+    st.inbox[Number(b.dataset.dismiss)].read = true;
     persist();
     route();
   }));
@@ -273,6 +273,11 @@ function lineHTML(def, l, i, old, leadTitle) {
     case 'you': return `<div class="t-you${cls}" data-i="${i}">${esc(toPlain(l.text, who()))}${l.cost ? `<span class="c"> · ${esc(hl(l.cost))}</span>` : ''}</div>`;
     case 'reply': return `<div class="t-reply prose${cls}" data-i="${i}">${html(l.text)}</div>`;
     case 'clue': return `<div class="t-clue${cls}" data-i="${i}"><span>Noted</span>${esc(def.clues[l.id]?.title || l.id)}</div>`;
+    case 'msg': return `<div class="msg${cls}" role="note" data-i="${i}">
+      <h3>${esc(l.title)} · ${esc(E.clockAt(def, l.at).label)}</h3>
+      <div class="prose">${html(l.text)}</div>
+      ${l.clues?.length ? `<p class="got">Noted: ${l.clues.map(c => esc(def.clues[c]?.title)).join(' · ')}</p>` : ''}
+    </div>`;
   }
   return '';
 }
