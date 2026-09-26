@@ -121,9 +121,9 @@ const walk = def.solution.walk;
     .og-text p { font-size: 32px; line-height: 1.3; margin: 40px 0 0; }
     .og-stack { position: relative; height: 560px; }
     .og-f { position: absolute; left: 0; right: 0; top: calc(20px + var(--i) * 78px); transform: rotate(calc(-3deg + var(--i) * 1.2deg)); }
-    .og-f .body { padding: 18px 22px 44px; }
+    .og-f .body { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 18px 22px 44px; }
     .og-f h2 { font-size: 30px; }
-    .og-f p { font: 700 16px/1.3 var(--mono); text-transform: uppercase; letter-spacing: .08em; margin-top: 6px; }
+    .og-f p { font: 700 15px/1.3 var(--mono); text-transform: uppercase; letter-spacing: .08em; margin: 0; white-space: nowrap; }
   </style></head><body>
     <div class="og-text"><div class="logo">LEGWORK</div><p>Six grounded crimes. Too many leads and not enough hours. Somebody’s story doesn’t add up.</p></div>
     <div class="og-stack">${folders}</div>

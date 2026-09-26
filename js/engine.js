@@ -284,10 +284,14 @@ export function choose(def, st, key) {
   const offered = choices(def, st).find(x => x.key === key);
   if (!offered || !offered.enabled) throw new Error(`Choice not available: ${key}`);
   st.used[key] = true;
-  spend(def, st, c.cost || 0);
+  // What you do and what you learn come first; anything that comes in while it takes (a call from the
+  // lab, an event) follows it, and a timer this choice starts counts from when it's done.
   st.scene.lines.push({ kind: 'you', text: c.say || c.label, cost: c.cost || 0 });
   if (c.text) st.scene.lines.push({ kind: 'reply', text: resolveText(c.text, st, def) });
-  applyEffects(def, st, c, st.scene.lines, st.scene.lead);
+  const { timer, ...now } = c;
+  applyEffects(def, st, now, st.scene.lines, st.scene.lead);
+  spend(def, st, c.cost || 0);
+  if (timer) applyEffects(def, st, { timer }, null);
   // A choice that ends the scene keeps its text on screen until you head back to the board.
   if (c.go === 'board') st.scene.ended = true;
   else if (c.go) enter(def, st, c.go);
