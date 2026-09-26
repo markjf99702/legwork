@@ -4,7 +4,7 @@
 // Conditions used in more than one place.
 const COPY = 'modern_canvas | weave_differs | mina_copy | no_thumbprint';
 const IMOGEN_KNOWN = '@imogen | cole_contact | sign_out_log | visitor_log | mina_named | imogen_photo_story';
-const PC_COLE = '(cole_missing | (cole_story & dock_camera)) & (cole_loaded | dock_loading | carrier_flakes | gallery_call | cole_browser)';
+const PC_COLE = '(cole_missing | (cole_story & dock_camera)) & (cole_loaded | dock_loading | carrier_flakes | (gallery_call & cole_contact) | cole_browser)';
 const PC_IMOGEN = 'cole_flips | imogen_slip | ((modern_canvas | weave_differs | no_thumbprint) & (lena_no_booking | mina_copy | egret))';
 const CONFRONT = `lena_no_booking | mina_copy | egret | greta_empty_wall | nadia_put_off | canvas_found | ${COPY}`;
 
@@ -24,7 +24,7 @@ export default {
 “The Calder Museum of Art had its donors’ dinner last night. Two hundred people in the atrium, a string quartet, crab cakes. And while the director was making his speech, somebody walked into Gallery 4 and cut a painting out of its frame.”
 
 > INCIDENT 26-14172 · THEFT · CALDER MUSEUM OF ART, OLD TOWN
-> Reported 9:58 p.m. Friday by F. Delaney, head of security.
+> Reported 9:58 p.m. Friday by O. Delaney, head of security.
 > “Heron at Dusk,” Edith Carrow, 1911. Oil on canvas, 24 × 30 in.
 > Insured value $420,000. Cut from frame. Discovered 9:52 p.m.
 > by guard W. Szymanski on his round.
@@ -41,16 +41,16 @@ export default {
     walt: { name: 'Walt Szymanski', role: 'Security guard, Calder Museum', about: '61. Thirty-one years at the museum, four months from retirement. Found the empty frame. Suspended.' },
     thorne: { name: 'Julian Thorne', role: 'Director, Calder Museum', about: '54. Came from a museum in Boston six years ago. Was giving his speech when the painting was taken.' },
     bell: { name: 'Marcus Bell', role: 'Special Agent, FBI Art Crime Team', about: 'Works out of Chicago. Knows the back rooms of the art market.' },
-    frank: { name: 'Frank Delaney', role: 'Head of security, Calder Museum', about: '58. A retired Port Calder patrol sergeant. Walt’s boss, and his friend.', if: '@gallery | @security' },
+    otis: { name: 'Otis Delaney', role: 'Head of security, Calder Museum', about: '58. A retired Port Calder patrol sergeant. Walt’s boss, and his friend.', if: '@gallery | @security' },
     nadia: { name: 'Nadia Ferrante', role: 'Conservator, Calder Museum', about: '47. Has cared for the collection for fifteen years. Wrote Heron’s last condition report, in 2019.', if: '@gallery | @nadia' },
     imogen: { name: 'Imogen Park', role: 'Registrar, Calder Museum', about: '39. Keeps the records of where every object is. Handles loans and storage, and the paperwork for the Chicago loan.', if: IMOGEN_KNOWN },
     bev: { name: 'Bev Santoro', role: 'Owner, Santoro Catering', about: 'Fifties. Catered the dinner with eighteen staff and ran the floor herself.', if: '@catering' },
     cole: { name: 'Cole Brandt', role: 'Server, Santoro Catering', about: '22. Hired three weeks ago. Worked the dinner.', if: 'cole_missing | cole_contact | @cole' },
-    luis: { name: 'Luis Ocampo', role: 'Driver, Santoro Catering', about: 'Drove the catering van to the museum and back on Friday.', if: 'cole_loaded' },
+    teddy: { name: 'Teddy Brisco', role: 'Driver, Santoro Catering', about: 'Drove the catering van to the museum and back on Friday.', if: 'cole_loaded' },
     greta: { name: 'Greta Lindqvist', role: 'Widow of the donor', about: '78. Her late husband, Anders, gave Heron to the museum in 2009. Lives in Bluffside.', if: 'greta_named | @greta | @erik' },
     erik: { name: 'Erik Lindqvist', role: 'The donor’s son', about: '49. Sued to get Heron back and lost. Argued with the director at the dinner.', if: 'erik_argument | @erik' },
     lena: { name: 'Lena Moss', role: 'Freelance photographer', about: 'Photographs the museum’s collection for its catalogs.', if: 'sign_out_log | imogen_photo_story' },
-    mina: { name: 'Mina Castellanos', role: 'Painting student, Calder State', about: '26. A graduate student. Copied Heron last winter under the museum’s copyist program.', if: 'mina_named' },
+    mina: { name: 'Mina Varga', role: 'Painting student, Calder State', about: '26. A graduate student. Copied Heron last winter under the museum’s copyist program.', if: 'mina_named' },
     fisk: { name: 'Leonard Fisk', role: 'Art dealer, Chicago', about: '67. A gallery on Oak Street and a gray reputation.', if: 'fisk | toronto_offer | condo_search' },
   },
 
@@ -58,7 +58,7 @@ export default {
     discovered: { title: 'The empty frame', text: 'Walt Szymanski found the frame in Gallery 4 empty on his 9:52 p.m. round. On his 8:50 round the painting was there.', who: ['walt'], at: 'Fri 21:52' },
     console_log: { title: 'Walt’s code on the console', text: 'The security console shows the Gallery 4 motion sensor bypassed at 9:14 p.m. and restored at 9:25, both times with user code 04: Walt Szymanski’s. A sensor can only be bypassed at the console itself.', who: ['walt'], at: 'Fri 21:14' },
     canvas_strips: { title: 'Strips left in the frame', text: 'The canvas was cut out along the inside of the stretcher bars, leaving half-inch strips still tacked to the wood. Nadia Ferrante thought their edges looked cleaner than she remembered.', who: ['nadia'] },
-    service_door: { title: 'The service corridor', text: 'Gallery 4 is the only gallery with a door onto the service corridor, which runs from the kitchen past the security office to the loading dock. The caterers used it all night. Its camera has been broken since August.', who: ['frank'] },
+    service_door: { title: 'The service corridor', text: 'Gallery 4 is the only gallery with a door onto the service corridor, which runs from the kitchen past the security office to the loading dock. The caterers used it all night. Its camera has been broken since August.', who: ['otis'] },
     loan: { title: 'The Chicago loan', text: 'Heron is due to ship to the Art Institute of Chicago in five weeks, the centerpiece of a show of Great Lakes painters. Thorne announced it in his speech. Imogen Park handles the paperwork.', who: ['thorne', 'imogen'] },
     loan_exam: { title: 'Every loan is examined', text: 'The Art Institute’s conservators examine every incoming loan when it arrives, under raking light and ultraviolet, against the lender’s condition report.', who: ['nadia', 'imogen'] },
     code_note: { title: 'The code under the keyboard', text: 'Walt keeps his code on a yellow sticky note stuck under the console keyboard. The codes change every quarter, and since his wife died he can’t hold numbers.', who: ['walt'] },
@@ -82,17 +82,17 @@ export default {
     condo_search: { title: 'The Egret folder', text: 'In Imogen’s desk: an Egret bank statement showing $118,000 wired from Fisk Fine Art on September 12, an email from Fisk about “our friend in Toronto,” and the Art Institute’s loan schedule with its condition exam highlighted.', who: ['imogen', 'fisk'] },
     nadia_put_off: { title: 'Nadia was put off', text: 'In September Nadia asked to do the usual pre-loan check on Heron. Imogen put her off: first it was out for photography, then Chicago would do its own.', who: ['nadia', 'imogen'] },
     weave_differs: { title: 'Not the 2019 canvas', text: 'Under magnification the strips show a modern, perfectly even weave, 16 threads by 16. Nadia’s 2019 photographs of Heron show old, irregular linen with a different count. The canvas cut from the frame isn’t the one she photographed.', who: ['nadia'] },
-    mina_named: { title: 'A student copied Heron', text: 'Last winter a Calder State graduate student, Mina Castellanos, copied Heron in the gallery under the copyist program. Imogen signs the permits. The rules say a copy must differ from the original by ten percent in size.', who: ['nadia', 'mina', 'imogen'] },
+    mina_named: { title: 'A student copied Heron', text: 'Last winter a Calder State graduate student, Mina Varga, copied Heron in the gallery under the copyist program. Imogen signs the permits. The rules say a copy must differ from the original by ten percent in size.', who: ['nadia', 'mina', 'imogen'] },
     modern_canvas: { title: 'The stolen canvas was a copy', text: 'Dr. Rao: modern commercial linen, an acrylic ground and titanium white, none of which Edith Carrow could have bought in 1911. The painting cut from the frame was a modern copy.' },
     flakes_match: { title: 'The carrier held the canvas', text: 'The paint flakes and threads from Santoro carrier 14 match the strips left in the frame: the same linen, the same ground, the same paint.' },
     cut_match: { title: 'The cut edges match', text: 'The ragged edges of the canvas from Cole’s closet fit the strips left in the Gallery 4 frame, cut for cut.', who: ['cole'] },
     cole_missing: { title: 'Cole was missing', text: 'Bev Santoro says Cole Brandt was gone from the floor from about 9:10 to 9:28, during the speech. He came back red in the face and said he’d been smoking on the dock.', who: ['cole', 'bev'], at: 'Fri 21:10' },
     cole_contact: { title: 'Cole’s application', text: 'Cole was hired three weeks ago on Imogen Park’s referral. His application lists her as his emergency contact (“cousin”) and his cell as 555-310-0172.', who: ['cole', 'imogen'] },
-    cole_loaded: { title: 'Cole loaded the carriers', text: 'The driver, Luis Ocampo, says Cole insisted on loading the sheet-pan carriers himself on Friday night, and took one inside to wash the moment they got back.', who: ['luis', 'cole'], at: 'Fri 22:40' },
+    cole_loaded: { title: 'Cole loaded the carriers', text: 'The driver, Teddy Brisco, says Cole insisted on loading the sheet-pan carriers himself on Friday night, and took one inside to wash the moment they got back.', who: ['teddy', 'cole'], at: 'Fri 22:40' },
     carrier_flakes: { title: 'Flakes in carrier 14', text: 'Santoro’s carrier 14 had been washed, but the channel along its door gasket held flakes of blue-gray paint, a chalky white ground and a few stiff linen threads.' },
     cole_story: { title: 'Cole’s story', text: 'Cole says he stepped out onto the loading dock for a smoke during the speech, “like five minutes.”', who: ['cole'] },
     cole_browser: { title: 'Cole looked up Carrow', text: 'Open on Cole’s laptop: a page of Edith Carrow auction results.', who: ['cole'] },
-    gallery_call: { title: 'A call about a Carrow', text: 'On Saturday morning a young man phoned Pruitt Fine Art on Bluff Avenue to ask what a Carrow would bring “without paperwork.” The call came from a cell number ending in 0172.', at: 'Sat 10:40' },
+    gallery_call: { title: 'A call about a Carrow', text: 'On Saturday morning a young man phoned Lomax Fine Art on Bluff Avenue to ask what a Carrow would bring “without paperwork.” The call came from a cell number ending in 0172.', at: 'Sat 10:40' },
     canvas_found: { title: 'The canvas in the closet', text: 'In a hockey bag in Cole’s closet, wrapped in a Santoro tablecloth: a rolled canvas of a heron in the reeds at dusk, about 24 by 30 inches, with ragged cut edges.', who: ['cole'] },
     cole_flips: { title: 'Cole’s statement', text: 'Cole says Imogen planned it. She got him the job, gave him Walt’s code and told him when Walt smoked. He cut the canvas, hid it in a carrier and was told to burn it. He kept it. She paid him $2,000 and promised $8,000 more.', who: ['cole', 'imogen'] },
     greta_tired: { title: '“She looked tired”', text: 'At the dinner Greta Lindqvist stood in front of Heron and thought it looked tired and flat, “as though somebody had turned the light down in her.”', who: ['greta'], at: 'Fri 20:14' },
@@ -117,12 +117,12 @@ export default {
     imogen: { title: 'Imogen Park', where: 'Registrar’s office · Calder Museum', kind: 'person', cost: 1, again: 0.5, if: '@gallery | @thorne | @nadia', until: 'imogen_sick | imogen_arrested', closed: 'Not in' },
     lab: { title: 'Crime lab', where: 'Dr. Anjali Rao · Garland St', kind: 'lab', cost: 0.5, again: 0.5, if: 'canvas_strips | carrier_flakes | canvas_found' },
     catering: { title: 'Santoro Catering', where: 'Foundry St · The Flats', kind: 'place', cost: 1, again: 0.5, if: '@gallery | @walt | @security' },
-    cole: { title: 'Cole Brandt', where: '1418 Carver Ave · Northgate', kind: 'person', cost: 1, again: 0.5, if: 'cole_missing | cole_contact', until: 'canvas_found', closed: 'In custody' },
+    cole: { title: 'Cole Brandt', where: '1526 Carver Ave · Northgate', kind: 'person', cost: 1, again: 0.5, if: 'cole_missing | cole_contact', until: 'canvas_found', closed: 'In custody' },
     interview: { title: 'Cole Brandt, in custody', where: 'Interview Room 2 · Garland St', kind: 'person', cost: 0.5, if: 'canvas_found', scene: 'cole_room' },
     greta: { title: 'Greta Lindqvist', where: 'Lake Crest Road · Bluffside', kind: 'person', cost: 1, again: 0.5, if: 'greta_named | @erik' },
     erik: { title: 'Erik Lindqvist', where: 'A loft on Mill St · The Flats', kind: 'person', cost: 1, again: 0.5, if: 'erik_argument' },
     lena: { title: 'Lena Moss', where: 'Photographer · by phone', kind: 'phone', cost: 0.5, if: 'sign_out_log | imogen_photo_story', once: true, onceNote: 'Called' },
-    mina: { title: 'Mina Castellanos', where: 'Her studio · Kessler Park', kind: 'person', cost: 1, again: 0.5, if: 'mina_named' },
+    mina: { title: 'Mina Varga', where: 'Her studio · Kessler Park', kind: 'person', cost: 1, again: 0.5, if: 'mina_named' },
     warrant: { title: 'Warrants', where: 'ADA Gus Pellegrino · by phone', kind: 'phone', cost: 0.5, again: 0.5, if: 'cole_missing | cole_contact | sign_out_log | mina_copy | egret', until: 'canvas_found & condo_search', closed: 'Served' },
     condo: { title: 'Imogen Park at home', where: 'Marina Point 6B · Harbor Rd', kind: 'person', cost: 1, again: 0.5, if: `imogen_sick & (${IMOGEN_KNOWN})`, until: 'imogen_arrested', closed: 'In custody' },
   },
@@ -132,9 +132,9 @@ export default {
       title: 'Gallery 4',
       text: `Gallery 4 is a small square room at the back of the east wing, painted a deep green that makes gold frames glow. Six paintings of the Great Lakes hang in it: ice on the harbor, a wheat field, a lighthouse in fog. On the far wall a seventh frame hangs empty, like a window somebody has bricked up.
 
-Frank Delaney, the head of security, is waiting for you at the door, a big man in a museum blazer who still stands like the patrol sergeant he used to be. Inside, a woman in white cotton gloves is on a stepladder, photographing the empty frame: Nadia Ferrante, the conservator.
+Otis Delaney, the head of security, is waiting for you at the door, a big man in a museum blazer who still stands like the patrol sergeant he used to be. Inside, a woman in white cotton gloves is on a stepladder, photographing the empty frame: Nadia Ferrante, the conservator.
 
-“Walt found it on his 9:52 round,” Frank says. “I had the doors locked by ten and your people here by 10:04. Didn’t matter. It was gone.”`,
+“Walt found it on his 9:52 round,” Otis says. “I had the doors locked by ten and your people here by 10:04. Didn’t matter. It was gone.”`,
       again: `Gallery 4 is closed to the public, with a strip of tape across the door. [if canvas_strips]The empty frame is still on the wall, a pale line along its inner edge where you took the strips.[else]The empty frame is still on the wall.[/if]`,
       choices: [
         {
@@ -148,8 +148,8 @@ You work the strips free with her tweezers and bag them for the lab.`,
           clues: ['canvas_strips'],
         },
         {
-          label: 'Ask Frank how someone got in',
-          text: `“Through there.” Frank points at a plain gray door in the corner that you took for a closet. “Gallery 4 is the only gallery with a door onto the service corridor. That’s how we move art in and out. The corridor runs from the kitchen, past my security office, to the freight elevator and the loading dock. The caterers were up and down it all night with their carts.”
+          label: 'Ask Otis how someone got in',
+          text: `“Through there.” Otis points at a plain gray door in the corner that you took for a closet. “Gallery 4 is the only gallery with a door onto the service corridor. That’s how we move art in and out. The corridor runs from the kitchen, past my security office, to the freight elevator and the loading dock. The caterers were up and down it all night with their carts.”
 
 “And the sensor?”
 
@@ -157,8 +157,8 @@ You work the strips free with her tweezers and bag them for the lab.`,
           clues: ['service_door'],
         },
         {
-          label: 'Ask Frank about Walt',
-          text: `“Thirty-one years. He was here before me and I figured he’d be here after.” Frank looks at the empty frame. “The board suspended him at midnight. They want a head, and his is handy.”
+          label: 'Ask Otis about Walt',
+          text: `“Thirty-one years. He was here before me and I figured he’d be here after.” Otis looks at the empty frame. “The board suspended him at midnight. They want a head, and his is handy.”
 
 “You don’t think he did it.”
 
@@ -166,7 +166,7 @@ You work the strips free with her tweezers and bag them for the lab.`,
         },
         {
           label: 'Ask who was in the building last night',
-          text: `Frank has it on a card in his breast pocket. “Four guards, Walt on the east wing. Eighteen people from Santoro Catering, out of The Flats. A string quartet. The valet company. And our own people: Mr. Thorne, the development office, Nadia here, Imogen Park from the registrar’s office.” He puts the card away. “Two hundred guests. We checked every handbag on the way out. Nobody walked out the front door with a painting.”
+          text: `Otis has it on a card in his breast pocket. “Four guards, Walt on the east wing. Eighteen people from Santoro Catering, out of The Flats. A string quartet. The valet company. And our own people: Mr. Thorne, the development office, Nadia here, Imogen Park from the registrar’s office.” He puts the card away. “Two hundred guests. We checked every handbag on the way out. Nobody walked out the front door with a painting.”
 
 “The back door?”
 
@@ -191,10 +191,10 @@ He doesn’t answer that.`,
       title: 'The security office',
       text: `The security office is a windowless room on the service corridor, halfway between the kitchen doors and the loading dock. A bank of monitors, a coffee maker with a burned smell, and a console desk with a keyboard worn shiny. The door has a keypad lock and a rubber wedge on the floor beside it.
 
-Frank Delaney sees you look at the wedge. “Walt props the door when he goes out to smoke, so he doesn’t have to punch the code with cold hands.” He sighs. “I’ve told him.”
+Otis Delaney sees you look at the wedge. “Walt props the door when he goes out to smoke, so he doesn’t have to punch the code with cold hands.” He sighs. “I’ve told him.”
 
 On the console screen, Friday night’s event log is still up.`,
-      again: `Frank has a fresh pot of coffee going. The rubber wedge is gone from the floor. Somebody has thrown it away.`,
+      again: `Otis has a fresh pot of coffee going. The rubber wedge is gone from the floor. Somebody has thrown it away.`,
       choices: [
         {
           label: 'Read the console log',
@@ -202,36 +202,36 @@ On the console screen, Friday night’s event log is still up.`,
 > FRI 21:25:40  ZONE 4E-M (GALLERY 4 MOTION)  RESTORE  USER 04
 > FRI 21:52:18  ZONE 4E    GUARD TOUR TAG  SZYMANSKI
 
-“A bypass shuts off one sensor and leaves the rest of the building live,” Frank says. “You have to pick the zone off a list of two hundred. Whoever did this knew which one was Gallery 4, and knew to switch it back on after, so the board looked normal when Walt came in.”`,
+“A bypass shuts off one sensor and leaves the rest of the building live,” Otis says. “You have to pick the zone off a list of two hundred. Whoever did this knew which one was Gallery 4, and knew to switch it back on after, so the board looked normal when Walt came in.”`,
         },
         {
           label: 'Look under the keyboard',
           text: `You lift the keyboard. Stuck to the desk underneath, where the keyboard’s feet have kept it flat and hidden, is a yellow sticky note in shaky ballpoint: four digits, a dash, and a W.
 
-Frank closes his eyes. “Oh, Walt.”
+Otis closes his eyes. “Oh, Walt.”
 
 He doesn’t need to check his list, but he checks it anyway. It’s Walt’s current code.`,
           clues: ['code_note'],
         },
         {
           label: 'Read the visitor log',
-          text: `Frank hands you a clipboard. Anyone who isn’t security signs in and out.
+          text: `Otis hands you a clipboard. Anyone who isn’t security signs in and out.
 
 > TUE  14:10  I. PARK (REGISTRAR)
 >             Reviewing camera coverage for Chicago loan
 >       15:15  OUT
 
-“The Art Institute sends a questionnaire before a loan: how many cameras, where, how long we keep the footage,” Frank says. “Imogen handled it. Walt sat with her.” He frowns at the clipboard. “Or he was supposed to. He had a round at two.”`,
+“The Art Institute sends a questionnaire before a loan: how many cameras, where, how long we keep the footage,” Otis says. “Imogen handled it. Walt sat with her.” He frowns at the clipboard. “Or he was supposed to. He had a round at two.”`,
           clues: ['visitor_log'],
         },
         {
           label: 'Watch the loading dock camera',
           cost: 1,
-          text: `Frank cues it up: a fixed view of the concrete dock, the Santoro van backed in, a sand bucket for cigarette butts.
+          text: `Otis cues it up: a fixed view of the concrete dock, the Santoro van backed in, a sand bucket for cigarette butts.
 
 At 9:11 p.m. Walt Szymanski comes out through the steel door, lights a cigarette and leans on the rail. He smokes three, one after another, and looks at his phone. Nobody else comes out. At 9:27 he grinds out the last one and goes back inside.
 
-Sixteen minutes, alone, forty yards from the console. You run it again at normal speed to be sure. Frank watches it both times, and his ears go red. “That’s him,” he says. “That’s him the whole time.”`,
+Sixteen minutes, alone, forty yards from the console. You run it again at normal speed to be sure. Otis watches it both times, and his ears go red. “That’s him,” he says. “That’s him the whole time.”`,
           clues: ['dock_camera'],
         },
         {
@@ -246,11 +246,11 @@ A patrol officer opens two carriers from the next stack and looks inside: tablec
         {
           label: 'Ask for the valet sheet',
           if: 'erik_argument | @erik',
-          text: `The valet company leaves a copy every event. Frank finds it in a tray.
+          text: `The valet company leaves a copy every event. Otis finds it in a tray.
 
 > 20:40  LINDQVIST, E.  BLK AUDI  TKT 118  RETURNED TO OWNER
 
-“Left before the speech,” Frank says. “I walked him to the door myself after he yelled at Mr. Thorne. He didn’t come back. Not by the front, anyway, and his car went with him.”`,
+“Left before the speech,” Otis says. “I walked him to the door myself after he yelled at Mr. Thorne. He didn’t come back. Not by the front, anyway, and his car went with him.”`,
           clues: ['valet_log'],
         },
         {
@@ -286,12 +286,12 @@ He is sixty-one, heavy through the shoulders, with a gray crew cut and nicotine 
           label: 'Ask who else knew his code',
           text: `He doesn’t answer for a while.
 
-“They change them every quarter. Four new numbers every three months, and I’m sixty-one.” He turns the coffee cup in his hands. “My wife remembered numbers for me. Phone numbers, the bank card. She’s been gone two years.” He looks at you. “I wrote it on a sticky note and put it under the keyboard. Nobody knows. Frank would have my hide.”`,
+“They change them every quarter. Four new numbers every three months, and I’m sixty-one.” He turns the coffee cup in his hands. “My wife remembered numbers for me. Phone numbers, the bank card. She’s been gone two years.” He looks at you. “I wrote it on a sticky note and put it under the keyboard. Nobody knows. Otis would have my hide.”`,
           clues: ['code_note'],
         },
         {
           label: 'Ask who’s been in the security office lately',
-          text: `“Frank. The other guys. The cleaners.” He thinks. “Imogen, from the registrar’s office, Tuesday. She had a list of questions from Chicago about the cameras. I sat with her a while, and then I had my two o’clock round, and she said go on, she’d be fine.” He shrugs. “She was still at the desk when I got back. Forty minutes, maybe. Nice girl. She brought me a coffee.”`,
+          text: `“Otis. The other guys. The cleaners.” He thinks. “Imogen, from the registrar’s office, Tuesday. She had a list of questions from Chicago about the cameras. I sat with her a while, and then I had my two o’clock round, and she said go on, she’d be fine.” He shrugs. “She was still at the desk when I got back. Forty minutes, maybe. Nice girl. She brought me a coffee.”`,
           clues: ['visitor_log'],
         },
         {
@@ -323,7 +323,7 @@ Walt nods slowly. He picks up the letter from the museum, reads it again, and pu
 
 “Not everyone was pleased?”
 
-The smile goes. “Erik Lindqvist. Anders Lindqvist’s son. He cornered me at the bar at half past eight, in front of the mayor, and told me we would lose that painting ‘one way or another.’ Frank walked him out.” He straightens a pen. “His mother was there. Greta. She was mortified, poor woman. She’s been a friend to this museum for forty years.”`,
+The smile goes. “Erik Lindqvist. Anders Lindqvist’s son. He cornered me at the bar at half past eight, in front of the mayor, and told me we would lose that painting ‘one way or another.’ Otis walked him out.” He straightens a pen. “His mother was there. Greta. She was mortified, poor woman. She’s been a friend to this museum for forty years.”`,
           clues: ['speech', 'erik_argument'],
           set: ['greta_named'],
         },
@@ -392,7 +392,7 @@ Imogen Park is thirty-nine, slim and composed, in an oatmeal cardigan with the s
       choices: [
         {
           label: 'Ask about Friday night',
-          text: `“I was beside the stage for the speech, holding Julian’s notes. He loses his place otherwise.” She says it fondly. “Before that I was steering donors around, and after — well, after, Frank locked the doors and we all stood in the atrium for an hour while your officers went through our handbags.”`,
+          text: `“I was beside the stage for the speech, holding Julian’s notes. He loses his place otherwise.” She says it fondly. “Before that I was steering donors around, and after — well, after, Otis locked the doors and we all stood in the atrium for an hour while your officers went through our handbags.”`,
           clues: ['imogen_alibi'],
         },
         {
@@ -467,7 +467,7 @@ Imogen’s eyes go to the side, just once. “Then I’ve got the photographer w
 “I was busy.” It comes out too fast, and she hears it too.`,
         },
         {
-          label: 'Ask about Mina Castellanos',
+          label: 'Ask about Mina Varga',
           if: 'mina_copy',
           text: `“A student. The copyist program.” She shrugs. “Donors ask for all kinds of things.”
 
@@ -576,7 +576,7 @@ She sits back. “That isn’t the canvas I photographed in 2019. That isn’t E
           label: 'Ask whether anyone has copied Heron',
           text: `“Oh, everyone. It’s the most copied picture in the building.” She almost smiles. “We have a copyist program. Art students set up easels in the galleries on weekday mornings. The rules are strict: a permit, no tracing, and the copy has to be at least ten percent bigger or smaller than the original, so nobody can ever pass it off.”
 
-She thinks. “Last winter a graduate student from Calder State was on Heron for months. Mina Castellanos. Very talented. Imogen signs the permits.”`,
+She thinks. “Last winter a graduate student from Calder State was on Heron for months. Mina Varga. Very talented. Imogen signs the permits.”`,
           clues: ['mina_named'],
         },
         {
@@ -684,7 +684,7 @@ You read it twice. The painting cut out of the frame on Friday night was a moder
 
 > PARK, IMOGEN J. · MARINA POINT #6B, HARBOR RD
 > Second mortgage, Northshore Savings: in default since May.
-> Judgment, Lakeshore Card Services: $38,210.
+> Judgment, Northway Card Services: $38,210.
 > Lien, Lakeview Gardens Memory Care: $44,600 (unpaid care).
 
 “The memory-care place is where her mother was. She died last year. And here’s why I called.”
@@ -796,7 +796,7 @@ Bev Santoro is somewhere in her fifties, with reading glasses pushed up into gra
           text: `“Three weeks on the job. Cole Brandt, twenty-two. Polite, nice-looking, useless with a tray.” She finds his file in a drawer. “He came recommended. Somebody from the museum, actually. Here.”
 
 > SANTORO CATERING · APPLICATION FOR EMPLOYMENT
-> Brandt, Cole T. · 1418 Carver Ave, Apt 2 · Northgate
+> Brandt, Cole T. · 1526 Carver Ave, Apt 2 · Northgate
 > Cell: 555-310-0172
 > Emergency contact: Imogen Park (cousin), Calder Museum
 > Referred by: I. Park
@@ -811,7 +811,7 @@ Bev Santoro is somewhere in her fifties, with reading glasses pushed up into gra
         },
         {
           label: 'Talk to the van driver',
-          text: `Luis Ocampo is hosing out the van in the yard, a gray-haired man with forearms like hams. He shuts off the hose to talk.
+          text: `Teddy Brisco is hosing out the van in the yard, a gray-haired man with forearms like hams. He shuts off the hose to talk.
 
 “The new kid, Cole. We’re loading out at the museum, 10:40 or so, and I reach for a carrier and he about takes my hand off. ‘I got it, I got it.’ Loads all six himself. Never saw a new kid want to carry anything.” He wipes his hands on his jeans. “Back here, he unloads them himself too, and takes one inside to wash, first thing. Nobody washes the carriers. The dishwasher washes the carriers.”`,
           clues: ['cole_loaded'],
@@ -829,7 +829,7 @@ Most have been through the machine. Number 14 has been washed by hand, and thoro
 
     cole: {
       title: 'Cole Brandt',
-      text: `1418 Carver Avenue is a two-flat with a sagging porch and three mailboxes, one of them taped shut. Cole Brandt lives upstairs. He opens the door the width of the chain: twenty-two, good-looking in an unfinished way, barefoot, in a Santoro Catering hoodie. Behind him a television is playing a car chase.
+      text: `1526 Carver Avenue is a two-flat with a sagging porch and three mailboxes, one of them taped shut. Cole Brandt lives upstairs. He opens the door the width of the chain: twenty-two, good-looking in an unfinished way, barefoot, in a Santoro Catering hoodie. Behind him a television is playing a car chase.
 
 When you show him your badge he goes pale and then red. Then he takes the chain off, because he can’t think of a reason not to.`,
       again: `Cole opens the door with the chain on. “I told you everything,” he says through the gap.`,
@@ -865,8 +865,8 @@ Cole opens his mouth and shuts it again. “I was around the side, then. By the 
     },
 
     search_cole: {
-      title: 'Search warrant: 1418 Carver Ave',
-      text: `The warrant comes through within the hour, signed by Judge Halvorsen. Two patrol officers meet you on Carver Avenue. Cole Brandt opens the door in his catering whites, halfway out to work, and reads the warrant twice with his lips moving.
+      title: 'Search warrant: 1526 Carver Ave',
+      text: `The warrant comes through within the hour. Two patrol officers meet you on Carver Avenue. Cole Brandt opens the door in his catering whites, halfway out to work, and reads the warrant twice with his lips moving.
 
 “It’s not — ” he says. “You can’t just — ” Then he sits down on the futon and puts his head in his hands.`,
       again: `The patrol officers are waiting on the landing. Cole is on the futon with his hands between his knees.`,
@@ -971,7 +971,7 @@ She shakes her head. “I told myself it was the new lights. Or my eyes. I’m s
 
     erik: {
       title: 'Erik Lindqvist',
-      text: `Erik Lindqvist lives in a converted warehouse loft on Mill Street in The Flats, all brick and steel and very little furniture. He is forty-nine, as tall as his mother is small, and he answers the door with a phone to his ear. “I’ll call you back, Harold. The police are here. Yes. I know.”
+      text: `Erik Lindqvist lives in a converted warehouse loft on Mill Street in The Flats, all brick and steel and very little furniture. He is forty-nine, as tall as his mother is small, and he answers the door with a phone to his ear. “I’ll call you back, Irving. The police are here. Yes. I know.”
 
 He doesn’t offer you coffee. “I assume somebody has told you I threatened Julian Thorne. I did. In front of the mayor. I’d do it again.”`,
       again: `Erik lets you in and stands by the window with his arms folded. “More?”`,
@@ -1017,8 +1017,8 @@ He shrugs. “I told him he’d lose it one way or another. Everyone heard me. I
     },
 
     mina: {
-      title: 'Mina Castellanos',
-      text: `Mina Castellanos rents half a bungalow in Kessler Park, and the front room is her studio: canvases stacked against every wall, a smell of linseed oil and coffee, and a space heater aimed at a half-finished portrait of somebody’s dog. She is twenty-six, in paint-stiff overalls, and she has been crying.
+      title: 'Mina Varga',
+      text: `Mina Varga rents half a bungalow in Kessler Park, and the front room is her studio: canvases stacked against every wall, a smell of linseed oil and coffee, and a space heater aimed at a half-finished portrait of somebody’s dog. She is twenty-six, in paint-stiff overalls, and she has been crying.
 
 “I saw the news,” she says before you can ask anything. “I’ve been sitting here all morning trying to decide whether to call you.”`,
       again: `Mina lets you in. The dog portrait has been turned to face the wall.`,
@@ -1059,9 +1059,9 @@ You tell her the truth: probably not, and that what she just told you matters a 
           id: 'cole-yes',
           label: 'Ask for a warrant for Cole Brandt’s apartment',
           if: `(${PC_COLE}) & !canvas_found`,
-          text: `You give it to him in order. [if cole_missing]A server went missing from the floor for the eighteen minutes the sensor was off[else]A server told a story about the dock that the dock camera doesn’t support[/if][if cole_loaded | dock_loading], then insisted on loading the catering carriers himself[/if][if carrier_flakes], and one of those carriers has paint in its door seal[/if].[if gallery_call] This morning his phone called a dealer to ask what a Carrow would bring without paperwork.[/if][if cole_browser] He had Carrow auction prices open on his laptop.[/if][if cole_contact] And his cousin is the museum’s registrar.[/if]
+          text: `You give it to him in order. [if cole_missing]A server went missing from the floor for the whole time the sensor was off[else]A server told a story about the dock that the dock camera doesn’t support[/if][if cole_loaded | dock_loading], then insisted on loading the catering carriers himself[/if][if carrier_flakes], and one of those carriers has paint in its door seal[/if].[if gallery_call & cole_contact] This morning his phone called a dealer to ask what a Carrow would bring without paperwork.[/if][if cole_browser] He had Carrow auction prices open on his laptop.[/if][if cole_contact] And his cousin is the museum’s registrar.[/if]
 
-“That’s a kid with the chance and a kid who moved something,” Gus says. “I’ll get Judge Halvorsen. Give me an hour.”`,
+“That’s a kid with the chance and a kid who moved something,” Gus says. “I’ll find a judge. Give me an hour.”`,
           go: 'search_cole',
         },
         {
@@ -1077,7 +1077,7 @@ You tell her the truth: probably not, and that what she just told you matters a 
           if: `(${PC_IMOGEN}) & !condo_search`,
           text: `You lay it out.[if cole_flips] Her cousin says she planned it and gave him the code.[/if][if imogen_slip] She told you herself he was supposed to burn it.[/if][if modern_canvas | weave_differs | no_thumbprint] The painting in the frame was a modern copy.[/if][if lena_no_booking] She signed it out for a photographer who was in Traverse City.[/if][if mina_copy] She commissioned a full-size copy and paid for it in cash.[/if][if egret] And there’s an LLC at her home address.[/if]
 
-Gus is quiet for a moment. “The registrar,” he says. “The one person who knows where everything is.” He wipes his hands on something. “Yeah. I’ll call Halvorsen.”`,
+Gus is quiet for a moment. “The registrar,” he says. “The one person who knows where everything is.” He wipes his hands on something. “Yeah. I’ll call a judge.”`,
           go: 'search_condo',
         },
         {
@@ -1114,7 +1114,7 @@ On the desk blotter there’s a museum notepad. You tilt it to the window. Press
     {
       at: 3,
       title: 'Julian Thorne',
-      text: `Julian Thorne calls. “The insurer’s adjuster is in my office. Denise Whitcomb, from Harrow Fine Art. She wants your report number and a claim for the full $420,000 filed by Monday, and she’s very clear that the sooner we file, the sooner we’re paid.”
+      text: `Julian Thorne calls. “The insurer’s adjuster is in my office. Denise Fairley, from Harrow Fine Art. She wants your report number and a claim for the full $420,000 filed by Monday, and she’s very clear that the sooner we file, the sooner we’re paid.”
 
 A pause. “I thought you should hear that from me, before you heard it from someone who would make it sound worse.”`,
       clues: ['claim_pressure'],
@@ -1123,9 +1123,9 @@ A pause. “I thought you should hear that from me, before you heard it from som
       at: 6,
       if: '!canvas_found',
       title: 'Agent Bell',
-      text: `Special Agent Bell calls from Chicago. “Something for you. A dealer on Bluff Avenue, Arthur Pruitt, rang our tip line an hour ago. A young man phoned his gallery this morning asking what a Carrow would bring ‘without paperwork.’ Pruitt told him to call the police, and the kid hung up.”
+      text: `Special Agent Bell calls from Chicago. “Something for you. A dealer on Bluff Avenue, Arthur Lomax, rang our tip line an hour ago. A young man phoned his gallery this morning asking what a Carrow would bring ‘without paperwork.’ Lomax told him to call the police, and the kid hung up.”
 
-He reads you the number from Pruitt’s caller ID: a Port Calder cell ending in 0172. “Mean anything to you?”
+He reads you the number from Lomax’s caller ID: a Port Calder cell ending in 0172. “Mean anything to you?”
 
 [if cole_contact]It does. It’s the cell number on Cole Brandt’s job application.[/if]`,
       clues: ['gallery_call'],
@@ -1133,8 +1133,8 @@ He reads you the number from Pruitt’s caller ID: a Port Calder cell ending in 
     {
       at: 8.5,
       if: '@imogen & !imogen_arrested',
-      title: 'Frank Delaney',
-      text: `Frank Delaney calls. “Thought you’d want to know. Imogen Park went home at half past four. Said she felt sick, and told Mr. Thorne she needed a few days.”
+      title: 'Otis Delaney',
+      text: `Otis Delaney calls. “Thought you’d want to know. Imogen Park went home at half past four. Said she felt sick, and told Mr. Thorne she needed a few days.”
 
 He hesitates. “She took the green ledger from the storeroom with her. I only noticed because she never takes anything home.”`,
       set: ['imogen_sick'],
@@ -1150,8 +1150,8 @@ A pause. “She hasn’t taken two weeks off in six years. Should I be worried a
     },
     {
       at: 12.5,
-      title: 'Frank Delaney',
-      text: `[if dock_camera]Frank calls early. “The board met at seven. I showed them the dock tape. Walt’s reinstated, full pay, and the chairman is going to apologize to him in person, which I would pay money to see.” He clears his throat. “Thanks.”[else]Frank calls early, and he sounds tired. “The board met at seven. They’re going to let Walt go on Monday. Thirty-one years, four months short of his pension.” He pauses. “If there’s anything that clears him, now would be the time.”[/if]`,
+      title: 'Otis Delaney',
+      text: `[if dock_camera]Otis calls early. “The board met at seven. I showed them the dock tape. Walt’s reinstated, full pay, and the chairman is going to apologize to him in person, which I would pay money to see.” He clears his throat. “Thanks.”[else]Otis calls early, and he sounds tired. “The board met at seven. They’re going to let Walt go on Monday. Thirty-one years, four months short of his pension.” He pauses. “If there’s anything that clears him, now would be the time.”[/if]`,
     },
   ],
 
@@ -1180,7 +1180,7 @@ A pause. “She hasn’t taken two weeks off in six years. Should I be worried a
       },
       answer: 'copy',
       points: 15,
-      why: 'The strips left in the frame are modern linen on a titanium-white acrylic ground, which didn’t exist in 1911, and they don’t match Nadia’s 2019 photographs of the real canvas. Mina Castellanos painted it for Imogen.',
+      why: 'The strips left in the frame are modern linen on a titanium-white acrylic ground, which didn’t exist in 1911, and they don’t match Nadia’s 2019 photographs of the real canvas. Mina Varga painted it for Imogen.',
     },
     {
       id: 'hands',
@@ -1241,7 +1241,7 @@ A pause. “She hasn’t taken two weeks off in six years. Should I be worried a
   outcomes: {
     imogen: `Imogen Park was charged with theft, fraud and conspiracy, and she pleaded guilty in the spring. In December the Royal Canadian Mounted Police took Heron at Dusk down from over a piano in a house in Toronto; the collector hadn’t paid the balance, and never would. Leonard Fisk was indicted in Chicago. Cole Brandt testified against his cousin and got probation.
 
-Heron came home in February. Greta Lindqvist was in the conservation studio when Nadia opened the crate, and Nadia let her put her thumb, very gently, beside Edith’s, just this once. Walt Szymanski retired in the spring with his full pension, and Frank threw him a party on the loading dock.`,
+Heron came home in February. Greta Lindqvist was in the conservation studio when Nadia opened the crate, and Nadia let her put her thumb, very gently, beside Edith’s, just this once. Walt Szymanski retired in the spring with his full pension, and Otis threw him a party on the loading dock.`,
     cole: `You named Cole Brandt as the one who planned it. He had cut the canvas, and he was charged for that. But a twenty-two-year-old waiter doesn’t know which week a painting comes off its wall or what a loan exam is, and his lawyer said so. By the time Cole told the whole story, his cousin had taken two weeks’ leave and a flight she didn’t come back from. The painting in Toronto changed hands again before anyone thought to ask about it.`,
     walt: `You named Walt Szymanski. His union lawyer played the loading dock tape at the first hearing: 9:11 to 9:27, three cigarettes, nobody else. The charge was dropped within a week, but the museum let him go anyway, four months short of his pension, for leaving his code under a keyboard. Imogen Park took two weeks’ leave and didn’t come back, and a Carrow heron hangs in a house in Toronto where nobody knows its name.`,
     thorne: `You named Julian Thorne. Lieutenant Okafor pointed out that two hundred guests and a photographer watched him speak from 9:05 to 9:30, and that raising the insured value was a condition of the loan, in writing. He was never charged. He resigned in January anyway; the board wanted someone to blame. Imogen Park left for a family emergency and stayed gone, and the painting was never found.`,
@@ -1252,7 +1252,7 @@ Heron came home in February. Greta Lindqvist was in the conservation studio when
   solution: {
     text: `Imogen Park was drowning: a second mortgage in default, a credit card judgment, and $44,600 still owed to the memory-care home where her mother spent her last two years. As registrar she knew where every object in the museum was, and who looked closely at which. Nobody looked closely at Heron at Dusk.
 
-Last winter she had a Calder State student, Mina Castellanos, paint a full-size copy, waiving the copyist program’s size rule and paying $3,000 cash for “a donor.” In July she formed Egret Holdings LLC at her own address. On September 3 she signed Heron out of Gallery 4 for “photography (L. Moss)”; Lena Moss was in Traverse City. Two days later the copy went into the frame, and the original went to Leonard Fisk in Chicago, who wired $118,000 to Egret on September 12 and offered the painting to a Toronto collector two weeks before the theft.
+Last winter she had a Calder State student, Mina Varga, paint a full-size copy, waiving the copyist program’s size rule and paying $3,000 cash for “a donor.” In July she formed Egret Holdings LLC at her own address. On September 3 she signed Heron out of Gallery 4 for “photography (L. Moss)”; Lena Moss was in Traverse City. Two days later the copy went into the frame, and the original went to Leonard Fisk in Chicago, who wired $118,000 to Egret on September 12 and offered the painting to a Toronto collector two weeks before the theft.
 
 The trouble was the loan. In five weeks Heron was due at the Art Institute of Chicago, whose conservators examine every incoming loan against the lender’s condition report. They would have known the copy on sight. It had to disappear first, in a way nobody would question.
 
@@ -1263,7 +1263,7 @@ Imogen never told Cole it was a copy. She told him it was an insurance arrangeme
 Walt did nothing worse than write his code down; the dock camera shows him alone from 9:11 to 9:27. Julian Thorne raised the insured value because the loan agreement required it, and he was on stage throughout. Erik Lindqvist meant to take the painting back in court, where his motion was filed that afternoon, and he left the dinner at 8:40. And Greta Lindqvist was right that her heron looked tired. It hadn’t been her heron since September.`,
     chain: ['console_log', 'canvas_strips', 'modern_canvas', 'cole_missing', 'cole_contact', 'cole_loaded', 'loan_exam', 'sign_out_log', 'lena_no_booking', 'egret', 'toronto_offer', 'canvas_found', 'cole_flips', 'imogen_slip'],
     walk: [
-      '@gallery', 'Look closely at the frame', 'Ask Frank how',
+      '@gallery', 'Look closely at the frame', 'Ask Otis how',
       '@lab', 'Send the canvas strips',
       '@catering', 'Ask Bev about Friday', 'Ask about Cole Brandt', 'Talk to the van driver',
       '@records', 'Ask him to run Imogen',

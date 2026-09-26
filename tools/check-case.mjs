@@ -40,7 +40,7 @@ console.log(`about ${words} words, ${Object.keys(def.leads).length} leads, ${Obj
 let crashes = 0;
 for (let seed = 1; seed <= 200; seed++) {
   let r = seed;
-  const rand = n => { r = (r * 1103515245 + 12345) % 2147483648; return r % n; };
+  const rand = n => { r = (r + 0x6D2B79F5) | 0; let x = Math.imul(r ^ (r >>> 15), 1 | r); x ^= x + Math.imul(x ^ (x >>> 7), 61 | x); return ((x ^ (x >>> 14)) >>> 0) % n; }; // mulberry32
   const st = newState(def);
   try {
     for (let guard = 0; guard < 400; guard++) {

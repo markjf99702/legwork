@@ -64,7 +64,7 @@ export default {
     hank_saw_suv: { title: 'An SUV at the Route 9 light', text: 'At about 6:13, as Hank turned onto Harbor Road, a big silver SUV passed him going east, fast, with its left headlight out. It turned up Bluff Road.', who: ['hank'], at: 'Thu 6:13' },
     gate_video: { title: 'The gate camera', text: 'At 6:10 an SUV hits the bike and stops. The driver walks back and stands over Carmen for half a minute: a tall man, his head well above the roof of the SUV. At 6:16 Hank’s pickup arrives from the east.', who: ['hank', 'carmen'], at: 'Thu 6:10' },
     deer_report: { title: 'A deer on Route 9', text: 'Animal control logged a call at 5:35 a.m.: a struck deer on the Route 9 shoulder near mile marker 4. The caller gave the name Hank and Hank Dorsey’s cell number.', who: ['hank'], at: 'Thu 5:35' },
-    roz_saw: { title: 'Out of the Harbor Club', text: 'Just after six, a big silver Lexus SUV pulled out of the Harbor Club’s valet circle, swerved across both lanes and went east on Harbor Road. The valet ran into the road after it.', who: ['roz'], at: 'Thu 6:04' },
+    roz_saw: { title: 'Out of the Harbor Club', text: 'Just after six, a big silver Lexus SUV pulled out of the Harbor Club’s valet circle, swerved across both lanes and went east on Harbor Road. The valet ran into the road after it.', who: ['roz'], at: 'Thu 6:03' },
     shay_tab: { title: 'The Commodore Room tab', text: 'The after-party tab ran on Dale Whitcomb’s member number from 11:14 p.m. Wednesday to the last pour at 5:40 a.m. Thursday: $1,160, most of it scotch.', who: ['dale', 'shay'], at: 'Thu 5:40' },
     luis_drunk: { title: 'The councilman took the car', text: 'At 5:58 a.m. Luis brought the silver RX around for Councilman Whitcomb, who could barely stand. He tipped a fifty, waved off a cab, and drove away across both lanes. Graham Sutter told Luis to forget it.', who: ['luis', 'dale', 'graham'], at: 'Thu 5:58' },
     valet_log: { title: 'The valet book', text: 'Ticket 0417: silver Lexus RX, plate CKW 4471. In at 7:12 p.m. Wednesday. Out at 5:58 a.m. Thursday, to “Mr. W (Councilman).”', who: ['dale', 'luis'], at: 'Thu 5:58' },
@@ -83,7 +83,7 @@ export default {
     maddie_why: { title: 'What Tyler told Maddie', text: 'At noon Tyler told Maddie his father had hit someone, and that the lawyer said a seventeen-year-old with no record and no drinking gets probation, where his dad would go to prison. At 12:14 he texted her to say he was home all night.', who: ['maddie', 'tyler', 'dale', 'voigt'], at: 'Thu 12:05' },
     voigt_call: { title: 'Voigt says Tyler drove', text: 'Preston Voigt says Tyler was driving his father’s Lexus on Harbor Road Thursday morning. He stresses that Tyler is seventeen, has no record and hadn’t been drinking. Statement Friday at 9 a.m.', who: ['voigt', 'tyler'], at: 'Thu 14:30' },
     confession: { title: 'Tyler’s formal statement', text: 'Tyler’s signed statement: he took the Lexus from the home garage at 5:45 a.m., hit something on Harbor Road, stopped, got out, saw a person, panicked and drove home.', who: ['tyler', 'voigt'], at: 'Fri 9:00' },
-    nav_log: { title: 'The Lexus’s trip log', text: 'The Lexus was parked at the Harbor Club from 7:05 p.m. Wednesday until 5:59 a.m. Thursday. It stopped for 48 seconds on Harbor Road at 6:10 and was parked at 40 Bluff Crest Drive at 6:21.', who: ['dale'], at: 'Thu 5:59' },
+    nav_log: { title: 'The Lexus’s trip log', text: 'The Lexus sat in the Harbor Club lot from 7:12 p.m. Wednesday until 5:57 a.m. Thursday. It left at 6:03, braked hard and stopped for 48 seconds on Harbor Road at 6:10, and was parked at 40 Bluff Crest Drive at 6:21.', who: ['dale'], at: 'Thu 6:03' },
   },
 
   startClues: ['paint_transfer', 'fragment', 'hank_first'],
@@ -373,22 +373,22 @@ He looks at you over his glasses. “That’s not great, huh. For him.”`,
 
     hank: {
       title: 'Calder Grain',
-      text: `The Calder Grain office is a trailer at the foot of the elevators, with a coffee maker, a space heater and a foreman named Earl Boyce, who looks at your badge and sighs through his nose. “He’s on the dock. I’ll get him.”
+      text: `The Calder Grain office is a trailer at the foot of the elevators. The foreman, Earl Boyce, looks at your badge and sighs through his nose. “He’s on the dock. I’ll get him.”
 
-Hank Dorsey comes in wiping his hands on a rag. He’s a big, slow man in a feed cap and a canvas coat with a dark stain down the front of it that you realize, after a moment, is hers. Out the window his pickup sits in the lot: a silver Ford with its hood held down by an orange ratchet strap.
+Hank Dorsey comes in wiping his hands on a rag: a big, slow man in a feed cap and a canvas coat with a dark stain down the front that you realize, after a moment, is hers. Out the window his silver Ford sits in the lot with its hood held down by an orange ratchet strap.
 
-He doesn’t sit. “I told the officer already,” he says. “I found her. That’s all I did.”`,
-      again: `[if hank_deer]Hank nods to you from the dock. He looks like a man who has stopped waiting for handcuffs.[else]Hank sees you coming across the lot and sets his jaw.[/if]`,
+He doesn’t sit. “I told the officer already. I found her. That’s all I did.”`,
+      again: `[if hank_deer]Hank nods to you from the dock, like a man who has stopped waiting for handcuffs.[else]Hank sees you crossing the lot and sets his jaw.[/if]`,
       choices: [
         {
           label: 'Ask him how he found her',
-          text: `“I was late. Came in off Route 9, turned onto Harbor Road, and there’s a bike in the lane and something by the fence I thought was a bag of trash.” He turns the rag over in his hands. “It wasn’t.
+          text: `“I was late. Came in off Route 9, and there’s a bike in the lane and something by the fence I thought was a bag of trash.” He turns the rag over. “It wasn’t.
 
-“I called 911. I put my coat on her. She kept trying to say something and I kept telling her don’t, don’t talk, they’re coming.” He looks down at the stain. “I held her hand till the ambulance. That’s all.”`,
+“I called 911. I put my coat on her. She kept trying to say something, and I kept telling her don’t talk, they’re coming.” He looks down at the stain. “I held her hand till the ambulance. That’s all.”`,
         },
         {
           label: 'Ask about the damage to his truck',
-          text: `“Deer.” He says it to the window. “Last week. Haven’t had time to get it fixed.”
+          text: `“Deer.” He says it to the window. “Last week.”
 
 You look out at the truck: the strap, the bright creases in the metal, not a speck of rust in any of them.
 
@@ -397,42 +397,38 @@ You look out at the truck: the strap, the bright creases in the metal, not a spe
         {
           label: 'Look over his truck',
           cost: 0.25,
-          text: `The damage is dead center and low: grille pushed in, bumper creased, the hood buckled so it won’t latch. Caught in the grille slats are tufts of coarse gray-brown hair and a smear of something dried dark. Both headlights are intact. Not a crack in either one.
+          text: `The damage is dead center and low: grille pushed in, bumper creased, hood buckled so it won’t latch. Caught in the grille are tufts of coarse gray-brown hair and a smear of something dried dark. Both headlights are intact.
 
 You bag some of the hair. Hank watches from the trailer door and doesn’t try to stop you.`,
           clues: ['hank_grille'],
         },
         {
           label: 'Ask the foreman for the gate camera',
-          cost: 0.5,
-          text: `Earl Boyce finds the footage on the third try. The camera watches the gate, and past it a slice of Harbor Road, gray and grainy in the dark.
+          cost: 0.75,
+          text: `Earl finds the footage on the third try. Past the gate, a slice of Harbor Road, gray and grainy in the dark.
 
-At 6:09:48 a blinking red light slides along the far lane, heading east. At 6:10:03 headlights swell behind it, and the red light is gone. An SUV brakes hard and stops at the edge of the frame with one headlight dark.
+At 6:09:48 a blinking red light slides east along the far lane. At 6:10:03 headlights swell behind it, and the red light is gone. An SUV brakes hard and stops at the edge of the frame, one headlight dark.
 
-The driver’s door opens. A man walks back into the glow of the good headlight and stands there, looking down, for about thirty seconds. As he walks back to the SUV, his head and shoulders show above its roof. He gets in. At 6:10:51 it pulls away east.
+A man gets out, walks back into the glow of the good headlight and stands there looking down for about thirty seconds. As he walks back, his head and shoulders show above the SUV’s roof. At 6:10:51 it pulls away east.
 
-At 6:16:20 a pickup comes in from the east, stops short, and a big man in a canvas coat runs to the fence.`,
+At 6:16:20 a pickup comes in from the east, and a big man in a canvas coat runs to the fence.`,
           clues: ['gate_video'],
         },
         {
           label: 'Tell him you know it wasn’t last week',
           if: 'hank_grille | gate_video | deer_report',
-          text: `[if gate_video]“The camera shows you pulling up six minutes after she was hit, Hank. [else]“There’s fresh blood and hair in your grille, Hank. [/if]Nobody thinks you hit her. So why lie about the deer?”
+          text: `[if gate_video]“The camera shows you pulling up six minutes after she was hit. [else]“There’s fresh blood in your grille, Hank. [/if]Nobody thinks you hit her. So why lie about the deer?”
 
 He sits down all at once on a folding chair.
 
-“Hit it this morning. Route 9, five-thirty. A doe came up out of the ditch.” He rubs his face. “I dragged her off the road so nobody else would hit her, and I called it in. Took me half an hour with the strap to get the hood to stay down. That’s why I was late.”
-
-“And the officer?”
-
-“I got a DUI on my record. Twelve years ago. Sober eleven.” He takes a bronze coin out of his pocket, shows you, puts it away. “A guy with my record and a smashed-up truck, next to a lady lying in the road? I know how that goes. So I said last week. Stupid.”`,
+“Hit it this morning. Route 9, five-thirty. I dragged it off the road so nobody else would hit it, and I called it in. Took me half an hour with the strap to get the hood to stay down. That’s why I was late.” He rubs his face. “I got a DUI on my record. Twelve years ago. Sober eleven.” He shows you a bronze coin and puts it away. “Guy with my record, busted-up truck, lady in the road? I know how that goes. So I said last week. Stupid.”`,
           clues: ['hank_deer'],
         },
         {
           id: 'saw-shut',
           label: 'Ask what he saw on the way in',
           if: '!hank_deer',
-          text: `“Nothing. It was dark. I was late.” He says it too fast, and goes back to looking out the window.`,
+          text: `“Nothing. It was dark. I was late.” He says it too fast.`,
         },
         {
           id: 'saw-open',
@@ -440,9 +436,9 @@ He sits down all at once on a folding chair.
           if: 'hank_deer',
           text: `This time he thinks about it.
 
-“At the light. Route 9 and Harbor, where I turn. This big silver SUV comes past me going east, flying, sixty maybe. Left headlight out. I thought, there’s another guy who hit a deer.” He stops. “It went up Bluff Road. Up the hill. That would’ve been, what, 6:13. A couple minutes before I found her.”
+“At the light, Route 9 and Harbor, where I turn. Big silver SUV comes past me going east, flying. Left headlight out. I thought, there’s another guy who hit a deer.” He stops. “It went up Bluff Road. That’d be 6:13, about. A couple minutes before I found her.”
 
-He stares at you. “That was him, wasn’t it. I watched him go.”`,
+He stares at you. “That was him. I watched him go.”`,
           clues: ['hank_saw_suv'],
         },
       ],
@@ -604,3 +600,488 @@ He sends it to you. “Is that going to get me fired?”
       ],
     },
 
+    whitcomb: {
+      title: 'The Whitcomb house',
+      text: `40 Bluff Crest Drive is gray stone at the top of the bluff, with the lake laid out behind it like hammered tin. One garage bay holds a white Volvo. The other is empty and swept very clean.
+
+A small bald man in a bow tie opens the door before you ring. “Preston Voigt. I represent the family.” [if voigt_call]“As I told your lieutenant, Tyler will make a full statement at nine tomorrow. But come in.”[else]“Come in. We have nothing to hide.”[/if]
+
+Brooke Whitcomb stands at the living room window with her arms folded. Dale Whitcomb fills an armchair by the fireplace: six foot four, gray hair, reading glasses. On the stairs, a thin boy in a hoodie sits with his knees pulled up, watching you.`,
+      again: `[if family_break]Voigt lets you in without a word. Brooke is in the kitchen with the door shut, and Tyler is nowhere you can see. Dale hasn’t moved from his chair.[else]Voigt opens the door. “Detective. Again.” Nobody has moved.[/if]`,
+      choices: [
+        {
+          label: 'Ask the councilman where he was Wednesday night',
+          text: `Dale Whitcomb takes off his glasses. He has a good voice for a council chamber, deep and unhurried.
+
+“At my fundraiser at the Harbor Club. I stayed to thank some supporters and left around one. Took a cab. I was asleep by one-thirty, and the car was in the garage all night.” He glances at Voigt, who nods. “I knew nothing about any of this until Brooke woke me at nine.
+
+“My son made a terrible mistake, Detective. We’re going to help him own it.”`,
+          clues: ['dale_story'],
+        },
+        {
+          label: 'Ask Mrs. Whitcomb about the car',
+          text: `“Tyler hit a deer.” Brooke says it to the window. “On his way to Maddie’s. Maddie Cho, his girlfriend, in Kessler Park. He came home in such a state, and I didn’t want him to have to look at it. So I called Ray Castellano. He’s done my Volvo for years. He came and got it before lunch.”
+
+“The same morning.”
+
+“It was a *deer*,” she says. And then, when nobody answers: “That’s what I thought.”`,
+          clues: ['brooke_repair'],
+          set: ['maddie_known'],
+        },
+        {
+          label: 'Look in the garage',
+          cost: 0.25,
+          text: `Voigt follows you out, pleasant and watchful. The empty bay smells of floor cleaner. In the trash can by the door there’s a dustpan’s worth of sweepings: grit, a leaf, and a scatter of clear and silver plastic chips, like the ones in the gutter on Harbor Road.
+
+“Mrs. Whitcomb is a very tidy person,” Voigt says.`,
+        },
+        {
+          label: 'Ask the councilman about the after-party',
+          if: '(shay_tab | valet_log | luis_drunk | roz_saw) & dale_story & !family_break',
+          text: `“My client has told you when he left,” Voigt says, before Dale can open his mouth.
+
+[if valet_log]You set your phone on the coffee table, showing Luis Fuentes’s photo of the valet book: *OUT 5:58A · MR W (COUNCILMAN).* Dale looks at it for a long moment. Brooke doesn’t look at it at all.
+
+“A valet’s snapshot of his own handwriting,” Voigt says pleasantly.[else]Dale looks at you over his glasses. “I left at one. I’ve said so.”[/if]
+
+The councilman says nothing else. He looks at the fireplace, which isn’t lit.`,
+        },
+        {
+          label: 'Tell Mrs. Whitcomb what Ray Castellano noticed',
+          if: 'ray_seat & !family_break',
+          text: `“When Ray got into the Lexus in your garage, the seat was all the way back and the mirrors were set for someone very tall.”
+
+Brooke’s eyes go, for a second, to her husband’s long legs stretched out in front of the armchair. Then to Tyler on the stairs, five foot seven in his socks.
+
+“Tyler likes the seat back,” she says. Nobody believes it, including her.`,
+        },
+        { label: 'Talk to Tyler', if: '!family_break', go: 'tyler' },
+        {
+          label: 'Ask the councilman if he has anything to say',
+          if: 'family_break',
+          text: `Dale Whitcomb looks at you for a long time. Whatever he’s thinking, it doesn’t reach his face.
+
+“Talk to my lawyer,” he says. Voigt is already on the phone.`,
+        },
+      ],
+    },
+
+    tyler: {
+      title: 'Tyler Whitcomb',
+      text: `Tyler Whitcomb comes down off the stairs when his mother says his name. He’s seventeen and looks younger: narrow shoulders, bitten nails, a Calder Prep hoodie with the sleeves pulled over his hands. Voigt sits beside him on the couch, close enough to touch.
+
+Across the room his father watches from the armchair. Tyler doesn’t look at him once.`,
+      again: `Tyler sits on the edge of the couch with Voigt at his elbow. [if doorbell]He sees your face, and his knee starts to bounce.[/if]`,
+      choices: [
+        {
+          label: 'Ask Tyler what happened this morning',
+          text: `He has it ready. You can tell he has said it to a mirror.
+
+“I couldn’t sleep, so I took Dad’s car out of the garage, like, quarter to six. I was going to Maddie’s. On Harbor Road something — I felt it hit. I didn’t see what. I didn’t stop. I drove home and told my mom I hit a deer.” He swallows. “I’m really sorry. I’m really, really sorry.”
+
+Voigt pats his arm. “Tyler will make a full statement tomorrow.”`,
+          clues: ['tyler_story'],
+          set: ['maddie_known'],
+        },
+        {
+          label: 'Ask which way he was driving',
+          if: 'tyler_story & (struck_behind | road_marks | gate_video)',
+          text: `“West. Toward Maddie’s. Why?”
+
+“She was riding east. She was hit from behind, by a car going east.”
+
+Tyler’s mouth opens and nothing comes out. Voigt puts a hand on his knee. “He’s been awake since yesterday, Detective.”
+
+“I turned around,” Tyler says. “I must have turned around.”`,
+        },
+        {
+          label: 'Ask whether he stopped',
+          if: 'tyler_story & (road_marks | gate_video | carmen_account)',
+          text: `“No. I said. I didn’t stop.”
+
+“Whoever hit her stopped forty feet on,” you say. “Got out. Walked back and stood over her.”
+
+For the first time Tyler looks across the room at his father. It lasts less than a second.
+
+“Next question,” Voigt says.`,
+        },
+        {
+          id: 'door-only',
+          label: 'Show him the doorbell footage',
+          if: 'doorbell & tyler_story & !(valet_log | nav_log)',
+          text: `You turn your phone around: Tyler walking up the Chos’ steps at 11:02 p.m., and not coming down them until 7:41 the next morning.
+
+Tyler goes white. His knee stops.
+
+“Clocks drift,” Voigt says mildly. “We’ll have our own expert look at it.” He stands. “That’s enough for today.”`,
+        },
+        {
+          label: 'Show him the doorbell footage and the valet log',
+          if: 'doorbell & tyler_story & (valet_log | nav_log) & !family_break',
+          text: `You set them side by side on the coffee table: Tyler going up the Chos’ steps at 11:02 p.m. and down them at 7:41 a.m., and the valet book, *OUT 5:58A · MR W (COUNCILMAN)*.
+
+“You were asleep in Kessler Park when that car left the Harbor Club,” you say. “Your father drove it.”
+
+“That’s enough,” Voigt says, but Tyler is already crying the way little kids cry, with his whole face. “I was at Maddie’s. I was asleep. Mom came and got me. Mom, I *can’t* —”
+
+“Tyler, stop,” Brooke says. Then her own face goes. “He came in at twenty past six,” she says, to nobody. “He said he hit a deer. He smelled like a distillery. Then the radio said a woman on a bicycle, and I went and got Tyler, and Preston said —” She looks at Voigt. “You said seventeen and sober and no record is probation. You said Dale would go to prison.”
+
+Dale Whitcomb gets up, walks to the window and stands with his back to all of you.
+
+“This conversation is over,” Voigt says. “Dale. Not one word.”`,
+          clues: ['family_break', 'brooke_truth'],
+          go: 'board',
+        },
+        { label: 'Go back to the living room', go: 'whitcomb' },
+      ],
+    },
+
+    cho: {
+      title: 'The Cho house',
+      text: `The Chos live on Juniper Street in Kessler Park, in a brick bungalow with a porch swing and the little blue eye of a doorbell camera beside the door. Grace Cho answers with a pencil behind her ear and reading glasses pushed up into her hair. Behind her, the dining table is buried in tax binders.
+
+“Is this about Tyler?” She doesn’t wait for an answer. “Maddie didn’t go to school today. She’s been crying since noon and she won’t tell me why.” She looks at you steadily. “Come in. I’d like to know why.”
+
+On the stairs, a tall girl in a Calder State sweatshirt stops halfway down and grips the rail.`,
+      again: `Grace lets you in. [if maddie_why]Maddie is at the dining table now, next to her mother, with a box of tissues between them.[else]Maddie is on the stairs again, listening.[/if]`,
+      choices: [
+        {
+          label: 'Ask whether Tyler was here Wednesday night',
+          text: `“Yes. He came about eleven. When he stays he sleeps on the basement couch, and the door to Maddie’s room stays open. Those are the rules.” She takes the pencil from behind her ear and sets it down. “I’m not naïve, Detective. I also check.
+
+“I go running at a quarter to six. At twenty to, I went down to the basement for my shoes, which were in the laundry, and he was on the couch. Asleep, mouth open, one sock on.” A small, fond, exasperated shrug. “He was still asleep when I got back.”`,
+          clues: ['grace_check'],
+        },
+        {
+          label: 'Ask to see the doorbell camera',
+          cost: 0.5,
+          text: `She brings up the app on her laptop and scrolls back to Wednesday night. Every time the front door moves, the camera keeps a clip.
+
+> WED 11:02 PM  Front door · Tyler arrives. Gray sedan pulls away.
+> THU  5:47 AM  Front door · Grace leaves (running clothes).
+> THU  6:38 AM  Front door · Grace returns.
+> THU  7:41 AM  Front door · Tyler leaves. White Volvo SUV at curb.
+
+You watch each clip. At 7:41 Tyler gets into the passenger side of the white Volvo, and you can see his mother at the wheel. She doesn’t get out.
+
+“The back door is deadbolted from inside, and it shrieks when you open it,” Grace says. “Nobody used it.” She emails you the clips without being asked.`,
+          clues: ['doorbell'],
+        },
+        { label: 'Talk to Maddie', go: 'maddie' },
+      ],
+    },
+
+    maddie: {
+      title: 'Maddie Cho',
+      text: `Maddie Cho sits on the bottom stair with her phone in both hands. She’s seventeen and a couple of inches taller than Tyler, with her mother’s steady eyes, which are red and swollen now.
+
+“I’m not supposed to talk to you,” she says. “He said not to.”
+
+Grace sits down on the step beside her and doesn’t say anything, which seems to be exactly right.`,
+      again: `Maddie looks up from her phone. “What else?”`,
+      choices: [
+        {
+          label: 'Ask her about Wednesday night',
+          text: `“He was here.” She says it fast and fierce. “He came over at eleven because things at his house are bad, they’re always bad, and he fell asleep on the couch in the basement watching a movie. He didn’t go anywhere. He didn’t *do* anything.”
+
+She stops, hearing herself. “I mean. Whatever he says he did.”`,
+        },
+        {
+          label: 'Ask what Tyler told her today',
+          if: 'grace_check | doorbell',
+          text: `She looks at her mother. Grace takes her hand.
+
+“He called at noon. He was crying. He said his dad hit somebody with the car. A lady.” She wipes her face with the back of her wrist. “He said the lawyer said if it’s Tyler, it’s juvie. He’s seventeen, he’s got no record, he wasn’t drinking, so it’s probation. But if it’s his dad, his dad goes to prison and it’s in the paper and everything’s over.” Her voice climbs. “So they want him to say it was him. And he’s going to, because he always does what his dad wants.”
+
+She holds out her phone. A text from Tyler, 12:14 p.m.: *if anyone asks i was home last night ok. please. ill explain*`,
+          clues: ['maddie_why'],
+        },
+        { label: 'Go back to Mrs. Cho', go: 'cho' },
+      ],
+    },
+
+    castellano: {
+      title: 'Castellano Collision',
+      text: `Castellano Collision is an old brick garage on Tannery Street with a hand-painted sign and a radio playing oldies to nobody. In the second bay a silver Lexus RX sits on a lift with its face torn off: no bumper cover, a raw hole where the left headlight used to be, wires hanging like roots.
+
+Ray Castellano stands in front of it with his arms folded and an unlit cigarette in his mouth. He’s sixty-something, with forearms like hams and a gray crew cut. He looks at your badge, then back at the car.
+
+“Yeah,” he says. “I figured.”`,
+      again: `Ray is still standing in front of the Lexus. [if headlight_match]“Your lab lady called about the headlight. I’m not touching that car again till somebody tells me to.”[else]“Haven’t touched it. Not going to.”[/if]`,
+      choices: [
+        {
+          label: 'Ask Ray about the job',
+          text: `“Mrs. Whitcomb calls at quarter after ten. Left headlight, bumper cover, paint, rush, she needs it by tomorrow noon. Cash. Thirty-four hundred, and she didn’t blink.” He takes the cigarette out and looks at it. “Says her son hit a deer. Asks can I pick it up at the house, she doesn’t want to drive it. So I go up there at eleven-thirty and she’s got an envelope waiting.
+
+“Then I’m driving it down Bluff Road and the radio says a nurse on a bike, on Harbor Road.” He puts the cigarette back. “I’ve been standing here looking at this thing ever since.”`,
+          clues: ['ray_job'],
+        },
+        {
+          label: 'Ask whether a deer could have done it',
+          text: `Ray snorts. “Thirty years. You know what a deer does? Hair. In the grille, in the hood seams, in the fog lights. You’re picking it out for a week. Blood, usually.” He points with the cigarette. “Nothing. Not one hair.
+
+“What there is, is a blue scuff on the bumper cover, and this.” He picks something off his workbench and drops it in your palm: a small orange reflector, the kind that clips onto the spokes of a bicycle wheel. “That was jammed in the fog light grille.”`,
+          clues: ['no_deer'],
+        },
+        {
+          label: 'Ask how the car was when he picked it up',
+          text: `He thinks about it. “Funny you ask. I get in, in their garage, and my feet don’t reach the pedals. Seat’s racked all the way back. All the way. Mirrors pointed at the ceiling. I’m five-nine, and I had to move everything before I could back it out.”
+
+He shrugs. “Somebody big drove that car last. Not her, she’s a little thing. And not the kid I saw in the kitchen door, either. Skinny kid. Looked about fourteen.”`,
+          clues: ['ray_seat'],
+        },
+        {
+          label: 'Ask what he did with the old headlight',
+          text: `“Scrap bin. I keep the old ones for the core charge. Habit.” He walks to a steel drum by the back door and fishes it out: a Lexus headlight assembly, lens starred, housing cracked, one corner broken clean off.
+
+He hands it over without being asked. “Take it. Take the bumper too if you want. I don’t want any of it in my shop.”`,
+          clues: ['old_headlight'],
+        },
+        {
+          label: 'Look over the Lexus',
+          cost: 0.5,
+          text: `Inside, the car smells like a bar at closing time: stale scotch, cigar smoke, somebody’s expensive aftershave. There’s a Harbor Club matchbook on the passenger seat. In the cupholder, where Ray tossed it when he got in, is a laminated valet hang tag: **HARBOR CLUB VALET · 0417**.
+
+The driver’s seat is forward now, where Ray left it. There are two memory buttons on the door, marked 1 and 2.`,
+          clues: ['hang_tag'],
+        },
+      ],
+    },
+
+    warrant: {
+      title: 'ADA Gus Pellegrino',
+      text: `Assistant District Attorney Gus Pellegrino picks up on the fourth ring with his mouth full. “Sorry. Desk lunch. What have you got?”
+
+You tell him it’s the Harbor Road hit-and-run, and that it touches Councilman Dale Whitcomb.
+
+He stops chewing. “Terrific. Okay. Tell me exactly what you want, and exactly why a judge gives it to you.”`,
+      again: `Gus picks up. “You again. Tell me you’ve got more.”`,
+      choices: [
+        {
+          id: 'car-yes',
+          label: 'Ask for a warrant to seize the Lexus',
+          if: '(ray_job | bodyshop | brooke_repair) & (paint_lexus | part_rx | headlight_match) & !nav_log',
+          text: `You give it to him in order: the paint off the bike, [if headlight_match]the fragment that fits Castellano’s scrap-bin headlight edge for edge[else]the part number off the fragment[/if], and a silver RX with its left headlight smashed going into a body shop, rush and cash, five hours after the crash.
+
+“Yeah,” Gus says. “That’s a car I want too. I’ll walk it over to Judge Rosenthal myself. Have a flatbed ready.”`,
+          go: 'search',
+        },
+        {
+          id: 'car-no',
+          label: 'Ask for a warrant to seize the Lexus',
+          if: '!((ray_job | bodyshop | brooke_repair) & (paint_lexus | part_rx | headlight_match))',
+          text: `He listens to the end. “So a councilman’s wife got her car fixed. People fix their cars. What puts *that car* on Harbor Road? Bring me paint, or a part, something off the scene that says RX, and I’ll get you the car.”`,
+        },
+        {
+          label: 'Ask for a subpoena for the Harbor Club’s records',
+          if: 'club_refused',
+          text: `“Valet records and bar tabs, one night, a hit-and-run with the victim in the ICU? That’s not even a hard one.” You hear him typing. “I’ll have it served on Mr. Sutter this afternoon. Two hours, maybe less, depending how long he wants to spend calling his own lawyer.”`,
+          set: ['subpoena_sent'],
+          timer: {
+            in: 2,
+            title: 'The Harbor Club’s records',
+            text: `The Harbor Club’s records arrive by courier, with a cover letter from the club’s lawyers that is longer than the records.
+
+> VALET · WED · #0417 · LEXUS RX · SILV · CKW 4471
+> IN 7:12P · OUT 5:58A · MR W (COUNCILMAN)
+>
+> COMMODORE RM · TAB 88 · MBR 0212 WHITCOMB, D.
+> OPENED WED 23:14 · LAST ITEM THU 05:40 · $1,160.00
+
+The valet page is in a young man’s careful printing. Someone has initialed the bottom of it: *G.S.*`,
+            clues: ['valet_log', 'shay_tab'],
+          },
+        },
+      ],
+    },
+
+    search: {
+      title: 'The Lexus',
+      text: `The warrant comes through a little after the hour. A police flatbed backs down Tannery Street, and Ray Castellano lowers the lift himself and watches his rush job get chained down and hauled away.
+
+At the police garage, Dr. Rao’s technician photographs the car inch by inch and bags the valet hang tag from the cupholder. Then she plugs a laptop into a port under the dash. “These things remember everything,” she says. “Where they’ve been, when, how fast. People have no idea.”`,
+      clues: ['hang_tag'],
+      choices: [
+        {
+          label: 'Go through the car’s trip log',
+          cost: 1,
+          once: true,
+          text: `It takes an hour to pull and read. What it says takes a minute.
+
+> 19:12 WED  Ignition off · 1 Marina Dr (Harbor Club lot)
+> 05:57 THU  Ignition on  · 1 Marina Dr
+> 06:03 THU  Departs 1 Marina Dr
+> 06:10 THU  Hard braking, 41 mph to 0 · Harbor Rd at Calder Grain
+> 06:10 THU  Stationary 0:48 · driver door opened, closed
+> 06:21 THU  Ignition off · 40 Bluff Crest Dr
+> No other ignition events, 19:12 Wed – 05:57 Thu.
+
+The car never went home at one in the morning. It never left the garage at a quarter to six. It sat at the Harbor Club all night, and just after six it left.`,
+          clues: ['nav_log'],
+          go: 'board',
+        },
+      ],
+    },
+  },
+
+  events: [
+    {
+      at: 1,
+      title: 'The tip line',
+      text: `The desk sergeant forwards a message from the tip line. A delivery driver for Sorrento Bakery, Roz Petrakis, heard about Harbor Road on the radio. She was on Harbor Road just after six this morning and saw “a big silver SUV driving like a lunatic.” She’s at the bakery on Canal Street until three.`,
+      set: ['roz_tip'],
+    },
+    {
+      at: 5.5,
+      if: '!family_break',
+      title: 'A call from Preston Voigt',
+      text: `Lieutenant Okafor forwards a voicemail with a one-line note: *Convenient. Check it.*
+
+The voice is soft and precise. “Lieutenant, this is Preston Voigt. I represent the Whitcomb family. I’m calling to tell you that Tyler Whitcomb, who is seventeen, was driving his father’s Lexus on Harbor Road early this morning and was involved in the accident there. He is a frightened boy with no record of any kind, and I want to be very clear that there was no alcohol involved. He will come in with me tomorrow at nine to make a full statement.”`,
+      clues: ['voigt_call'],
+    },
+    {
+      at: 8,
+      if: '!family_break',
+      title: 'Channel 6',
+      text: `The five o’clock news leads with it. Someone has leaked the name. Over footage of the Whitcombs’ front gate, the anchor reads a statement from the councilman’s office:
+
+“Our son Tyler has made a terrible mistake, and he is ready to take responsibility for it. Our hearts are with Ms. Ibáñez and her family. We ask for privacy as we support our son.”
+
+Dale Whitcomb doesn’t appear. The station runs a file photo of him instead, cutting a ribbon, a head taller than everyone around him.`,
+      set: ['news_tyler'],
+    },
+    {
+      at: 11.25,
+      title: 'Mercy General',
+      text: `Wendell Ames calls your cell at a quarter past eight. He sounds as if he has been crying and is embarrassed about it.
+
+“They lightened her sedation at six. She’s awake. She knows her name, she knows where she is, and she asked who was covering her patients.” He laughs, wetly. “The attending says you can have five minutes this morning if you come now. She wants to talk to you.”`,
+      set: ['carmen_awake'],
+    },
+    {
+      at: 12,
+      if: '!family_break',
+      title: 'Tyler’s statement',
+      text: `At nine, in Interview Room 2 on Garland Street, with Preston Voigt at his side, Tyler Whitcomb signs a statement. A copy lands on your desk:
+
+> At approximately 5:45 a.m. I took my father’s Lexus from our garage
+> to drive to my girlfriend Maddie Cho’s house in Kessler Park. On Harbor
+> Road I hit something. I stopped and got out and saw that it was a
+> person on a bicycle. I panicked. I got back in the car and drove home.
+> Nobody else was involved.
+
+[if tyler_story]Yesterday Tyler told you he never stopped. Overnight, somebody has told him that the driver did.[else]It’s short and tidy, and it reads as if a lawyer wrote it.[/if]`,
+      clues: ['confession'],
+      set: ['maddie_known'],
+    },
+    {
+      at: 12,
+      if: 'family_break & voigt_call',
+      title: 'A call from Preston Voigt',
+      text: `At nine, Preston Voigt calls Lieutenant Okafor to say that Tyler Whitcomb will not be making a statement after all. Councilman Whitcomb, he adds, has retained separate counsel. Okafor passes this on to you without comment, which is its own comment.`,
+    },
+  ],
+
+  report: [
+    {
+      id: 'who',
+      q: 'Who was driving the Lexus when it hit Carmen Ibáñez?',
+      options: {
+        dale: 'Councilman Dale Whitcomb',
+        tyler: 'Tyler Whitcomb, his son',
+        brooke: 'Brooke Whitcomb, his wife',
+        hank: 'Hank Dorsey, the elevator worker',
+        guest: 'Another guest from the Harbor Club',
+      },
+      answer: 'dale',
+      points: 40,
+      why: 'The valet book puts the Lexus in Dale Whitcomb’s hands at the Harbor Club at 5:58 a.m., drunk, twelve minutes before the crash. Tyler was asleep in Kessler Park on the Chos’ doorbell camera, and everything known about the driver, from the gate camera to Ray’s racked-back seat to Carmen’s own memory, describes a tall, gray-haired man.',
+    },
+    {
+      id: 'from',
+      q: 'Where was the driver coming from?',
+      options: {
+        club: 'The after-party at the Harbor Club',
+        home: 'The Whitcombs’ garage in Bluffside',
+        cho: 'The Cho house in Kessler Park',
+        route9: 'Route 9, east of the harbor',
+      },
+      answer: 'club',
+      points: 15,
+      why: 'The Lexus spent the night at the Harbor Club: out to “Mr. W” at 5:58 in the valet book, swerving out of the valet circle at 6:03 in front of Roz Petrakis, and on its own trip log. It was heading east, toward Bluffside, when it hit her.',
+    },
+    {
+      id: 'repair',
+      q: 'Who sent the Lexus to the body shop?',
+      options: {
+        brooke: 'Brooke Whitcomb',
+        dale: 'Dale Whitcomb',
+        tyler: 'Tyler Whitcomb',
+        voigt: 'Preston Voigt',
+      },
+      answer: 'brooke',
+      points: 15,
+      why: 'Brooke called Ray Castellano at 10:15 Thursday for a rush cash job, told him her son had hit a deer, and had him collect the car from her garage.',
+    },
+    {
+      id: 'proof',
+      q: 'What proves Tyler’s confession is false?',
+      options: {
+        doorbell: 'The Chos’ doorbell camera',
+        maddie: 'Maddie Cho says he was with her all night',
+        text: 'His text asking Maddie to say he was home',
+        deer: 'There was no deer hair on the car',
+      },
+      answer: 'doorbell',
+      points: 15,
+      why: 'Maddie’s word is a girlfriend’s word, and the text only shows he was asked to lie. The doorbell camera is a record: Tyler went into the Chos’ house at 11:02 p.m. and didn’t come out until his mother picked him up at 7:41 a.m., an hour and a half after the crash.',
+    },
+    {
+      id: 'why',
+      q: 'Why did the family put Tyler forward?',
+      options: {
+        juvenile: 'A sober seventeen-year-old with no record would get probation. The councilman had been drinking all night.',
+        loyal: 'Tyler insisted on taking the blame himself',
+        insurance: 'Tyler was the only one insured to drive the Lexus',
+        club: 'To keep the Harbor Club out of the papers',
+      },
+      answer: 'juvenile',
+      points: 15,
+      why: 'Voigt said it himself: seventeen, no record, no alcohol. Dale had been drinking scotch until 5:40 a.m., and as the driver he faced prison and the end of his career. Tyler told Maddie the plan at noon.',
+    },
+  ],
+
+  outcomes: {
+    dale: `Dale Whitcomb was charged with leaving the scene of a crash causing serious injury. Without a blood test nobody could prove how drunk he was when he hit her, but the valet book, Luis Fuentes’s photograph and the Lexus’s own trip log proved he left her in the road. He never said a word to police. He resigned from the council in March and pleaded guilty in May. Brooke was charged with tampering with evidence and got probation. Tyler wasn’t charged with anything.
+
+Carmen Ibáñez went back to Mercy General the next fall, on day shift, with a cane she hates. She drives to work now. Her sister says she bought the house with the porch.`,
+    tyler: `You named Tyler Whitcomb, which was what his family wanted, and it went the way Preston Voigt said it would: juvenile court, a plea, two years’ probation and a suspended license for a boy who had been asleep on a couch in Kessler Park. Dale Whitcomb won reelection in November by four points. Carmen Ibáñez told anyone who would listen that the man who stood over her in the road had gray hair. Nobody asked Maddie Cho, and she stopped answering Tyler’s calls in the spring.`,
+    brooke: `You named Brooke Whitcomb. She paid for the repair, but her phone put her in bed in Bluffside all night, and the charge was dropped within a week. Tyler signed his statement as planned, and the case closed around a seventeen-year-old who had never been on Harbor Road that morning.`,
+    hank: `You named Hank Dorsey. Within days the lab had matched the hair in his grille to a deer, animal control had his 5:35 call about it, and the elevator’s own camera showed him arriving six minutes after the crash to kneel in the road beside her. The charge was dropped. Calder Grain let him go anyway, the week his name was in the paper. Tyler Whitcomb’s statement stood, and the councilman went back to work.`,
+    guest: `You named a guest from the Harbor Club you couldn’t name. The valet book shows one car leaving at 5:58, with one man in it. Lieutenant Okafor sent the report back, and by the time you had rewritten it, Tyler Whitcomb’s signed statement was the only account on file.`,
+    default: `Lieutenant Okafor read your report twice and sent it back. By the time you had rewritten it, Tyler Whitcomb’s signed statement was the only account on file.`,
+  },
+
+  solution: {
+    text: `Dale Whitcomb spent Wednesday evening at his own reelection fundraiser at the Harbor Club, and the rest of the night in the Commodore Room drinking eighteen-year-old scotch on his own tab. Shay Brennan poured the last of it at 5:40. At 5:58, over the bartender’s warning and the valet’s offer of a cab, Luis Fuentes brought him his silver Lexus RX. He pulled out of the valet circle at 6:03, across both lanes in front of Roz Petrakis’s bakery van, and drove east on Harbor Road toward home.
+
+At 6:10, by the Calder Grain gate, he drove into the back of Carmen Ibáñez’s bicycle. She was riding home from her shift at Mercy General with her rear light flashing. He stopped forty feet on, got out, walked back and stood over her for half a minute. Then he got back in and drove up Bluff Road with his left headlight out, past Hank Dorsey at the Route 9 light, and was home at 6:21.
+
+He told Brooke he had hit a deer. When the radio said otherwise, Brooke picked Tyler up from Maddie Cho’s house at 7:41, called Preston Voigt, and called Ray Castellano for a rush cash repair. Voigt’s plan was simple: a sober seventeen-year-old with no record gets probation, and a councilman who drank until dawn goes to prison. So Tyler would say he took the car from the garage at 5:45.
+
+Two records break it. The Harbor Club’s valet book has the car leaving the club at 5:58, not the garage at 5:45, and the Chos’ doorbell camera has Tyler inside their house from 11:02 p.m. to 7:41 a.m. Everything else agrees. No cab took Dale home at one. The gate camera, Ray’s racked-back seat and Carmen herself all describe a tall, gray-haired man. The Lexus’s trip log never moved from the Harbor Club lot until 5:57.
+
+Hank Dorsey lied to patrol about his truck because he had a DUI twelve years ago and a smashed front end at a hit-and-run. He had hit a deer on Route 9 at 5:30 and called it in at 5:35, and it made him late for work. He was the one who found Carmen, and he held her hand until the ambulance came.`,
+    chain: ['roz_saw', 'shay_tab', 'valet_log', 'luis_drunk', 'dale_story', 'brooke_repair', 'tyler_story', 'doorbell', 'maddie_why', 'family_break'],
+    walk: [
+      '@scene', 'Ask Officer Salazar',
+      '@roz', 'Ask her what she saw',
+      '@club', 'Talk to the bartender', 'Ask about the after-party', 'Ask about the valet',
+      '@luis', 'Ask about the councilman', 'Ask to see the valet book',
+      '@whitcomb', 'Ask the councilman where', 'Ask Mrs. Whitcomb', 'Talk to Tyler', 'Ask Tyler what happened',
+      '@cho', 'Ask to see the doorbell', 'Talk to Maddie', 'Ask what Tyler told her',
+      '@whitcomb', 'Talk to Tyler', 'Show him the doorbell footage and',
+    ],
+  },
+};

@@ -8,7 +8,8 @@ const SHELL = [
   'fonts/source-serif-4.woff2', 'fonts/source-serif-4-italic.woff2', 'fonts/courier-prime.woff2',
   'fonts/courier-prime-bold.woff2', 'fonts/special-elite.woff2',
   'js/app.js', 'js/engine.js', 'js/text.js', 'js/store.js', 'js/cases/index.js',
-  'js/cases/night-deposit.js',
+  'js/cases/night-deposit.js', 'js/cases/shared-wall.js', 'js/cases/harbor-road.js',
+  'js/cases/power-of-attorney.js', 'js/cases/the-heron.js', 'js/cases/low-water.js',
 ];
 
 self.addEventListener('install', e => {
