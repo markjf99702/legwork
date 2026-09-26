@@ -10,6 +10,19 @@ test('case ids and numbers are unique', () => {
   assert.deepEqual(CASES.map(c => c.n), CASES.map((_, i) => i + 1));
 });
 
+test('no two cases share a character’s first or last name', () => {
+  const owner = new Map();
+  for (const def of CASES) {
+    for (const p of Object.values(def.people)) {
+      for (const part of p.name.replace(/^(Dr\.|Officer|Special Agent|ADA|Lt\.) /, '').split(/\s+/)) {
+        const was = owner.get(part);
+        assert.ok(!was || was === def.id, `"${part}" is in both ${was} and ${def.id}`);
+        owner.set(part, def.id);
+      }
+    }
+  }
+});
+
 for (const def of CASES) {
   test(`${def.id}: passes the case checker`, () => {
     assert.deepEqual(checkCase(def), []);

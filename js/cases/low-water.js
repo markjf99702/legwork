@@ -619,7 +619,7 @@ He looks at the floor. “Hollis Crane’s been after me to run his second boat.
       choices: [
         {
           label: 'Ask about Thursday night',
-          text: `“We left the Anchor at nine. Got a pepperoni from Sal’s on the way. It’s still in the fridge, if you want to count the slices.” She crosses her arms. “He fell asleep on the couch around eleven with his boots on. I went to bed. At six, when my alarm went off, he was still there, snoring.”
+          text: `“We left the Anchor at nine. Got a pepperoni from Nico’s on the way. It’s still in the fridge, if you want to count the slices.” She crosses her arms. “He fell asleep on the couch around eleven with his boots on. I went to bed. At six, when my alarm went off, he was still there, snoring.”
 
 “Could he have left and come back?”
 

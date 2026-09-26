@@ -43,7 +43,7 @@ Then list it in `js/cases/index.js` and run `npm test`.
 - **ADA Gus Pellegrino**: the assistant district attorney who takes warrant calls. Practical. He wants probable cause, not a feeling.
 - **Dr. Samuel Achebe**: medical examiner. Gentle with families and blunt with detectives.
 
-Names already used (don’t reuse): Irene, Martin, Danny, Tasha, Vince, Lorraine, Gil, Carl, Judge Amundsen, Kowalczyk, Ruiz, Greene, Amato, Tate, Brody.
+Every character outside the regulars gets a first and last name that no other case uses, minor characters in the text included, so nobody wonders whether the Wendell at Mercy General in one case is the Wendell in another. `npm test` checks the `people` lists; for everyone else, search `js/cases/` before you name them.
 
 ## Style
 

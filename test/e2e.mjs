@@ -79,6 +79,7 @@ try {
     await page.waitForSelector('dialog[open]');
     await page.fill('dialog input', 'kerr');
     await page.click('dialog button');
+    await page.waitForSelector('dialog', { state: 'detached' }); // the name is saved when it closes
     assert.match(await text('.who'), /Detective Kerr/);
     assert.equal(await page.locator('.folder').count(), CASES.length);
   });

@@ -119,7 +119,7 @@ export default {
     catering: { title: 'Santoro Catering', where: 'Foundry St · The Flats', kind: 'place', cost: 1, again: 0.5, if: '@gallery | @walt | @security' },
     cole: { title: 'Cole Brandt', where: '1526 Carver Ave · Northgate', kind: 'person', cost: 1, again: 0.5, if: 'cole_missing | cole_contact', until: 'canvas_found', closed: 'In custody' },
     interview: { title: 'Cole Brandt, in custody', where: 'Interview Room 2 · Garland St', kind: 'person', cost: 0.5, if: 'canvas_found', scene: 'cole_room' },
-    greta: { title: 'Greta Lindqvist', where: 'Lake Crest Road · Bluffside', kind: 'person', cost: 1, again: 0.5, if: 'greta_named | @erik' },
+    greta: { title: 'Greta Lindqvist', where: 'Lake Ridge Road · Bluffside', kind: 'person', cost: 1, again: 0.5, if: 'greta_named | @erik' },
     erik: { title: 'Erik Lindqvist', where: 'A loft on Mill St · The Flats', kind: 'person', cost: 1, again: 0.5, if: 'erik_argument' },
     lena: { title: 'Lena Moss', where: 'Photographer · by phone', kind: 'phone', cost: 0.5, if: 'sign_out_log | imogen_photo_story', once: true, onceNote: 'Called' },
     mina: { title: 'Mina Varga', where: 'Her studio · Kessler Park', kind: 'person', cost: 1, again: 0.5, if: 'mina_named' },
@@ -919,7 +919,7 @@ But he keeps looking at the canvas on the table, the way a kid looks at a lotter
 
     greta: {
       title: 'Greta Lindqvist',
-      text: `Greta Lindqvist lives on Lake Crest Road in Bluffside, in a gray shingled house that leans a little toward the lake. She is seventy-eight and small, in a heavy cardigan with a dragonfly brooch, and she has coffee waiting in a silver pot before you’ve taken off your coat.
+      text: `Greta Lindqvist lives on Lake Ridge Road in Bluffside, in a gray shingled house that leans a little toward the lake. She is seventy-eight and small, in a heavy cardigan with a dragonfly brooch, and she has coffee waiting in a silver pot before you’ve taken off your coat.
 
 The living room is full of paintings, none of them famous. Over the fireplace there is a pale rectangle on the wallpaper where something hung for forty years.
 
