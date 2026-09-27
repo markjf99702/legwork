@@ -106,6 +106,11 @@ function home() {
       </ul>
     </details>
     <p class="footnote">Your cases are saved in this browser. Nothing is sent anywhere.</p>
+    <footer class="jd-foot">
+      <a href="https://junkdrawer.works/">Part of junkdrawer.works</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://junkdrawer.works/privacy.html">Privacy</a>
+    </footer>
   </div>`;
   app.querySelector('#rename').onclick = askName;
 }
