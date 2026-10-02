@@ -2,9 +2,9 @@
 // Your progress lives in localStorage, not here.
 // Network first, so a new version shows up as soon as you're online.
 
-const CACHE = 'legwork-v1';
+const CACHE = 'legwork-v2';
 const SHELL = [
-  './', 'index.html', 'css/app.css', 'icon.svg', 'manifest.webmanifest',
+  './', 'index.html', 'carry.js', 'css/app.css', 'icon.svg', 'manifest.webmanifest',
   'fonts/source-serif-4.woff2', 'fonts/source-serif-4-italic.woff2', 'fonts/courier-prime.woff2',
   'fonts/courier-prime-bold.woff2', 'fonts/special-elite.woff2',
   'js/app.js', 'js/engine.js', 'js/text.js', 'js/store.js', 'js/cases/index.js',

@@ -1,6 +1,6 @@
 # Legwork
 
-**Play it: [junkdrawer.works/legwork](https://junkdrawer.works/legwork/)**
+**Play it: [legwork.junkdrawer.works](https://legwork.junkdrawer.works/)**
 
 **A detective casebook.** Six crimes in Port Calder, a Great Lakes city of grain elevators and old money. Only one of them is a murder. Every lead costs hours you don’t have, what you learn opens the next door, and somebody’s story doesn’t match the record. When you can prove it, or when the clock runs out, you file your report.
 
