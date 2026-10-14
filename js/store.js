@@ -1,7 +1,7 @@
 // Saves live in localStorage under one key: your name, and for each case the game in progress and
 // your best filed report. Nothing leaves the browser.
 
-const KEY = 'legwork.v1';
+export const KEY = 'legwork.v1';
 
 function blank() {
   return { name: '', cases: {} };

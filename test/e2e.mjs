@@ -107,6 +107,23 @@ try {
     await page.click('#leave');
   });
 
+  await step('two tabs keep each other’s progress', async () => {
+    const two = await browser.newContext(PHONE);
+    await two.addInitScript(() => { if (!localStorage.getItem('legwork.v1')) localStorage.setItem('legwork.v1', JSON.stringify({ name: 'Kerr', cases: {} })); });
+    try {
+      const a = await two.newPage(), b = await two.newPage();
+      for (const p of [a, b]) p.on('pageerror', e => errors.push(e.message));
+      await a.goto(base); await b.goto(base);
+      await b.click(`a[href="#/case/${CASES[1].id}"]`);
+      await b.click('#take');
+      await a.locator('.folder').nth(1).locator('.status.open').waitFor({ timeout: 2000 }); // without a reload
+      await a.click(`a[href="#/case/${CASES[0].id}"]`);
+      await a.click('#take');
+      const cases = await b.evaluate(() => JSON.parse(localStorage.getItem('legwork.v1')).cases);
+      assert.ok(cases[CASES[0].id]?.st && cases[CASES[1].id]?.st, 'both cases are still saved');
+    } finally { await two.close(); }
+  });
+
   await step('a wrong report says so, and the case can be played again', async () => {
     await fileReport(first, q => Object.keys(q.options).find(k => ![].concat(q.answer).includes(k)));
     assert.match(await text('.stamp'), /Wrong suspect/);

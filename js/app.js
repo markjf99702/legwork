@@ -4,7 +4,7 @@
 import { CASES, byId } from './cases/index.js';
 import * as E from './engine.js';
 import { toHTML, toPlain } from './text.js';
-import { load, save, better } from './store.js';
+import { load, save, better, KEY } from './store.js';
 
 const app = document.getElementById('app');
 const barCase = document.getElementById('barCase');
@@ -36,6 +36,12 @@ function toast(msg) {
 // ---------- Router ----------
 
 window.addEventListener('hashchange', route);
+// Another tab, or the installed app, saved: take its save before this one writes over it.
+window.addEventListener('storage', e => {
+  if (e.key !== KEY && e.key !== null) return;
+  data = load();
+  route();
+});
 route();
 if (!data.name) askName();
 
