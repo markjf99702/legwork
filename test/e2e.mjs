@@ -39,7 +39,9 @@ page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
 
 const text = async sel => (await page.locator(sel).first().textContent()).replace(/\s+/g, ' ').trim();
 const step = (name, fn) => fn().then(() => console.log('ok  ', name), e => { console.log('FAIL', name); throw e; });
-const settle = () => page.waitForTimeout(60);
+// The page ignores taps for a moment after it changes (so a double tap can't land on what just
+// appeared), so wait that long after each tap that changes it.
+const settle = (p = page) => p.waitForTimeout(500);
 // Nothing scrolls sideways. A phone widens the page to fit anything wider than the screen, so check
 // the page's width as well as the viewport's.
 const fits = async (where, p = page) => assert.deepEqual(await p.evaluate(() => [document.documentElement.scrollWidth, innerWidth]), [390, 390], `${where} scrolls sideways on a phone`);
@@ -84,6 +86,7 @@ try {
     await page.fill('dialog input', 'kerr');
     await page.click('dialog button');
     await page.waitForSelector('dialog', { state: 'detached' }); // the name is saved when it closes
+    await settle();
     assert.match(await text('.who'), /Detective Kerr/);
     assert.equal(await page.locator('.folder').count(), CASES.length);
   });
@@ -91,20 +94,46 @@ try {
   const first = CASES[0];
   await step('the briefing uses your name and takes the case', async () => {
     await page.click('.folder a');
+    await settle();
     assert.match(await text('.briefing'), /Detective Kerr/);
     await page.click('#take');
+    await settle();
     assert.match(await text('.clock'), /8 h left/);
   });
 
   await step('a scene survives a reload', async () => {
     await page.click(`[data-lead="market"]`);
+    await settle();
     await page.locator('.choice', { hasText: 'Ask Irene what she found' }).click();
     const before = await page.locator('.transcript > *').count();
     await page.reload();
     await page.waitForSelector('.transcript');
     assert.equal(await page.locator('.transcript > *').count(), before);
     assert.match(await text('.bar-case'), /7½ h left/);
+    await settle();
     await page.click('#leave');
+    await settle();
+  });
+
+  await step('a double tap does one thing, not two', async () => {
+    // Taps, then taps again 120 ms later on what the first tap brought up, as a double tap does.
+    const doubleTap = async (one, two) => {
+      await page.evaluate(([a, b]) => new Promise(done => {
+        document.querySelector(a).click();
+        setTimeout(() => { document.querySelector(b)?.click(); done(); }, 120);
+      }), [one, two]);
+      await settle();
+    };
+    const st = async () => (await page.evaluate(() => JSON.parse(localStorage.getItem('legwork.v1')))).cases[first.id].st;
+    const choice = '.choice[data-key]:not([disabled])';
+    await doubleTap('[data-lead="amato"]', choice);
+    assert.equal((await st()).scene.lines.filter(l => l.kind === 'you').length, 0, 'opening a lead asked nothing');
+    await doubleTap(choice, choice);
+    assert.equal((await st()).scene.lines.filter(l => l.kind === 'you').length, 1, 'one question, not two');
+    const visits = (await st()).log.length;
+    await doubleTap('#leave', '[data-lead]:not([disabled])');
+    assert.equal((await st()).scene, null, 'back on the board');
+    assert.equal((await st()).log.length, visits, 'no visit started');
   });
 
   await step('two tabs keep each other’s progress', async () => {
@@ -113,12 +142,16 @@ try {
     try {
       const a = await two.newPage(), b = await two.newPage();
       for (const p of [a, b]) p.on('pageerror', e => errors.push(e.message));
-      await a.goto(base); await b.goto(base);
+      await a.goto(base); await b.goto(base); await settle(b);
       await b.click(`a[href="#/case/${CASES[1].id}"]`);
+      await settle(b);
       await b.click('#take');
       await a.locator('.folder').nth(1).locator('.status.open').waitFor({ timeout: 2000 }); // without a reload
+      await settle(a);
       await a.click(`a[href="#/case/${CASES[0].id}"]`);
+      await settle(a);
       await a.click('#take');
+      await settle(a);
       const cases = await b.evaluate(() => JSON.parse(localStorage.getItem('legwork.v1')).cases);
       assert.ok(cases[CASES[0].id]?.st && cases[CASES[1].id]?.st, 'both cases are still saved');
     } finally { await two.close(); }
@@ -130,7 +163,9 @@ try {
     await page.waitForTimeout(600); // the stamp has landed
     await fits('the result');
     await page.click('#again');
+    await settle();
     await page.click('#take');
+    await settle();
   });
 
   for (const def of CASES) {
@@ -144,9 +179,11 @@ try {
       await settle();
       const titles = await page.locator('.card h3').allTextContents();
       for (const id of def.solution.chain) assert.ok(titles.includes(def.clues[id].title), `notebook has "${def.clues[id].title}"`);
-      await page.click('.tabs a[href$="timeline"]');
-      await page.click('.tabs a[href$="people"]');
-      await page.click('.tabs a[href$="log"]');
+      for (const tab of ['timeline', 'people', 'log']) {
+        await page.click(`.tabs a[href$="${tab}"]`);
+        await settle();
+        assert.equal(await page.locator('.tabs a[aria-current="page"]').getAttribute('href'), `#/case/${def.id}/notes/${tab}`);
+      }
       await fileReport(def, q => [].concat(q.answer)[0]);
       assert.match(await text('.stamp'), /Case closed/);
       assert.equal((await text('.verdict .stars')), '★★★');

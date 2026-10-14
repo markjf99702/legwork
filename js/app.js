@@ -35,6 +35,16 @@ function toast(msg) {
 
 // ---------- Router ----------
 
+// A tap lands on whatever is under the finger when it arrives. For a moment after the page changes,
+// taps are ignored, so the second tap of a double tap can't pick something that just appeared there
+// (a lead behind "Back to the board", the next question in a scene).
+const STEADY = 350; // ms
+let changedAt = 0;
+const changed = () => { changedAt = performance.now(); };
+app.addEventListener('click', e => {
+  if (performance.now() - changedAt < STEADY) { e.preventDefault(); e.stopPropagation(); }
+}, true);
+
 window.addEventListener('hashchange', route);
 // Another tab, or the installed app, saved: take its save before this one writes over it.
 window.addEventListener('storage', e => {
@@ -61,6 +71,7 @@ function route() {
     ({ briefing, board, scene, notes, report, result }[page] || board)(def, st, arg);
     bar(def, caseState(def));
   }
+  changed();
   if (was !== location.hash) { window.scrollTo(0, 0); app.focus({ preventScroll: true }); }
 }
 
@@ -312,6 +323,7 @@ function scene(def, st, _arg, seen = null) {
       <button class="choice leave" id="leave"><span>${st.scene.ended || !cs.length ? 'Back to the board' : 'Leave · back to the board'}</span><span aria-hidden="true">→</span></button>
     </div>
   </div>`;
+  changed();
   if (seen !== null) {
     const el = app.querySelector(`.transcript [data-i="${firstNew}"]`);
     if (el) el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });

@@ -22,7 +22,8 @@ const server = createServer(async (req, res) => {
 }).listen(0);
 const base = `http://localhost:${server.address().port}/`;
 const browser = await pw.chromium.launch();
-const pause = p => p.waitForTimeout(80);
+// The page ignores taps for a moment after it changes (so a double tap can't land on what just appeared).
+const pause = p => p.waitForTimeout(500);
 
 async function play(page, walk) {
   for (const s of walk) {
@@ -46,6 +47,7 @@ async function start(ctx, id) {
   const page = await ctx.newPage();
   await page.addInitScript(() => { if (!localStorage.getItem('legwork.v1')) localStorage.setItem('legwork.v1', JSON.stringify({ name: 'Kerr', cases: {} })); });
   await page.goto(base + `#/case/${id}`);
+  await pause(page);
   await page.click('#take');
   await pause(page);
   return page;
@@ -70,6 +72,7 @@ const walk = def.solution.walk;
   await shot(page, 'phone-board.png');
 
   await page.click('[data-lead="market"]');
+  await pause(page);
   await play(page, ['Tell Irene what the alarm', 'Talk to Danny', 'Show him the alarm log']);
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
   await shot(page, 'phone-scene.png');
@@ -79,6 +82,7 @@ const walk = def.solution.walk;
   await shot(page, 'phone-timeline.png');
 
   await page.goto(base + `#/case/${def.id}/report`);
+  await pause(page);
   for (const q of def.report) await page.check(`input[name="${q.id}"][value="${[].concat(q.answer)[0]}"]`);
   await page.click('#file');
   await page.click('#file');
