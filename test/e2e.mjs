@@ -180,6 +180,17 @@ try {
       await settle(a);
       const cases = await b.evaluate(() => JSON.parse(localStorage.getItem('legwork.v1')).cases);
       assert.ok(cases[CASES[0].id]?.st && cases[CASES[1].id]?.st, 'both cases are still saved');
+      // A tab in the background on the same board doesn't take the new leads' NEW tags away.
+      const c = await two.newPage();
+      c.on('pageerror', e => errors.push(e.message));
+      await c.addInitScript(() => Object.defineProperty(Document.prototype, 'hidden', { get: () => true }));
+      await c.goto(base + `#/case/${first.id}/board`);
+      await settle(c);
+      await a.click('[data-lead="market"]');
+      await settle(a);
+      await a.click('#leave');
+      await settle(a);
+      assert.equal(await a.locator('[data-lead="amato"] .tag.new').count(), 1, 'Amato’s Pizza is marked NEW');
     } finally { await two.close(); }
   });
 

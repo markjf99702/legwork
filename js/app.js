@@ -46,11 +46,17 @@ app.addEventListener('click', e => {
 }, true);
 
 window.addEventListener('hashchange', route);
-// Another tab, or the installed app, saved: take its save before this one writes over it.
+// Another tab, or the installed app, saved: take its save before this one writes over it. A tab that
+// isn't showing waits until it is to redraw, or its board would mark the other tab's new leads as seen.
+let stale = false;
 window.addEventListener('storage', e => {
   if (e.key !== KEY && e.key !== null) return;
   data = load();
-  route();
+  if (document.hidden) stale = true;
+  else route();
+});
+document.addEventListener('visibilitychange', () => {
+  if (stale && !document.hidden) { stale = false; route(); }
 });
 route();
 if (!data.name) askName();
