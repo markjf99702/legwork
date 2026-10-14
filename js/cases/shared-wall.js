@@ -944,7 +944,7 @@ He saved the things he couldn’t replace. You stand there with that for a momen
     },
     {
       id: 'can',
-      q: 'What ties Gary to the gas can?',
+      q: 'What ties the arsonist to the gas can?',
       options: {
         ledger: 'Marie Delacroix’s house-account book',
         sticker: 'The Delacroix price sticker on the can',
@@ -957,12 +957,12 @@ He saved the things he couldn’t replace. You stand there with that for a momen
     },
     {
       id: 'before',
-      q: 'What did Gary take out of the laundromat before the fire?',
+      q: 'What was taken out of the laundromat before the fire?',
       options: {
-        washers: 'His four newest washers',
+        washers: 'The four newest washers',
         cash: 'The cash from the coin boxes',
-        records: 'His books and records',
-        nothing: 'Nothing. He lost everything.',
+        records: 'The books and records',
+        nothing: 'Nothing. Everything was still inside.',
       },
       answer: 'washers',
       points: 15,

@@ -881,11 +881,11 @@ Paper rustles. “Kevin swears Harold signed the power of attorney ‘in my pres
       id: 'why',
       q: 'Why did Harold go into hiding?',
       options: {
-        maple: 'Kevin threatened to have him committed to memory care',
+        maple: 'He was about to be put in memory care against his will',
         confused: 'He was confused and wandered off',
         rosa: 'Rosa talked him into it to get at his money',
         debts: 'He was hiding from debts of his own',
-        hurt: 'Kevin threatened to hurt him',
+        hurt: 'Someone had threatened to hurt him',
       },
       answer: 'maple',
       points: 15,

@@ -476,12 +476,12 @@ Danny sits at his kitchen table the whole time and doesn’t say anything. When 
     },
     {
       id: 'proof',
-      q: 'What shows Danny never put the bag in the safe?',
+      q: 'What shows the bag never went back into the safe?',
       options: {
         alarm: 'The alarm was never turned off between 10:08 p.m. and Irene’s arrival',
         float: 'The thief left the $800 float behind',
         force: 'The safe had been forced',
-        tasha: 'Tasha says she saw him do it',
+        tasha: 'Tasha says she saw it go back in',
       },
       answer: 'alarm',
       points: 20,

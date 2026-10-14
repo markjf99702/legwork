@@ -40,6 +40,17 @@ test('the report form doesn’t give its answers away by their order', () => {
   }
 });
 
+// The first question names the suspects. A later question that names the culprit answers it for you.
+test('no later report question names the culprit', () => {
+  for (const def of CASES) {
+    const who = def.report[0];
+    const names = who.options[[].concat(who.answer)[0]].split(',')[0].replace(/^(Councilman|Dr\.|Officer) /, '').split(/\s+/);
+    for (const q of def.report.slice(1)) {
+      for (const n of names) assert.doesNotMatch(q.q, new RegExp(`\\b${n}\\b`), `${def.id}: “${q.q}” names the culprit`);
+    }
+  }
+});
+
 for (const def of CASES) {
   test(`${def.id}: passes the case checker`, () => {
     assert.deepEqual(checkCase(def), []);
