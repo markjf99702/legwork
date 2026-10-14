@@ -136,6 +136,7 @@ try {
   await page.goto(base);
   await step('first visit asks for a name', async () => {
     await page.waitForSelector('dialog[open]');
+    assert.equal(await page.getByRole('dialog', { name: 'What’s your name, Detective?' }).count(), 1, 'the dialog has a name');
     await page.fill('dialog input', 'kerr');
     await page.click('dialog button');
     await page.waitForSelector('dialog', { state: 'detached' }); // the name is saved when it closes
@@ -166,6 +167,13 @@ try {
     await settle();
     await page.click('#leave');
     await settle();
+  });
+
+  await step('a screen reader hears what the board shows', async () => {
+    // On a phone the notebook button is just a pencil and a count.
+    assert.equal(await page.getByRole('link', { name: /^Notebook, \d+ new$/ }).count(), 1, 'the notebook button says what it is');
+    assert.match(await page.locator('[data-lead="market"]').getAttribute('aria-label'), /^Kowalczyk’s Market\. Visited\. Place\./);
+    assert.match(await page.locator('[data-lead="amato"]').getAttribute('aria-label'), /^Amato’s Pizza\. New\. Place\./);
   });
 
   await step('a double tap does one thing, not two', async () => {

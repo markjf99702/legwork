@@ -87,7 +87,7 @@ function bar(def, st) {
   const fresh = Object.keys(st.fresh || {}).length;
   barCase.innerHTML = `
     <a class="chip${left <= 2 ? ' low' : ''}" href="#/case/${def.id}/board" title="Back to the board">${esc(E.clockAt(def, st.t).label)}<span aria-hidden="true">·</span>${esc(hl(left))} left</a>
-    <a class="chip book" href="#/case/${def.id}/notes" title="Notebook"><span class="l">Notebook</span><span aria-hidden="true" class="l-s">✎</span>${fresh ? `<span class="n" aria-label="${fresh} new">${fresh}</span>` : ''}</a>`;
+    <a class="chip book" href="#/case/${def.id}/notes" title="Notebook" aria-label="Notebook${fresh ? `, ${fresh} new` : ''}"><span class="l">Notebook</span><span aria-hidden="true" class="l-s">✎</span>${fresh ? `<span class="n" aria-label="${fresh} new">${fresh}</span>` : ''}</a>`;
 }
 
 // ---------- Home ----------
@@ -140,9 +140,10 @@ function home() {
 
 function askName() {
   const d = document.createElement('dialog');
+  d.setAttribute('aria-labelledby', 'name-q');
   d.innerHTML = `<form method="dialog">
     <p class="eyebrow">Investigations Unit · Port Calder PD</p>
-    <h2>What’s your name, Detective?</h2>
+    <h2 id="name-q">What’s your name, Detective?</h2>
     <p class="muted">Your surname is enough. It’s what people will call you.</p>
     <label class="field"><span>Detective</span><input name="n" maxlength="24" autocomplete="family-name" placeholder="Novak" value="${esc(data.name)}" required></label>
     <div class="row"><button class="btn" value="ok">That’s me</button></div>
@@ -225,13 +226,14 @@ function clockBlock(def, st) {
 }
 
 function leadCard(def, st, s) {
-  const tags = [];
-  if (!st.seenLeads[s.id] && !s.visits) tags.push('<span class="tag new">New</span>');
-  if (s.visits && s.open) tags.push(`<span class="tag seen">Visited${s.visits > 1 ? ` ×${s.visits}` : ''}</span>`);
-  if (!s.open && s.why) tags.push(`<span class="tag shut">${esc(s.why)}</span>`);
+  const tags = []; // [the tag, its words for a screen reader]
+  if (!st.seenLeads[s.id] && !s.visits) tags.push(['<span class="tag new">New</span>', 'New']);
+  if (s.visits && s.open) tags.push([`<span class="tag seen">Visited${s.visits > 1 ? ` ×${s.visits}` : ''}</span>`, s.visits > 1 ? `Visited ${s.visits} times` : 'Visited']);
+  if (!s.open && s.why) tags.push([`<span class="tag shut">${esc(s.why)}</span>`, s.why]);
   const kind = KIND[s.lead.kind] || '';
-  return `<li><button class="lead" data-lead="${s.id}" ${s.open ? '' : 'disabled'} aria-label="${esc(`${s.lead.title}. ${kind}. ${s.lead.where || ''}. ${s.open ? hl(s.cost) : s.why}`)}">
-    <span class="t">${esc(s.lead.title)}${tags.join('')}</span>
+  const label = [s.lead.title, ...tags.map(t => t[1]), kind, s.lead.where, s.open && hl(s.cost)].filter(Boolean).join('. ');
+  return `<li><button class="lead" data-lead="${s.id}" ${s.open ? '' : 'disabled'} aria-label="${esc(label)}">
+    <span class="t">${esc(s.lead.title)}${tags.map(t => t[0]).join('')}</span>
     <span class="w">${esc(kind)}${s.lead.where ? ' · ' + esc(s.lead.where) : ''}</span>
     ${s.open ? `<span class="cost">${esc(hl(s.cost))}</span>` : ''}
   </button></li>`;
