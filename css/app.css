@@ -373,6 +373,11 @@ section.block > h2 { font: 700 .8rem/1.3 var(--mono); text-transform: uppercase;
   .bar .chip.book span.l-s { display: inline; }
   .brand span { display: none; }
 }
+@media (max-width: 389px) {
+  /* No room for an in-progress stamp beside a case's title: it goes under it. */
+  .folder .body { grid-template-columns: 1fr; }
+  .status { grid-column: 1; grid-row: auto; justify-self: start; }
+}
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }

@@ -12,6 +12,7 @@ import { join, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
 import { CASES } from '../js/cases/index.js';
+import { newState, clockAt } from '../js/engine.js';
 
 const require = createRequire(import.meta.url);
 let pw;
@@ -44,7 +45,10 @@ const step = (name, fn) => fn().then(() => console.log('ok  ', name), e => { con
 const settle = (p = page) => p.waitForTimeout(500);
 // Nothing scrolls sideways. A phone widens the page to fit anything wider than the screen, so check
 // the page's width as well as the viewport's.
-const fits = async (where, p = page) => assert.deepEqual(await p.evaluate(() => [document.documentElement.scrollWidth, innerWidth]), [390, 390], `${where} scrolls sideways on a phone`);
+const fits = async (where, p = page) => {
+  const w = p.viewportSize().width;
+  assert.deepEqual(await p.evaluate(() => [document.documentElement.scrollWidth, innerWidth]), [w, w], `${where} scrolls sideways on a ${w} px phone`);
+};
 
 async function inScene() { return (await page.locator('#leave').count()) > 0; }
 
@@ -155,6 +159,25 @@ try {
       const cases = await b.evaluate(() => JSON.parse(localStorage.getItem('legwork.v1')).cases);
       assert.ok(cases[CASES[0].id]?.st && cases[CASES[1].id]?.st, 'both cases are still saved');
     } finally { await two.close(); }
+  });
+
+  await step('the casebook fits a narrow phone with every case in progress', async () => {
+    const cases = {};
+    for (const def of CASES) { // at the widest time on its clock, like "Mon 10:00 AM"
+      const st = newState(def);
+      for (let t = 0; t <= def.hours; t += 0.25) if (clockAt(def, t).label.length > clockAt(def, st.t).label.length) st.t = t;
+      cases[def.id] = { st };
+    }
+    for (const width of [360, 390]) {
+      const narrow = await browser.newContext({ ...PHONE, viewport: { width, height: 800 } });
+      try {
+        const p = await narrow.newPage();
+        await p.addInitScript(s => localStorage.setItem('legwork.v1', s), JSON.stringify({ name: 'Kerr', cases }));
+        await p.goto(base);
+        assert.equal(await p.locator('.status.open').count(), CASES.length);
+        await fits('the casebook', p);
+      } finally { await narrow.close(); }
+    }
   });
 
   await step('a wrong report says so, and the case can be played again', async () => {
