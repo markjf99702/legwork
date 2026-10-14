@@ -50,6 +50,15 @@ const fits = async (where, p = page) => {
   assert.deepEqual(await p.evaluate(() => [document.documentElement.scrollWidth, innerWidth]), [w, w], `${where} scrolls sideways on a ${w} px phone`);
 };
 
+// Taps, then taps again 120 ms later on what the first tap brought up, as a double tap does.
+async function doubleTap(one, two = one) {
+  await page.evaluate(([a, b]) => new Promise(done => {
+    document.querySelector(a).click();
+    setTimeout(() => { document.querySelector(b)?.click(); done(); }, 120);
+  }), [one, two]);
+  await settle();
+}
+
 async function inScene() { return (await page.locator('#leave').count()) > 0; }
 
 // Plays a route: "@lead", "/" or the start of a choice label.
@@ -79,6 +88,7 @@ async function fileReport(def, pick) {
   await settle();
   for (const q of def.report) await page.check(`input[name="${q.id}"][value="${pick(q)}"]`);
   await page.click('#file');
+  await settle();
   await page.click('#file');
   await settle();
 }
@@ -120,19 +130,11 @@ try {
   });
 
   await step('a double tap does one thing, not two', async () => {
-    // Taps, then taps again 120 ms later on what the first tap brought up, as a double tap does.
-    const doubleTap = async (one, two) => {
-      await page.evaluate(([a, b]) => new Promise(done => {
-        document.querySelector(a).click();
-        setTimeout(() => { document.querySelector(b)?.click(); done(); }, 120);
-      }), [one, two]);
-      await settle();
-    };
     const st = async () => (await page.evaluate(() => JSON.parse(localStorage.getItem('legwork.v1')))).cases[first.id].st;
     const choice = '.choice[data-key]:not([disabled])';
     await doubleTap('[data-lead="amato"]', choice);
     assert.equal((await st()).scene.lines.filter(l => l.kind === 'you').length, 0, 'opening a lead asked nothing');
-    await doubleTap(choice, choice);
+    await doubleTap(choice);
     assert.equal((await st()).scene.lines.filter(l => l.kind === 'you').length, 1, 'one question, not two');
     const visits = (await st()).log.length;
     await doubleTap('#leave', '[data-lead]:not([disabled])');
@@ -178,6 +180,28 @@ try {
         await fits('the casebook', p);
       } finally { await narrow.close(); }
     }
+  });
+
+  await step('a double tap isn’t a yes to “Sure?”', async () => {
+    const saved = async () => (await page.evaluate(() => JSON.parse(localStorage.getItem('legwork.v1')))).cases[first.id].st;
+    await page.goto(base + `#/case/${first.id}/briefing`);
+    await settle();
+    await doubleTap('#restart');
+    assert.ok(await saved(), 'the case is still in progress');
+    assert.match(await text('#restart'), /Sure\?/);
+    await page.click('#restart');
+    await settle();
+    assert.equal(await saved(), null, 'a second, separate tap starts it over');
+    await page.click('#take');
+    await settle();
+    await page.goto(base + `#/case/${first.id}/report`);
+    await settle();
+    for (const q of first.report) await page.check(`input[name="${q.id}"][value="${[].concat(q.answer)[0]}"]`);
+    await doubleTap('#file');
+    assert.equal((await saved()).done, false, 'the report isn’t filed');
+    assert.match(await text('#file'), /Sure\?/);
+    await page.goto(base + `#/case/${first.id}/board`);
+    await settle();
   });
 
   await step('a wrong report says so, and the case can be played again', async () => {

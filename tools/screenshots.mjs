@@ -85,6 +85,7 @@ const walk = def.solution.walk;
   await pause(page);
   for (const q of def.report) await page.check(`input[name="${q.id}"][value="${[].concat(q.answer)[0]}"]`);
   await page.click('#file');
+  await pause(page);
   await page.click('#file');
   await shot(page, 'phone-result.png');
   await ctx.close();

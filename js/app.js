@@ -197,6 +197,7 @@ function briefing(def, st) {
     } else {
       e.currentTarget.dataset.sure = '1';
       e.currentTarget.textContent = 'Sure? Tap again to lose your progress';
+      changed(); // so the second tap of a double tap isn't the yes
     }
   });
 }
@@ -422,7 +423,7 @@ function report(def, st) {
     const missing = def.report.filter(q => !st.draft[q.id]);
     if (missing.length) { toast(`Answer every question first (${missing.length} to go).`); return; }
     const btn = app.querySelector('#file');
-    if (!btn.dataset.sure) { btn.dataset.sure = '1'; btn.textContent = 'Sure? Tap again to file it'; return; }
+    if (!btn.dataset.sure) { btn.dataset.sure = '1'; btn.textContent = 'Sure? Tap again to file it'; changed(); return; }
     const g = E.fileReport(def, st, st.draft);
     const r = data.cases[def.id];
     const mine = { stars: g.stars, pts: g.pts, max: g.max, hours: g.hours, beatPar: g.beatPar };
