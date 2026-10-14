@@ -2,8 +2,9 @@
 // Plays every case by the lieutenant's route, tapping the same buttons a player would, files a
 // correct report and checks the result. Along the way it checks the name prompt, saving and reloading
 // mid-scene, double taps, two tabs at once, the notebook, a wrong report, that text is readable in
-// both palettes and that nothing scrolls sideways. Starts its own static server. Needs Playwright
-// (npm i -g playwright, or a local install).
+// both palettes, that nothing scrolls sideways or loads from elsewhere, and that it works offline.
+// Starts its own static server. Needs Playwright and its Chromium (npm i -g playwright, then
+// npx playwright install chromium).
 
 import { createRequire } from 'node:module';
 import { execSync } from 'node:child_process';
@@ -21,7 +22,9 @@ try { pw = require('playwright'); } catch { pw = require(join(execSync('npm root
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.woff2': 'font/woff2', '.webmanifest': 'application/manifest+json' };
+let down = false; // the offline check takes the server away: setOffline alone doesn't stop the service worker's own fetches
 const server = createServer(async (req, res) => {
+  if (down) { req.socket.destroy(); return; }
   const path = decodeURIComponent(new URL(req.url, 'http://x').pathname);
   try {
     const body = await readFile(join(root, path === '/' ? 'index.html' : path));
@@ -30,14 +33,26 @@ const server = createServer(async (req, res) => {
   } catch { res.writeHead(404); res.end(); }
 }).listen(0);
 const base = `http://localhost:${server.address().port}/`;
+// The offline copy only installs away from localhost (js/app.js), so the offline check opens the same
+// server as legwork.test, which this browser treats as a secure site. That takes Playwright's full
+// Chromium rather than its headless shell.
+const site = `http://legwork.test:${server.address().port}/`;
 
-const browser = await pw.chromium.launch();
+const browser = await pw.chromium.launch({
+  channel: 'chromium',
+  args: ['--host-resolver-rules=MAP legwork.test 127.0.0.1', `--unsafely-treat-insecure-origin-as-secure=${site.slice(0, -1)}`],
+});
 const PHONE = { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true };
-const ctx = await browser.newContext(PHONE);
-const page = await ctx.newPage();
 const errors = [];
-page.on('pageerror', e => errors.push(e.message));
-page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+// Errors, and anything that reaches outside the site (it loads nothing from elsewhere).
+const watch = p => {
+  p.on('pageerror', e => errors.push(e.message));
+  p.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+  p.on('request', r => { if (![base, site, 'data:'].some(ok => r.url().startsWith(ok))) errors.push(`left the site: ${r.url()}`); });
+  return p;
+};
+const ctx = await browser.newContext(PHONE);
+const page = watch(await ctx.newPage());
 
 const text = async sel => (await page.locator(sel).first().textContent()).replace(/\s+/g, ' ').trim();
 const step = (name, fn) => fn().then(() => console.log('ok  ', name), e => { console.log('FAIL', name); throw e; });
@@ -100,14 +115,17 @@ async function play(walk) {
     }, s);
     assert.ok(clicked, `choice "${s}" is on screen`);
     await settle();
+    await fits(`the scene at "${s}"`);
   }
   if (await inScene()) { await page.click('#leave'); await settle(); }
+  await fits('the board');
 }
 
 async function fileReport(def, pick) {
   await page.goto(base + `#/case/${def.id}/report`);
   await settle();
   for (const q of def.report) await page.check(`input[name="${q.id}"][value="${pick(q)}"]`);
+  await fits('the report');
   await page.click('#file');
   await settle();
   await page.click('#file');
@@ -167,8 +185,7 @@ try {
     const two = await browser.newContext(PHONE);
     await two.addInitScript(() => { if (!localStorage.getItem('legwork.v1')) localStorage.setItem('legwork.v1', JSON.stringify({ name: 'Kerr', cases: {} })); });
     try {
-      const a = await two.newPage(), b = await two.newPage();
-      for (const p of [a, b]) p.on('pageerror', e => errors.push(e.message));
+      const a = watch(await two.newPage()), b = watch(await two.newPage());
       await a.goto(base); await b.goto(base); await settle(b);
       await b.click(`a[href="#/case/${CASES[1].id}"]`);
       await settle(b);
@@ -182,8 +199,7 @@ try {
       const cases = await b.evaluate(() => JSON.parse(localStorage.getItem('legwork.v1')).cases);
       assert.ok(cases[CASES[0].id]?.st && cases[CASES[1].id]?.st, 'both cases are still saved');
       // A tab in the background on the same board doesn't take the new leads' NEW tags away.
-      const c = await two.newPage();
-      c.on('pageerror', e => errors.push(e.message));
+      const c = watch(await two.newPage());
       await c.addInitScript(() => Object.defineProperty(Document.prototype, 'hidden', { get: () => true }));
       await c.goto(base + `#/case/${first.id}/board`);
       await settle(c);
@@ -205,7 +221,7 @@ try {
     for (const width of [360, 390]) {
       const narrow = await browser.newContext({ ...PHONE, viewport: { width, height: 800 } });
       try {
-        const p = await narrow.newPage();
+        const p = watch(await narrow.newPage());
         await p.addInitScript(s => localStorage.setItem('legwork.v1', s), JSON.stringify({ name: 'Kerr', cases }));
         await p.goto(base);
         assert.equal(await p.locator('.status.open').count(), CASES.length);
@@ -255,7 +271,7 @@ try {
     for (const [colorScheme, st, hash, sels] of checks) {
       const look = await browser.newContext({ ...PHONE, colorScheme });
       try {
-        const p = await look.newPage();
+        const p = watch(await look.newPage());
         const cases = st ? { [first.id]: { st } } : {};
         await p.addInitScript(s => localStorage.setItem('legwork.v1', s), JSON.stringify({ name: 'Kerr', cases }));
         await p.goto(base + hash);
@@ -287,6 +303,7 @@ try {
       await play(def.solution.walk);
       await page.goto(base + `#/case/${def.id}/notes/clues`);
       await settle();
+      await fits('the notebook');
       const titles = await page.locator('.card h3').allTextContents();
       for (const id of def.solution.chain) assert.ok(titles.includes(def.clues[id].title), `notebook has "${def.clues[id].title}"`);
       for (const tab of ['timeline', 'people', 'log']) {
@@ -308,7 +325,29 @@ try {
     await fits('the casebook');
   });
 
-  assert.deepEqual(errors, [], 'no errors in the console');
+  await step('it works offline once it has been opened', async () => {
+    const away = await browser.newContext(PHONE);
+    try {
+      await away.addInitScript(() => { if (!localStorage.getItem('legwork.v1')) localStorage.setItem('legwork.v1', JSON.stringify({ name: 'Kerr', cases: {} })); });
+      const p = watch(await away.newPage());
+      await p.goto(site);
+      await p.waitForFunction(() => navigator.serviceWorker.controller, null, { timeout: 20000 });
+      down = true;
+      await away.setOffline(true);
+      await p.reload();
+      assert.equal(await p.locator('.folder').count(), CASES.length, 'the casebook loads offline');
+      const q = watch(await away.newPage()); // a case opened from scratch, offline
+      await q.goto(site + `#/case/${CASES.at(-1).id}`);
+      await settle(q);
+      await q.click('#take');
+      await settle(q);
+      await q.click('[data-lead]:not([disabled])');
+      await settle(q);
+      assert.equal(await q.locator('#leave').count(), 1, 'a lead opens offline');
+    } finally { down = false; await away.setOffline(false); await away.close(); }
+  });
+
+  assert.deepEqual(errors, [], 'no errors in the console, and nothing loaded from elsewhere');
   console.log('all good');
 } finally {
   await browser.close();
