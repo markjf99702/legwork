@@ -171,6 +171,17 @@ test('with nothing left that fits, you wait for what’s still due by the deadli
   assert.deepEqual(st.inbox.map(m => [m.text, m.read]), [['Back.', false]], 'it waits on the board');
   assert.equal(waitOut(late, st), false, 'nothing more to wait for');
 
+  // An event between quarter hours comes in at the next one, as it would while you worked, and the
+  // board's waiting stops there instead of going round for ever.
+  const odd = { ...late, id: 'odd', leads: { desk: { title: 'Desk', kind: 'place', cost: 1.5 } }, scenes: { desk: { text: 'Desk.', choices: [] } }, events: [{ at: 1.6, text: 'A call.', clues: ['late'] }] };
+  const os = newState(odd);
+  visit(odd, os, 'desk'); leave(odd, os); // 1.5 h, and the desk takes 1½ h again
+  let rounds = 0;
+  while (waitOut(odd, os)) assert.ok(++rounds < 10, 'the board keeps waiting');
+  assert.equal(rounds, 1);
+  assert.equal(os.t, 1.75);
+  assert.ok('late' in os.clues);
+
   const idle = newState(tiny); // nothing fits and nothing is owed: the clock stays put
   idle.t = 5.75;
   assert.equal(waitOut(tiny, idle), false);

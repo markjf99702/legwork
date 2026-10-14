@@ -313,7 +313,8 @@ export function leave(def, st) {
 }
 
 // With nothing left on the board that fits in the time left, you wait, so anything still due by the
-// deadline (a result, a call) comes in. Only as long as that takes. True if any time passed.
+// deadline (a result, a call) comes in. Only as long as that takes: to the quarter hour it's due in,
+// since the clock moves in quarter hours. True if any time passed.
 export function waitOut(def, st) {
   if (st.done || st.scene || leads(def, st).some(s => s.open)) return false;
   const due = [
@@ -321,7 +322,7 @@ export function waitOut(def, st) {
     ...(def.events || []).filter((ev, i) => !st.fired[i]).map(ev => ev.at),
   ].filter(at => at > st.t + 1e-9 && at <= def.hours + 1e-9);
   if (!due.length) return false;
-  spend(def, st, Math.min(...due) - st.t);
+  spend(def, st, Math.ceil(Math.min(...due) * 4 - 1e-9) / 4 - st.t);
   return true;
 }
 
