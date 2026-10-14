@@ -5,7 +5,7 @@
 **A detective casebook.** Six crimes in Port Calder, a Great Lakes city of grain elevators and old money. Only one of them is a murder. Every lead costs hours you don’t have, what you learn opens the next door, and somebody’s story doesn’t match the record. When you can prove it, or when the clock runs out, you file your report.
 
 <p align="center">
-  <img src="docs/phone-board.png" alt="The board for The Night Deposit at 1 p.m. Sunday, 4 hours left: a message from Keystone Alarm with the event log, and leads to places, people and records" width="250">
+  <img src="docs/phone-board.png" alt="The board for The Night Deposit at 12:30 p.m. Sunday, 4½ hours left: leads to places, people and records, three of them visited, and the alarm company’s log already asked for" width="250">
   &nbsp;
   <img src="docs/phone-scene.png" alt="A scene: shown the alarm log, Danny Ruiz’s story changes twice and he asks for a lawyer. A yellow note says Noted: Danny stopped talking" width="250">
   &nbsp;
@@ -20,7 +20,7 @@
 
 - **The hours are the game.** Each case gives you a working budget, usually a day or a day and a half, before Lieutenant Okafor wants a name. Every lead shows what it costs: half an hour for a phone call, an hour to drive across town, more to dig through a basement of files. You’ll never have time for everything, so the question is always what’s worth the time.
 - **What you learn opens doors.** A name in one interview becomes a place to go. A fact you find becomes a question you can put to someone else, so go back to them when you’ve got something new. Show a suspect the log that contradicts them and watch the story change.
-- **Records and the lab take time.** Send the request early, and the answer turns up in your inbox a few hours later while you work other leads. Some things happen on their own schedule: a witness wakes up, a lawyer stops the interviews, someone files a claim.
+- **Records and the lab take time.** Send the request early, and a few hours later the answer reaches you wherever you are, while you work other leads. Some things happen on their own schedule: a witness wakes up, a lawyer stops the interviews, someone files a claim.
 - **Your notebook** keeps every clue, a page for each person with what you know about them, a timeline of the night in question built from every time anyone gives you, and a log of your own day.
 - **The report** asks who did it, and then the questions a guess won’t get: how, why, where the money went, what proves the alibi false. Afterward you see what really happened, which clues proved it (and which you missed), and the lieutenant’s shorter route next to yours.
 - **The cases**
@@ -53,6 +53,8 @@ To put it online with GitHub Pages: **Settings → Pages → Build and deploymen
 - `js/engine.js`: the rules, with no DOM: conditions like `alarm_log & !danny_lawyer`, the working-hours clock, visiting leads, choices, timers and events, grading, and walking a route.
 - `js/check.js`: catches mistakes in a case, such as a clue nobody can find, a lead with no scene, a condition naming something that doesn’t exist, or a solution that can’t be reached in the hours given.
 - `js/app.js`: the pages. `js/text.js` turns case text into HTML, and `js/store.js` saves and restores.
+- `sw.js`: keeps a copy for playing offline.
+- `carry.js`: the first time the game opens at this address, brings your cases over from the old one, junkdrawer.works/legwork/.
 - `fonts/`: Source Serif 4 and Courier Prime (SIL Open Font License) and Special Elite (Apache License 2.0), served from here so nothing loads from elsewhere.
 
 Port Calder and everyone in it are made up.

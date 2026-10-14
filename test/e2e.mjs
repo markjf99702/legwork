@@ -1,8 +1,9 @@
-// Drives the real page in Chromium:  node test/e2e.mjs
+// Drives the real page in Chromium, as a phone:  node test/e2e.mjs
 // Plays every case by the lieutenant's route, tapping the same buttons a player would, files a
 // correct report and checks the result. Along the way it checks the name prompt, saving and reloading
-// mid-scene, the notebook, the inbox and a wrong report. Starts its own static server. Needs
-// Playwright (npm i -g playwright, or a local install).
+// mid-scene, double taps, two tabs at once, the notebook, a wrong report, that text is readable in
+// both palettes and that nothing scrolls sideways. Starts its own static server. Needs Playwright
+// (npm i -g playwright, or a local install).
 
 import { createRequire } from 'node:module';
 import { execSync } from 'node:child_process';

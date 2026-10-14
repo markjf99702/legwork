@@ -96,7 +96,8 @@ const walk = def.solution.walk;
   const ctx = await browser.newContext({ viewport: { width: 1200, height: 860 }, deviceScaleFactor: 1.5, colorScheme: 'dark' });
   const page = await start(ctx, def.id);
   await play(page, walk);
-  await page.click('[data-dismiss="0"]').catch(() => {});
+  await page.click('#leave'); // the route ends in a scene
+  await pause(page);
   await page.evaluate(() => window.scrollTo(0, 0));
   await shot(page, 'desk.png');
   await ctx.close();
