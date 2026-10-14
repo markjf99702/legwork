@@ -871,7 +871,7 @@ Paper rustles. “Kevin swears Harold signed the power of attorney ‘in my pres
         skaggs: 'Donnie Skaggs, the private investigator',
         osei: 'Dr. Miriam Osei',
         feld: 'Aaron Feld at Northshore Savings',
-        alone: 'Nobody. Kevin did it alone.',
+        alone: 'Nobody. The forger did it alone.',
       },
       answer: 'sheila',
       points: 15,
