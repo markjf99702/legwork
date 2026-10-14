@@ -12,7 +12,7 @@ import { join, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
 import { CASES } from '../js/cases/index.js';
-import { newState, clockAt } from '../js/engine.js';
+import { newState, clockAt, walk } from '../js/engine.js';
 
 const require = createRequire(import.meta.url);
 let pw;
@@ -236,17 +236,26 @@ try {
   });
 
   await step('text is readable in light and dark', async () => {
-    const st = newState(first);
-    // [colour scheme, page, the things on it to check]
-    const checks = [
-      ['dark', `#/case/${first.id}`, ['#take']],
-      ['dark', `#/case/${first.id}/board`, ['.tag.new']],
-    ];
-    for (const [colorScheme, hash, sels] of checks) {
+    const fresh = newState(first);
+    const visited = walk(first, ['@market', 'Ask Irene what she found']).st;
+    const late = newState(first);
+    late.t = first.hours;
+    // [colour scheme, the game in progress, page, the things on it to check]
+    const checks = [];
+    for (const scheme of ['light', 'dark']) {
+      checks.push(
+        [scheme, null, '#/', ['.hero p', '.who', '.footnote']],
+        [scheme, null, `#/case/${first.id}`, ['.eyebrow', '.facts span', '#take']],
+        [scheme, fresh, `#/case/${first.id}/board`, ['.tag.new', '.clock .left', '.group h2']],
+        [scheme, late, `#/case/${first.id}/board`, ['.timesup h3']],
+        [scheme, visited, `#/case/${first.id}/notes/clues`, ['.card .src', '.tabs a:not([aria-current])']],
+      );
+    }
+    for (const [colorScheme, st, hash, sels] of checks) {
       const look = await browser.newContext({ ...PHONE, colorScheme });
       try {
         const p = await look.newPage();
-        const cases = hash.endsWith(first.id) ? {} : { [first.id]: { st } };
+        const cases = st ? { [first.id]: { st } } : {};
         await p.addInitScript(s => localStorage.setItem('legwork.v1', s), JSON.stringify({ name: 'Kerr', cases }));
         await p.goto(base + hash);
         for (const sel of sels) {
