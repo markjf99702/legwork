@@ -14,7 +14,7 @@ import { join, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
 import { CASES } from '../js/cases/index.js';
-import { newState, clockAt, walk, fileReport as submit } from '../js/engine.js';
+import { newState, clockAt, walk, fileReport as submit, reportOptions } from '../js/engine.js';
 
 const require = createRequire(import.meta.url);
 let pw;
@@ -356,6 +356,17 @@ try {
     const toast = await page.locator('#toast.show').boundingBox();
     assert.match(await text('#toast'), /Answer every question first/);
     assert.ok(toast.height < 50, `the message is ${Math.round(toast.width)} × ${Math.round(toast.height)} px, on more than one line`);
+  });
+
+  await step('the report deals its options in this game’s own order', async () => {
+    const shown = () => page.evaluate(() => [...document.querySelectorAll('#rep fieldset')].map(f => [...f.querySelectorAll('input')].map(i => i.value)));
+    const before = await shown();
+    const { mix } = (await page.evaluate(() => JSON.parse(localStorage.getItem('legwork.v1')))).cases[first.id].st;
+    assert.equal(typeof mix, 'number', 'the game keeps its order');
+    assert.deepEqual(before, first.report.map(q => reportOptions(q, mix).map(([k]) => k)));
+    await page.reload();
+    await page.waitForSelector('#rep');
+    assert.deepEqual(await shown(), before, 'the same order after a reload');
   });
 
   await step('a double tap isn’t a yes to “Sure?”', async () => {

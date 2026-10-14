@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { CASES } from '../js/cases/index.js';
 import { checkCase } from '../js/check.js';
-import { walk, newState, leads, visit, choices, choose, grade, leave, fileReport, usable } from '../js/engine.js';
+import { walk, newState, leads, visit, choices, choose, grade, leave, fileReport, usable, reportOptions } from '../js/engine.js';
 
 test('case ids and numbers are unique', () => {
   const ids = CASES.map(c => c.id);
@@ -20,6 +20,23 @@ test('no two cases share a character’s first or last name', () => {
         owner.set(part, def.id);
       }
     }
+  }
+});
+
+// The cases list each right answer first; the form mustn't. Over many games, taking the top option
+// for every question scores what guessing does, and almost never closes the case.
+test('the report form doesn’t give its answers away by their order', () => {
+  for (const def of CASES) {
+    const games = 2000;
+    let pts = 0, perfect = 0;
+    for (let seed = 1; seed <= games; seed++) {
+      const got = def.report.filter(q => [].concat(q.answer).includes(reportOptions(q, seed)[0][0]));
+      pts += got.reduce((s, q) => s + q.points, 0);
+      if (got.length === def.report.length) perfect++;
+    }
+    const guessing = def.report.reduce((s, q) => s + q.points * [].concat(q.answer).length / Object.keys(q.options).length, 0);
+    assert.ok(Math.abs(pts / games - guessing) < 3, `${def.id}: the top option scores ${(pts / games).toFixed(1)} a game, guessing ${guessing.toFixed(1)}`);
+    assert.ok(perfect / games < 0.01, `${def.id}: the top option is right every time in ${perfect} of ${games} games`);
   }
 });
 

@@ -319,6 +319,21 @@ export function sceneClues(st) {
 
 // ---------- The report ----------
 
+// A question's options as [key, label] pairs, in the order the form shows them. Cases list the right
+// answer first, so each game deals them in its own order from a seed it keeps (st.mix): the same
+// every time the form opens, and different the next time the case is played.
+export function reportOptions(q, seed = 0) {
+  const opts = Object.entries(q.options);
+  let r = seed | 0;
+  for (const ch of String(q.id)) r = Math.imul(r ^ ch.codePointAt(0), 16777619); // a stream per question
+  const rand = n => { r = (r + 0x6D2B79F5) | 0; let x = Math.imul(r ^ (r >>> 15), 1 | r); x ^= x + Math.imul(x ^ (x >>> 7), 61 | x); return ((x ^ (x >>> 14)) >>> 0) % n; }; // mulberry32
+  for (let i = opts.length - 1; i > 0; i--) {
+    const j = rand(i + 1);
+    [opts[i], opts[j]] = [opts[j], opts[i]];
+  }
+  return opts;
+}
+
 export function grade(def, st, answers) {
   let pts = 0, max = 0;
   const per = def.report.map(q => {

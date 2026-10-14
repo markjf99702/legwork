@@ -412,6 +412,7 @@ function notes(def, st, tab = 'clues') {
 function report(def, st) {
   document.title = `Report · ${def.title} · Legwork`;
   st.draft ||= {};
+  if (typeof st.mix !== 'number') { st.mix = Math.floor(Math.random() * 2 ** 32); persist(); } // this game's order for the options
   const left = E.timeLeft(def, st);
   app.innerHTML = `<div class="wrap">
     ${caseHead(def, '<p class="muted" style="margin:0">Case report for Lt. Okafor. Answer every question. Once it’s filed, the case is closed.</p>')}
@@ -419,7 +420,7 @@ function report(def, st) {
     <form id="rep">
       ${def.report.map((q, qi) => `<fieldset class="q">
         <legend>${qi + 1}. ${esc(q.q)}<span class="pts">${q.points} pts</span></legend>
-        ${Object.entries(q.options).map(([k, label]) => `<label class="opt"><input type="radio" name="${esc(q.id)}" value="${esc(k)}" ${st.draft[q.id] === k ? 'checked' : ''}><span>${esc(label)}</span></label>`).join('')}
+        ${E.reportOptions(q, st.mix).map(([k, label]) => `<label class="opt"><input type="radio" name="${esc(q.id)}" value="${esc(k)}" ${st.draft[q.id] === k ? 'checked' : ''}><span>${esc(label)}</span></label>`).join('')}
       </fieldset>`).join('')}
       <button class="btn red block" id="file" type="submit">File the report</button>
     </form>

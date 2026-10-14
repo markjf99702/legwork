@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   parseCond, test as cond, resolveText, clockAt, hoursLabel, deadline, newState, leads, visit, choices, choose,
-  walk, grade, fileReport, timeLeft, leave, usable,
+  walk, grade, fileReport, timeLeft, leave, usable, reportOptions,
 } from '../js/engine.js';
 import { toHTML, toPlain } from '../js/text.js';
 
@@ -172,6 +172,16 @@ test('walking a route and grading a report', () => {
   fileReport(tiny, st, { who: 'a', how: 'x' });
   assert.equal(st.done, true);
   assert.equal(leads(tiny, st).find(l => l.id === 'home').open, false);
+});
+
+test('the report deals its options in an order of its own, the same each time', () => {
+  const q = { id: 'who', options: { a: 'A', b: 'B', c: 'C', d: 'D', e: 'E' }, answer: 'a', points: 40, why: 'x' };
+  const keys = seed => reportOptions(q, seed).map(([k]) => k);
+  assert.deepEqual([...keys(7)].sort(), ['a', 'b', 'c', 'd', 'e'], 'every option, once');
+  assert.deepEqual(keys(7), keys(7), 'the same seed, the same order');
+  assert.deepEqual(reportOptions(q, 7).find(([k]) => k === 'c'), ['c', 'C'], 'with its label');
+  assert.equal(new Set(Array.from({ length: 60 }, (_, s) => keys(s)[0])).size, 5, 'any option can come first');
+  assert.deepEqual(Object.keys(q.options), ['a', 'b', 'c', 'd', 'e'], 'the case itself is left alone');
 });
 
 test('saves survive JSON', () => {
