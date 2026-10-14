@@ -386,6 +386,8 @@ try {
       await page.goto(base + `#/case/${def.id}/notes/clues`);
       await settle();
       await fits('the notebook');
+      const dock = await page.locator('.dock .btn').evaluateAll(bs => bs.map(b => Math.round(b.getBoundingClientRect().height)));
+      assert.equal(new Set(dock).size, 1, `the notebook's buttons are ${dock.join(' and ')} px tall`);
       const titles = await page.locator('.card h3').allTextContents();
       for (const id of def.solution.chain) assert.ok(titles.includes(def.clues[id].title), `notebook has "${def.clues[id].title}"`);
       for (const tab of ['timeline', 'people', 'log']) {
