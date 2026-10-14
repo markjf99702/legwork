@@ -181,7 +181,7 @@ He doesn’t answer that.[else]“Three months of it, the morning after eleven t
         },
         {
           label: 'Show him the alarm log',
-          if: 'alarm_log',
+          if: 'alarm_log & danny_story',
           text: `He reads it. You watch him look for a way out and not find one.
 
 “Maybe I didn’t set it again when I left. The second time.”

@@ -70,3 +70,35 @@ for (const def of CASES) {
     }
   });
 }
+
+// Case 1: Danny's own story is the only road to Tasha, his landlord and the bank, so the alarm log
+// (which ends his interviews) can't be put to him until he has told it.
+test('night-deposit: Danny tells his story before he can be shown the alarm log', () => {
+  const def = CASES.find(d => d.id === 'night-deposit');
+  const { st } = walk(def, ['@market', 'Ask Irene what she found', 'Look over the office', '@keystone', '@amato', 'Ask if he uses', 'Ask if he saw', '@market', '@amato']);
+  visit(def, st, 'market'); // the alarm log comes in on the way
+  assert.ok('alarm_log' in st.clues, 'the log has come back');
+  choose(def, st, choices(def, st).find(c => c.label === 'Talk to Danny').key);
+  const offered = () => choices(def, st).map(c => c.label);
+  assert.ok(!offered().includes('Show him the alarm log'), 'not before he has said where he was');
+  choose(def, st, choices(def, st).find(c => c.label.startsWith('Ask him to walk you through')).key);
+  assert.ok(offered().includes('Show him the alarm log'), 'once he has told his story');
+
+  for (let seed = 1; seed <= 200; seed++) { // and no player ever loses him before his story
+    let r = seed;
+    const rand = n => { r = (r + 0x6D2B79F5) | 0; let x = Math.imul(r ^ (r >>> 15), 1 | r); x ^= x + Math.imul(x ^ (x >>> 7), 61 | x); return ((x ^ (x >>> 14)) >>> 0) % n; }; // mulberry32
+    const s = newState(def);
+    for (let guard = 0; guard < 400; guard++) {
+      if (s.scene) {
+        const cs = choices(def, s).filter(c => c.enabled);
+        if (!cs.length || rand(6) === 0) { leave(def, s); continue; }
+        choose(def, s, cs[rand(cs.length)].key);
+        continue;
+      }
+      const open = leads(def, s).filter(l => l.open);
+      if (!open.length) break;
+      visit(def, s, open[rand(open.length)].id);
+    }
+    assert.ok(!('danny_lawyer' in s.clues) || 'danny_story' in s.clues, `seed ${seed}: Danny asked for a lawyer before he told his story`);
+  }
+});
