@@ -267,6 +267,25 @@ try {
     }
   });
 
+  await step('the top bar and the notebook fit the smallest phones', async () => {
+    const small = await browser.newContext({ ...PHONE, viewport: { width: 320, height: 640 } });
+    try {
+      for (const def of CASES) {
+        const st = newState(def); // at its longest top bar, like "Tue 10:15 AM · 10¾ h left", with 10 new clues
+        const bar = t => clockAt(def, t).label.length + String(def.hours - t).length;
+        for (let t = 0; t <= def.hours; t += 0.25) if (bar(t) > bar(st.t)) st.t = t;
+        for (const id of Object.keys(def.clues).slice(0, 10)) st.fresh[id] = true;
+        const p = watch(await small.newPage());
+        await p.addInitScript(s => localStorage.setItem('legwork.v1', s), JSON.stringify({ name: 'Kerr', cases: { [def.id]: { st } } }));
+        for (const where of ['board', 'notes/people']) {
+          await p.goto(base + `#/case/${def.id}/${where}`);
+          await fits(`${def.id}'s ${where}`, p);
+        }
+        await p.close();
+      }
+    } finally { await small.close(); }
+  });
+
   await step('a lead’s tags stay in one piece', async () => {
     const def = CASES[1]; // The Shared Wall, out of time: long "Not enough time" tags
     const st = newState(def);
