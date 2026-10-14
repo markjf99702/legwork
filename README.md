@@ -18,7 +18,7 @@
 
 ## How it works
 
-- **The hours are the game.** Each case gives you a working budget, usually a day or a day and a half, before Lieutenant Okafor wants a name. Every lead shows what it costs: half an hour for a phone call, an hour to drive across town, more to dig through a basement of files. You’ll never have time for everything, so the question is always what’s worth the time.
+- **The hours are the game.** Each case gives you a working budget, usually a day or a day and a half, before Lieutenant Okafor wants a name. Every lead shows what it costs: half an hour for a phone call, an hour to drive across town, more to sit through camera footage. You’ll never have time for everything, so the question is always what’s worth the time.
 - **What you learn opens doors.** A name in one interview becomes a place to go. A fact you find becomes a question you can put to someone else, so go back to them when you’ve got something new. Show a suspect the log that contradicts them and watch the story change.
 - **Records and the lab take time.** Send the request early, and a few hours later the answer reaches you wherever you are, while you work other leads. Some things happen on their own schedule: a witness wakes up, a lawyer stops the interviews, someone files a claim.
 - **Your notebook** keeps every clue, a page for each person with what you know about them, a timeline of the night in question built from every time anyone gives you, and a log of your own day.
