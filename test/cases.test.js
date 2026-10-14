@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { CASES } from '../js/cases/index.js';
 import { checkCase } from '../js/check.js';
-import { walk, newState, leads, visit, choices, choose, grade, leave, fileReport, usable, reportOptions } from '../js/engine.js';
+import { walk, newState, leads, visit, choices, choose, grade, leave, fileReport, usable, reportOptions, waitOut } from '../js/engine.js';
 
 test('case ids and numbers are unique', () => {
   const ids = CASES.map(c => c.id);
@@ -94,6 +94,9 @@ for (const def of CASES) {
         visit(def, st, open[rand(open.length)].id);
       }
       assert.ok(st.t <= def.hours + 1e-9, `seed ${seed}: ${st.t} h`);
+      if (st.scene) leave(def, st);
+      while (waitOut(def, st)); // as the board does when nothing fits
+      if (!leads(def, st).some(l => l.open)) assert.deepEqual(st.timers.filter(tm => !tm.done && tm.at <= def.hours + 1e-9), [], `seed ${seed}: a result due by the deadline never came`);
       JSON.parse(JSON.stringify(st));
     }
   });

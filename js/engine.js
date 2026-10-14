@@ -312,6 +312,19 @@ export function leave(def, st) {
   st.scene = null;
 }
 
+// With nothing left on the board that fits in the time left, you wait, so anything still due by the
+// deadline (a result, a call) comes in. Only as long as that takes. True if any time passed.
+export function waitOut(def, st) {
+  if (st.done || st.scene || leads(def, st).some(s => s.open)) return false;
+  const due = [
+    ...st.timers.filter(tm => !tm.done).map(tm => tm.at),
+    ...(def.events || []).filter((ev, i) => !st.fired[i]).map(ev => ev.at),
+  ].filter(at => at > st.t + 1e-9 && at <= def.hours + 1e-9);
+  if (!due.length) return false;
+  spend(def, st, Math.min(...due) - st.t);
+  return true;
+}
+
 // Clues gained in this scene so far, newest last.
 export function sceneClues(st) {
   return (st.scene?.lines || []).filter(l => l.kind === 'clue').map(l => l.id);

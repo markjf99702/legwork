@@ -241,6 +241,7 @@ function leadCard(def, st, s) {
 
 function board(def, st) {
   document.title = `${def.title} · Legwork`;
+  while (E.waitOut(def, st)); // nothing fits in the time left: what's still due by the deadline comes in
   const all = E.leads(def, st);
   const groups = [
     ['Places', all.filter(s => s.lead.kind === 'place')],

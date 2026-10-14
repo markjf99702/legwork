@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   parseCond, test as cond, resolveText, clockAt, hoursLabel, deadline, newState, leads, visit, choices, choose,
-  walk, grade, fileReport, timeLeft, leave, usable, reportOptions,
+  walk, grade, fileReport, timeLeft, leave, usable, reportOptions, waitOut,
 } from '../js/engine.js';
 import { toHTML, toPlain } from '../js/text.js';
 
@@ -152,6 +152,29 @@ test('timers and events arrive in the inbox when their time comes', () => {
   assert.equal(st.scene.lines[0].kind, 'msg');
   assert.equal(st.scene.lines[0].text, 'Results.');
   assert.equal(st.scene.lines[1].kind, 'scene');
+});
+
+test('with nothing left that fits, you wait for what’s still due by the deadline', () => {
+  const late = {
+    ...tiny, id: 'late', hours: 2, start: { day: 0, hour: 9 },
+    leads: { desk: { title: 'Desk', kind: 'lab', cost: 0.75 } },
+    scenes: { desk: { text: 'Sent.', timer: { in: 1.25, text: 'Back.', clues: ['late'] }, choices: [] } },
+    events: [],
+  };
+  const st = newState(late);
+  visit(late, st, 'desk'); leave(late, st); // 0.75 h; the answer is due at 2 h, the deadline
+  assert.equal(waitOut(late, st), false, 'not while something still fits');
+  visit(late, st, 'desk'); leave(late, st); // 1.5 h: the desk takes ¾ h and only ½ h is left
+  assert.equal(waitOut(late, st), true);
+  assert.equal(st.t, 2);
+  assert.ok('late' in st.clues);
+  assert.deepEqual(st.inbox.map(m => [m.text, m.read]), [['Back.', false]], 'it waits on the board');
+  assert.equal(waitOut(late, st), false, 'nothing more to wait for');
+
+  const idle = newState(tiny); // nothing fits and nothing is owed: the clock stays put
+  idle.t = 5.75;
+  assert.equal(waitOut(tiny, idle), false);
+  assert.equal(idle.t, 5.75);
 });
 
 test('walking a route and grading a report', () => {
