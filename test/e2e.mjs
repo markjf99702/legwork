@@ -30,7 +30,8 @@ const server = createServer(async (req, res) => {
 const base = `http://localhost:${server.address().port}/`;
 
 const browser = await pw.chromium.launch();
-const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true });
+const PHONE = { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true };
+const ctx = await browser.newContext(PHONE);
 const page = await ctx.newPage();
 const errors = [];
 page.on('pageerror', e => errors.push(e.message));
@@ -39,6 +40,9 @@ page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
 const text = async sel => (await page.locator(sel).first().textContent()).replace(/\s+/g, ' ').trim();
 const step = (name, fn) => fn().then(() => console.log('ok  ', name), e => { console.log('FAIL', name); throw e; });
 const settle = () => page.waitForTimeout(60);
+// Nothing scrolls sideways. A phone widens the page to fit anything wider than the screen, so check
+// the page's width as well as the viewport's.
+const fits = async (where, p = page) => assert.deepEqual(await p.evaluate(() => [document.documentElement.scrollWidth, innerWidth]), [390, 390], `${where} scrolls sideways on a phone`);
 
 async function inScene() { return (await page.locator('#leave').count()) > 0; }
 
@@ -106,6 +110,8 @@ try {
   await step('a wrong report says so, and the case can be played again', async () => {
     await fileReport(first, q => Object.keys(q.options).find(k => ![].concat(q.answer).includes(k)));
     assert.match(await text('.stamp'), /Wrong suspect/);
+    await page.waitForTimeout(600); // the stamp has landed
+    await fits('the result');
     await page.click('#again');
     await page.click('#take');
   });
@@ -135,6 +141,7 @@ try {
     await page.goto(base + '#/');
     await settle();
     assert.equal(await page.locator('.status.closed').count(), CASES.length);
+    await fits('the casebook');
   });
 
   assert.deepEqual(errors, [], 'no errors in the console');
