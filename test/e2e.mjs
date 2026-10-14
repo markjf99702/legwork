@@ -196,10 +196,20 @@ try {
       const r = el.getBoundingClientRect();
       return sides.every(([dx, dy]) => el.contains(document.elementFromPoint(r.left + r.width / 2 + dx * (r.width / 2 + 6), r.top + r.height / 2 + dy * (r.height / 2 + 6))));
     }, sides);
+    // ...without taking taps from the edges of the buttons and links around them.
+    const covered = () => page.evaluate(() => {
+      const big = [...document.querySelectorAll('.brand, .chip, .linkish, .tap, details.how summary')];
+      return [...document.querySelectorAll('#app a, #app button')].filter(c => c.getClientRects().length && !big.includes(c)).filter(c => {
+        c.scrollIntoView({ block: 'center' });
+        const r = c.getBoundingClientRect();
+        return [r.top + 1, r.bottom - 1].some(y => [r.left + 2, r.left + r.width / 2, r.right - 2].some(x => big.some(b => b.contains(document.elementFromPoint(x, y)))));
+      }).map(c => c.textContent.trim());
+    });
     const where = { [`#/case/${first.id}/board`]: ['.brand', '.chip', '.chip.book', `a[href$="/briefing"]`], '#/': ['#rename', 'details.how summary'], [`#/case/${first.id}/briefing`]: ['#restart'] };
     for (const [hash, sels] of Object.entries(where)) {
       await page.goto(base + hash);
       for (const sel of sels) assert.ok(await roomy(sel), `${sel} on ${hash} is hard to tap`);
+      assert.deepEqual(await covered(), [], `on ${hash}, a bigger tap area covers the edge of these`);
     }
     assert.ok(await roomy('.brand', [[-1, 0], [1, 0]]), 'the logo is hard to tap');
     await page.goto(base + `#/case/${first.id}/board`);

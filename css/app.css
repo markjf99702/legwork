@@ -138,7 +138,9 @@ h1, h2, h3 { line-height: 1.2; margin: 0; }
 /* Bigger places to tap than they look: the logo, the top bar's buttons and the small text links. */
 .brand, .chip, .linkish, .tap, details.how summary { position: relative; }
 .brand::after, .chip::after { content: ""; position: absolute; inset: -8px; }
-.linkish::after, .tap::after, details.how summary::after { content: ""; position: absolute; inset: -12px -4px; }
+.tap::after, details.how summary::after { content: ""; position: absolute; inset: -12px -4px; }
+/* No more than a row's gap: on a phone "Start this case over" wraps to 10 px under "Back to the board". */
+.linkish::after { content: ""; position: absolute; inset: -10px -4px; }
 
 /* ---------- Home ---------- */
 .hero { text-align: center; padding: 18px 0 8px; }
