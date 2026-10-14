@@ -143,6 +143,19 @@ try {
     await settle();
     assert.match(await text('.who'), /Detective Kerr/);
     assert.equal(await page.locator('.folder').count(), CASES.length);
+    const rename = async (name, how) => {
+      await page.click('#rename');
+      await page.fill('dialog input', name);
+      if (how === 'button') await page.click('dialog button'); else await page.press('dialog input', how);
+      await page.waitForSelector('dialog', { state: 'detached' });
+      await settle();
+    };
+    await rename('Okafor', 'Enter');
+    assert.match(await text('.who'), /Detective Okafor/);
+    await rename('Novakowski', 'Escape');
+    assert.match(await text('.who'), /Detective Okafor/, 'Escape keeps the name you had');
+    await rename('kerr', 'button');
+    assert.match(await text('.who'), /Detective Kerr/);
   });
 
   const first = CASES[0];

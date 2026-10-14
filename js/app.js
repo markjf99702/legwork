@@ -152,7 +152,7 @@ function askName() {
   const input = d.querySelector('input');
   d.addEventListener('close', () => {
     const v = input.value.trim().replace(/\s+/g, ' ');
-    if (v) { data.name = v.charAt(0).toUpperCase() + v.slice(1); persist(); }
+    if (d.returnValue === 'ok' && v) { data.name = v.charAt(0).toUpperCase() + v.slice(1); persist(); } // not on Escape
     else if (!data.name) { data.name = 'Novak'; persist(); }
     d.remove();
     route();
