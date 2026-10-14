@@ -319,7 +319,9 @@ dialog h2 { font: 1.5rem/1.2 var(--type); margin-bottom: .5rem; }
 .opt:has(input:checked) { background: var(--red-soft); }
 
 /* ---------- Result ---------- */
-.verdict { text-align: center; margin: 10px 0 20px; overflow-x: clip; } /* the stamp lands from 1.8x; without the clip a phone widens the page to fit it */
+/* The stamp lands from 1.8x; without the clip a phone widens the page to fit it. The clip sits at the
+   screen's edge (the margin undoes the page's 16 px sides), so the tilted stamp's corners still show. */
+.verdict { text-align: center; margin: 10px -16px 20px; padding: 0 16px; overflow-x: clip; }
 .stamp {
   display: inline-block; font: 2.3rem/1 var(--type); letter-spacing: .06em; text-transform: uppercase;
   padding: 10px 18px 6px; border: 5px double currentColor; border-radius: 6px; transform: rotate(-4deg);

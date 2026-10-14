@@ -14,7 +14,7 @@ import { join, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
 import { CASES } from '../js/cases/index.js';
-import { newState, clockAt, walk } from '../js/engine.js';
+import { newState, clockAt, walk, fileReport as submit } from '../js/engine.js';
 
 const require = createRequire(import.meta.url);
 let pw;
@@ -316,6 +316,25 @@ try {
         const split = await p.locator('.lead .tag').evaluateAll(tags => tags.filter(t => t.getClientRects().length > 1).map(t => t.textContent));
         assert.deepEqual(split, [], `tags split across two lines at ${width} px`);
         await fits('the board', p);
+      } finally { await narrow.close(); }
+    }
+  });
+
+  await step('the result’s stamp lands whole on narrow phones', async () => {
+    const { st } = walk(first, first.solution.walk);
+    submit(first, st, Object.fromEntries(first.report.map(q => [q.id, Object.keys(q.options).find(k => ![].concat(q.answer).includes(k))])));
+    for (const width of [320, 360]) {
+      const narrow = await browser.newContext({ ...PHONE, viewport: { width, height: 800 } });
+      try {
+        const p = watch(await narrow.newPage());
+        await p.addInitScript(s => localStorage.setItem('legwork.v1', s), JSON.stringify({ name: 'Kerr', cases: { [first.id]: { st } } }));
+        await p.goto(base + `#/case/${first.id}/result`);
+        assert.match(await p.locator('.stamp').textContent(), /Wrong suspect/);
+        await p.evaluate(() => Promise.all(document.getAnimations().map(a => a.finished)));
+        // The verdict clips the stamp sideways while it lands; once it has, none of it is cut off.
+        const [stamp, clip] = await p.evaluate(() => ['.stamp', '.verdict'].map(s => { const r = document.querySelector(s).getBoundingClientRect(); return [Math.round(r.left), Math.round(r.right)]; }));
+        assert.ok(stamp[0] >= clip[0] && stamp[1] <= clip[1], `the stamp's corners are cut off at ${width} px: ${stamp} in ${clip}`);
+        await fits('the result', p);
       } finally { await narrow.close(); }
     }
   });
