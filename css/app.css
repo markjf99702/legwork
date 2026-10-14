@@ -20,6 +20,7 @@
   --rule: #ddd2bd;
   --red: #b3261e;
   --red-soft: rgba(179, 38, 30, .1);
+  --on-red: #fff;
   --blue: #274a86;
   --green: #2f6b45;
   --note: #fff1b8;
@@ -47,6 +48,7 @@
     --rule: #3a3c40;
     --red: #ec7a6f;
     --red-soft: rgba(236, 122, 111, .12);
+    --on-red: var(--paper); /* white on this lighter red is too faint to read */
     --blue: #93b3ea;
     --green: #7cc596;
     --note: #4d4320;
@@ -128,7 +130,7 @@ h1, h2, h3 { line-height: 1.2; margin: 0; }
 .btn:hover { filter: brightness(1.15); }
 .btn.ghost { background: transparent; color: var(--ink); border-color: var(--rule); }
 .btn.ghost:hover { border-color: var(--ink); filter: none; }
-.btn.red { background: var(--red); border-color: var(--red); color: #fff; }
+.btn.red { background: var(--red); border-color: var(--red); color: var(--on-red); }
 .btn[disabled] { opacity: .45; cursor: not-allowed; filter: none; }
 .btn.block { width: 100%; }
 .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
@@ -237,7 +239,7 @@ dialog h2 { font: 1.5rem/1.2 var(--type); margin-bottom: .5rem; }
 .lead .w { grid-column: 1; font: .82rem/1.35 var(--mono); color: var(--muted); }
 .lead .cost { grid-column: 2; grid-row: 1 / span 2; font: 700 .9rem/1 var(--mono); padding: 8px 10px; border-radius: 4px; background: var(--paper-2); border: 1px solid var(--rule); white-space: nowrap; }
 .lead .tag { font: 700 .66rem/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; padding: 3px 5px; border-radius: 3px; margin-left: 6px; vertical-align: 2px; }
-.tag.new { background: var(--red); color: #fff; }
+.tag.new { background: var(--red); color: var(--on-red); }
 .tag.seen { color: var(--green); border: 1px solid currentColor; }
 .tag.shut { color: var(--muted); border: 1px solid currentColor; }
 .dock {

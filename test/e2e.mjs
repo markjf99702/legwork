@@ -59,6 +59,26 @@ async function doubleTap(one, two = one) {
   await settle();
 }
 
+// How well an element's text stands out from what's behind it (the WCAG contrast ratio), as drawn.
+const contrast = (p, sel) => p.locator(sel).first().evaluate(el => {
+  const rgba = c => {
+    const n = c.match(/[\d.]+/g).map(Number);
+    const [r, g, b, a = 1] = c.startsWith('color(') ? [n[0] * 255, n[1] * 255, n[2] * 255, n[3]] : n;
+    return [r, g, b, a];
+  };
+  const over = (top, under) => [0, 1, 2].map(i => top[i] * top[3] + under[i] * (1 - top[3])).concat(1);
+  const layers = [];
+  for (let e = el; e; e = e.parentElement) {
+    const c = rgba(getComputedStyle(e).backgroundColor);
+    if (c[3]) { layers.unshift(c); if (c[3] === 1) break; }
+  }
+  const bg = layers.reduce((under, c) => over(c, under), [255, 255, 255, 1]);
+  const fg = over(rgba(getComputedStyle(el).color), bg);
+  const lum = c => [0.2126, 0.7152, 0.0722].reduce((s, k, i) => { const v = c[i] / 255; return s + k * (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4); }, 0);
+  const [hi, lo] = [lum(fg), lum(bg)].sort((a, b) => b - a);
+  return (hi + 0.05) / (lo + 0.05);
+});
+
 async function inScene() { return (await page.locator('#leave').count()) > 0; }
 
 // Plays a route: "@lead", "/" or the start of a choice label.
@@ -202,6 +222,28 @@ try {
     assert.match(await text('#file'), /Sure\?/);
     await page.goto(base + `#/case/${first.id}/board`);
     await settle();
+  });
+
+  await step('text is readable in light and dark', async () => {
+    const st = newState(first);
+    // [colour scheme, page, the things on it to check]
+    const checks = [
+      ['dark', `#/case/${first.id}`, ['#take']],
+      ['dark', `#/case/${first.id}/board`, ['.tag.new']],
+    ];
+    for (const [colorScheme, hash, sels] of checks) {
+      const look = await browser.newContext({ ...PHONE, colorScheme });
+      try {
+        const p = await look.newPage();
+        const cases = hash.endsWith(first.id) ? {} : { [first.id]: { st } };
+        await p.addInitScript(s => localStorage.setItem('legwork.v1', s), JSON.stringify({ name: 'Kerr', cases }));
+        await p.goto(base + hash);
+        for (const sel of sels) {
+          const ratio = await contrast(p, sel);
+          assert.ok(ratio >= 4.5, `${sel} on ${hash} in ${colorScheme} is ${ratio.toFixed(2)}:1, under 4.5:1`);
+        }
+      } finally { await look.close(); }
+    }
   });
 
   await step('a wrong report says so, and the case can be played again', async () => {
