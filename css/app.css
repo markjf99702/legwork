@@ -135,6 +135,10 @@ h1, h2, h3 { line-height: 1.2; margin: 0; }
 .btn.block { width: 100%; }
 .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 .linkish { background: none; border: 0; padding: 0; color: var(--blue); text-decoration: underline; cursor: pointer; font: inherit; }
+/* Bigger places to tap than they look: the logo, the top bar's buttons and the small text links. */
+.brand, .chip, .linkish, .tap, details.how summary { position: relative; }
+.brand::after, .chip::after { content: ""; position: absolute; inset: -8px; }
+.linkish::after, .tap::after, details.how summary::after { content: ""; position: absolute; inset: -12px -4px; }
 
 /* ---------- Home ---------- */
 .hero { text-align: center; padding: 18px 0 8px; }

@@ -266,7 +266,7 @@ function board(def, st) {
         ${inbox ? `<div class="inbox">${inbox}</div>` : ''}
         ${timesUp ? `<div class="timesup"><h3>${left <= 0 ? 'Time’s up' : 'Nowhere left to go'}</h3><p>${left <= 0 ? 'Lieutenant Okafor wants your report. It’s time to put a name on it.' : 'There’s nothing left you have time for. Time to write it up.'}</p><a class="btn red" href="#/case/${def.id}/report">Write the report</a></div>` : ''}
         ${groups.map(([name, list]) => `<section class="group"><h2>${name}</h2><ul class="leads">${list.map(s => leadCard(def, st, s)).join('')}</ul></section>`).join('')}
-        <p style="margin-top:22px"><a href="#/case/${def.id}/briefing" class="mono" style="font-size:.85rem">Reread the briefing</a></p>
+        <p style="margin-top:22px"><a href="#/case/${def.id}/briefing" class="mono tap" style="font-size:.85rem">Reread the briefing</a></p>
       </div>
       <aside class="side" aria-label="Latest in your notebook">
         <h2>Latest in your notebook</h2>

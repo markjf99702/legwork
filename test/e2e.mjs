@@ -189,6 +189,23 @@ try {
     assert.match(await page.locator('[data-lead="amato"]').getAttribute('aria-label'), /^Amato’s Pizza\. New\. Place\./);
   });
 
+  await step('small buttons and links are easy to tap', async () => {
+    // A tap just past the edges of each, above and below it (and beside the logo), still reaches it.
+    const roomy = (sel, sides = [[0, -1], [0, 1]]) => page.locator(sel).first().evaluate((el, sides) => {
+      el.scrollIntoView({ block: 'center' });
+      const r = el.getBoundingClientRect();
+      return sides.every(([dx, dy]) => el.contains(document.elementFromPoint(r.left + r.width / 2 + dx * (r.width / 2 + 6), r.top + r.height / 2 + dy * (r.height / 2 + 6))));
+    }, sides);
+    const where = { [`#/case/${first.id}/board`]: ['.brand', '.chip', '.chip.book', `a[href$="/briefing"]`], '#/': ['#rename', 'details.how summary'], [`#/case/${first.id}/briefing`]: ['#restart'] };
+    for (const [hash, sels] of Object.entries(where)) {
+      await page.goto(base + hash);
+      for (const sel of sels) assert.ok(await roomy(sel), `${sel} on ${hash} is hard to tap`);
+    }
+    assert.ok(await roomy('.brand', [[-1, 0], [1, 0]]), 'the logo is hard to tap');
+    await page.goto(base + `#/case/${first.id}/board`);
+    await settle();
+  });
+
   await step('a double tap does one thing, not two', async () => {
     const st = async () => (await page.evaluate(() => JSON.parse(localStorage.getItem('legwork.v1')))).cases[first.id].st;
     const choice = '.choice[data-key]:not([disabled])';
