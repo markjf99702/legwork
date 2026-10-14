@@ -267,6 +267,15 @@ try {
     }
   });
 
+  await step('a message fits across the screen', async () => {
+    await page.goto(base + `#/case/${first.id}/report`);
+    await settle();
+    await page.click('#file'); // with nothing answered
+    const toast = await page.locator('#toast.show').boundingBox();
+    assert.match(await text('#toast'), /Answer every question first/);
+    assert.ok(toast.height < 50, `the message is ${Math.round(toast.width)} × ${Math.round(toast.height)} px, on more than one line`);
+  });
+
   await step('a double tap isn’t a yes to “Sure?”', async () => {
     const saved = async () => (await page.evaluate(() => JSON.parse(localStorage.getItem('legwork.v1')))).cases[first.id].st;
     await page.goto(base + `#/case/${first.id}/briefing`);
