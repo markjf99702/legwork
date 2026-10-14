@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { CASES } from '../js/cases/index.js';
 import { checkCase } from '../js/check.js';
-import { walk, newState, leads, visit, choices, choose, grade, leave } from '../js/engine.js';
+import { walk, newState, leads, visit, choices, choose, grade, leave, fileReport, usable } from '../js/engine.js';
 
 test('case ids and numbers are unique', () => {
   const ids = CASES.map(c => c.id);
@@ -36,6 +36,8 @@ for (const def of CASES) {
     const g = grade(def, st, answers);
     assert.equal(g.stars, 3);
     assert.equal(g.beatPar, true);
+    fileReport(def, st, answers);
+    assert.ok(usable(JSON.parse(JSON.stringify(st))), 'a filed case loads again');
   });
 
   test(`${def.id}: there isn't time to do everything`, () => {
@@ -52,6 +54,7 @@ for (const def of CASES) {
       const rand = n => { r = (r + 0x6D2B79F5) | 0; let x = Math.imul(r ^ (r >>> 15), 1 | r); x ^= x + Math.imul(x ^ (x >>> 7), 61 | x); return ((x ^ (x >>> 14)) >>> 0) % n; }; // mulberry32
       const st = newState(def);
       for (let guard = 0; guard < 400; guard++) {
+        assert.ok(usable(JSON.parse(JSON.stringify(st))), `seed ${seed}: a save from step ${guard} loads again`);
         if (st.scene) {
           const cs = choices(def, st).filter(c => c.enabled);
           if (!cs.length || rand(6) === 0) { leave(def, st); continue; }

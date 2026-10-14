@@ -219,6 +219,22 @@ try {
     } finally { await two.close(); }
   });
 
+  await step('a damaged save doesn’t blank the page', async () => {
+    const done = { ...newState(first), done: true }; // filed, but the report is missing
+    for (const save of [{ name: 'Kerr', cases: { [first.id]: null } }, { name: 'Kerr', cases: { [first.id]: { st: { v: 1 } } } },
+      { name: 42, cases: {} }, { name: 'Kerr', cases: { [first.id]: { st: done } } }]) {
+      const odd = await browser.newContext(PHONE);
+      try {
+        const p = watch(await odd.newPage());
+        await p.addInitScript(s => localStorage.setItem('legwork.v1', s), JSON.stringify(save));
+        await p.goto(base + `#/case/${first.id}`);
+        assert.match(await p.locator('#app').innerText(), /Take the case/i, JSON.stringify(save).slice(0, 60));
+        await p.goto(base + '#/');
+        assert.equal(await p.locator('.folder').count(), CASES.length);
+      } finally { await odd.close(); }
+    }
+  });
+
   await step('the casebook fits a narrow phone with every case in progress', async () => {
     const cases = {};
     for (const def of CASES) { // at the widest time on its clock, like "Mon 10:00 AM"

@@ -22,7 +22,7 @@ const hl = h => E.hoursLabel(h).replace(' ', '\u00a0');
 
 function caseState(def) {
   const st = data.cases[def.id]?.st;
-  return st && st.v === 1 ? st : null;
+  return E.usable(st) ? st : null;
 }
 
 function toast(msg) {

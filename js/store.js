@@ -10,7 +10,12 @@ function blank() {
 export function load() {
   try {
     const d = JSON.parse(localStorage.getItem(KEY) || 'null');
-    if (d && typeof d === 'object' && d.cases) return { ...blank(), ...d };
+    if (d && typeof d === 'object' && d.cases && typeof d.cases === 'object') {
+      // A case that isn't an object, or a name that isn't text, can only come from a damaged or hand-edited save.
+      const cases = Object.fromEntries(Object.entries(d.cases).filter(([, r]) => r && typeof r === 'object'));
+      const name = ['string', 'number'].includes(typeof d.name) ? String(d.name) : '';
+      return { ...blank(), ...d, name, cases };
+    }
   } catch { /* private mode, blocked storage or a bad save: start fresh */ }
   return blank();
 }

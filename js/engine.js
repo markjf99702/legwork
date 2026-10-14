@@ -161,6 +161,17 @@ export function newState(def) {
   return st;
 }
 
+// A saved game that can carry on: everything newState() makes, and the report once it's filed. One that's
+// been damaged or edited by hand counts as no game in progress rather than breaking the page.
+export function usable(st) {
+  const obj = x => !!x && typeof x === 'object' && !Array.isArray(x);
+  return obj(st) && st.v === 1 && typeof st.t === 'number'
+    && ['clues', 'flags', 'visits', 'used', 'entered', 'fired', 'fresh', 'seenLeads'].every(k => obj(st[k]))
+    && ['timers', 'log', 'inbox'].every(k => Array.isArray(st[k]))
+    && (st.scene == null || (obj(st.scene) && Array.isArray(st.scene.lines)))
+    && (!st.done || (obj(st.report) && obj(st.report.answers)));
+}
+
 function gainClue(def, st, id, sink, from) {
   if (id in st.clues) return;
   st.clues[id] = st.t;

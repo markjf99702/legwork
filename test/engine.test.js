@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   parseCond, test as cond, resolveText, clockAt, hoursLabel, deadline, newState, leads, visit, choices, choose,
-  walk, grade, fileReport, timeLeft, leave,
+  walk, grade, fileReport, timeLeft, leave, usable,
 } from '../js/engine.js';
 import { toHTML } from '../js/text.js';
 
@@ -181,6 +181,19 @@ test('saves survive JSON', () => {
   const back = JSON.parse(JSON.stringify(st));
   for (let i = 0; i < 4; i++) visit(tiny, back, 'home'); // 1.5 + 4 × ½ = 3.5, when the results are due
   assert.ok('late' in back.clues);
+});
+
+test('a save is usable if it has everything a game needs', () => {
+  const json = st => JSON.parse(JSON.stringify(st));
+  const st = newState(tiny);
+  assert.equal(usable(json(st)), true);
+  visit(tiny, st, 'home');
+  assert.equal(usable(json(st)), true, 'in a scene');
+  fileReport(tiny, st, { who: 'a', how: 'x' });
+  assert.equal(usable(json(st)), true, 'filed');
+  // Damaged or edited by hand: no game, rather than a blank page.
+  for (const bad of [null, 'x', [], { v: 1 }, { ...json(st), v: 2 }, { ...json(st), clues: null }, { ...json(st), log: {} },
+    { ...json(st), scene: { lead: 'home' } }, { ...json(st), report: null }]) assert.equal(usable(bad), false, JSON.stringify(bad).slice(0, 60));
 });
 
 test('text markup', () => {
