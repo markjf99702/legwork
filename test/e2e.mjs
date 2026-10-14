@@ -267,6 +267,23 @@ try {
     }
   });
 
+  await step('a lead’s tags stay in one piece', async () => {
+    const def = CASES[1]; // The Shared Wall, out of time: long "Not enough time" tags
+    const st = newState(def);
+    st.t = def.hours;
+    for (const width of [390, 320]) {
+      const narrow = await browser.newContext({ ...PHONE, viewport: { width, height: 800 } });
+      try {
+        const p = watch(await narrow.newPage());
+        await p.addInitScript(s => localStorage.setItem('legwork.v1', s), JSON.stringify({ name: 'Kerr', cases: { [def.id]: { st } } }));
+        await p.goto(base + `#/case/${def.id}/board`);
+        const split = await p.locator('.lead .tag').evaluateAll(tags => tags.filter(t => t.getClientRects().length > 1).map(t => t.textContent));
+        assert.deepEqual(split, [], `tags split across two lines at ${width} px`);
+        await fits('the board', p);
+      } finally { await narrow.close(); }
+    }
+  });
+
   await step('a message fits across the screen', async () => {
     await page.goto(base + `#/case/${first.id}/report`);
     await settle();
