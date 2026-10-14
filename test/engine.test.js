@@ -4,7 +4,7 @@ import {
   parseCond, test as cond, resolveText, clockAt, hoursLabel, deadline, newState, leads, visit, choices, choose,
   walk, grade, fileReport, timeLeft, leave, usable,
 } from '../js/engine.js';
-import { toHTML } from '../js/text.js';
+import { toHTML, toPlain } from '../js/text.js';
 
 // A tiny case that exercises every rule.
 const tiny = {
@@ -200,4 +200,11 @@ test('text markup', () => {
   assert.equal(toHTML('Hello *there*, {det}.\nSame para.\n\nNext.', 'Kerr'), '<p>Hello <em>there</em>, Detective Kerr. Same para.</p><p>Next.</p>');
   assert.equal(toHTML('> LOG\n> 22:08 **ARMED**'), '<div class="doc">LOG<br>22:08 <strong>ARMED</strong></div>');
   assert.equal(toHTML('<b>&</b>'), '<p>&lt;b&gt;&amp;&lt;/b&gt;</p>');
+});
+
+test('your name goes into the text exactly as you typed it', () => {
+  for (const name of ['Mo$$', '$&', "O'Neil-$'", '*Kerr*']) {
+    assert.equal(toHTML('Morning, {det}. Sit down, *{name}*.', name), `<p>Morning, Detective ${name.replace('&', '&amp;')}. Sit down, <em>${name.replace('&', '&amp;')}</em>.</p>`);
+    assert.equal(toPlain('Morning, {det}. Sit down, {name}.', name), `Morning, Detective ${name}. Sit down, ${name}.`);
+  }
 });

@@ -5,12 +5,13 @@
 
 const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
+// The name goes in last, and through a function, so it's always just text: a $ or a * in it stays as typed.
 function inline(s, who) {
   return esc(s)
-    .replace(/\{det\}/g, esc(`Detective ${who}`))
-    .replace(/\{name\}/g, esc(who))
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g, '<em>$1</em>');
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/\{det\}/g, () => esc(`Detective ${who}`))
+    .replace(/\{name\}/g, () => esc(who));
 }
 
 export function toHTML(text, who = 'Novak') {
@@ -27,7 +28,8 @@ export function toHTML(text, who = 'Novak') {
 // Plain text with the markup stripped, for places like aria labels.
 export function toPlain(text, who = 'Novak') {
   return String(text || '')
-    .replace(/\{det\}/g, `Detective ${who}`).replace(/\{name\}/g, who)
     .replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1')
-    .replace(/^>\s?/gm, '').replace(/\s+/g, ' ').trim();
+    .replace(/^>\s?/gm, '')
+    .replace(/\{det\}/g, () => `Detective ${who}`).replace(/\{name\}/g, () => who)
+    .replace(/\s+/g, ' ').trim();
 }
