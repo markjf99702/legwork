@@ -442,7 +442,7 @@ Danny sits at his kitchen table the whole time and doesn’t say anything. When 
       at: 5,
       if: '!danny_lawyer & !search_cash',
       title: 'A call from Irene',
-      text: `Irene Kowalczyk calls your cell. “Danny asked to go home early. He said he feels sick.” A pause. “I let him go. Was that wrong?”`,
+      text: `Irene Kowalczyk calls your cell. “Danny asked to go home early. He said he feels sick.” A pause. “I told him to finish the shelves first. Should I let him go?”`,
     },
   ],
 

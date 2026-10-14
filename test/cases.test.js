@@ -102,3 +102,16 @@ test('night-deposit: Danny tells his story before he can be shown the alarm log'
     assert.ok(!('danny_lawyer' in s.clues) || 'danny_story' in s.clues, `seed ${seed}: Danny asked for a lawyer before he told his story`);
   }
 });
+
+// Case 1: Danny stays at the store all day (his interviews are the only road to his story), so
+// Irene's call at two mustn't say he has gone home.
+test('night-deposit: Irene’s call at two leaves Danny where the store says he is', () => {
+  const def = CASES.find(d => d.id === 'night-deposit');
+  const { st } = walk(def, ['@market', 'Ask Irene what she found', 'Talk to Danny', 'Ask him to walk', '@amato', '@tasha', '@landlord', '@amato', '@amato', '@amato', '@market']);
+  const call = st.inbox.find(m => m.title === 'A call from Irene');
+  assert.ok(call, 'the call came in');
+  assert.doesNotMatch(call.text, /I let him go\.|went home|has gone home/, 'she says he has left');
+  visit(def, st, 'market');
+  assert.match(st.scene.lines.at(-1).text, /Danny is still in the back/);
+  assert.ok(choices(def, st).some(c => c.label === 'Talk to Danny'));
+});
