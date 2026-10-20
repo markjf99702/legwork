@@ -336,7 +336,13 @@ function scene(def, st, _arg, seen = null) {
   changed();
   if (seen !== null) {
     const el = app.querySelector(`.transcript [data-i="${firstNew}"]`);
-    if (el) el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    if (el) {
+      el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+      // The choice you picked is gone with the old page, so focus goes to what it brought: a screen
+      // reader reads on from there, and Tab carries on to the choices.
+      el.tabIndex = -1;
+      el.focus({ preventScroll: true });
+    }
   }
   app.querySelectorAll('[data-key]').forEach(b => b.addEventListener('click', () => {
     const before = st.scene.lines.length;

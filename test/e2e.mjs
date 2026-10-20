@@ -195,6 +195,28 @@ try {
     assert.match(await page.locator('[data-lead="amato"]').getAttribute('aria-label'), /^Amato’s Pizza\. New\. Place\./);
   });
 
+  await step('after a choice, focus moves to what it brought', async () => {
+    const keys = await browser.newContext(PHONE);
+    try {
+      await keys.addInitScript(() => { if (!localStorage.getItem('legwork.v1')) localStorage.setItem('legwork.v1', JSON.stringify({ name: 'Kerr', cases: {} })); });
+      const p = watch(await keys.newPage());
+      await p.goto(base + `#/case/${first.id}`);
+      await settle(p);
+      await p.click('#take');
+      await settle(p);
+      await p.click('[data-lead="market"]');
+      await settle(p);
+      const before = await p.locator('.transcript > *').count();
+      await p.focus('.choice[data-key]:not([disabled])');
+      await p.keyboard.press('Enter');
+      await settle(p);
+      const focused = () => p.evaluate(() => { const a = document.activeElement; return { line: a.closest('.transcript') ? a.dataset.i : a.tagName }; });
+      assert.deepEqual(await focused(), { line: String(before) }, 'focus is on the first new line, not the page');
+      await p.keyboard.press('Tab');
+      assert.ok(await p.evaluate(() => document.activeElement.matches('.choice')), 'Tab carries on to the choices');
+    } finally { await keys.close(); }
+  });
+
   await step('small buttons and links are easy to tap', async () => {
     // A tap just past the edges of each, above and below it (and beside the logo), still reaches it.
     const roomy = (sel, sides = [[0, -1], [0, 1]]) => page.locator(sel).first().evaluate((el, sides) => {
