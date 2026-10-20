@@ -491,7 +491,7 @@ function report(def, st) {
 
 function result(def, st) {
   document.title = `Result · ${def.title} · Legwork`;
-  const g = E.grade(def, st, st.report.answers);
+  const g = E.filedGrade(def, st);
   const closed = g.stars > 0;
   const lt = E.routeLeads(def);
   const mine = st.log.map(l => l.lead);
@@ -512,9 +512,10 @@ function result(def, st) {
     <section class="block"><h2>Your report</h2><ol class="answers">
       ${def.report.map((q, i) => {
         const a = g.per[i];
+        if (!a.asked) return ''; // added to the case after this report was filed
         const right = [].concat(q.answer)[0];
         return `<li><div class="qq">${esc(q.q)}</div>
-          <div class="mine ${a.right ? 'right' : 'wrong'}">${a.right ? '✓' : '✗'} ${esc(q.options[a.answer] || 'No answer')}</div>
+          <div class="mine ${a.right ? 'right' : 'wrong'}">${a.right ? '✓' : '✗'} ${esc(q.options[a.answer] || (a.answer ? 'An option no longer on the form' : 'No answer'))}</div>
           ${a.right ? '' : `<div class="mine right">✓ ${esc(q.options[right])}</div>`}
           <div class="why">${esc(toPlain(q.why, who()))}</div></li>`;
       }).join('')}

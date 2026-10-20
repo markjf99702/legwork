@@ -372,6 +372,17 @@ export function fileReport(def, st, answers) {
   return g;
 }
 
+// A filed report with the grade it was given when it was filed, which stands even if the case's
+// questions or the rules for stars change later. Each answer is still checked against the case as it
+// is now; a question added since then is marked as not asked (asked: false).
+export function filedGrade(def, st) {
+  const kept = st.report;
+  const g = grade(def, st, kept.answers);
+  if ([kept.stars, kept.pts, kept.max].every(Number.isFinite)) Object.assign(g, { stars: kept.stars, pts: kept.pts, max: kept.max, beatPar: !!kept.beatPar });
+  g.per = g.per.map(a => ({ ...a, asked: a.id in kept.answers }));
+  return g;
+}
+
 // ---------- Walking a route ----------
 // A route is a list of steps: "@lead" goes there, "/" goes back to the board, and anything else picks
 // the choice in the current scene whose label starts with it. Each case's solution.walk is the

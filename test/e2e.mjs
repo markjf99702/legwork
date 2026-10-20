@@ -424,6 +424,24 @@ try {
     }
   });
 
+  await step('a report filed before the case changed keeps its grade', async () => {
+    const { st } = walk(first, first.solution.walk);
+    submit(first, st, Object.fromEntries(first.report.map(q => [q.id, [].concat(q.answer)[0]])));
+    const [one, two] = first.report.slice(-2).map(q => q.id);
+    delete st.report.answers[one]; // as if this question came later
+    st.report.answers[two] = 'gone'; // and this answer's option had been taken off the form
+    const old = await browser.newContext(PHONE);
+    try {
+      const p = watch(await old.newPage());
+      await p.addInitScript(s => localStorage.setItem('legwork.v1', s), JSON.stringify({ name: 'Kerr', cases: { [first.id]: { st } } }));
+      await p.goto(base + `#/case/${first.id}/result`);
+      assert.equal(await p.locator('.verdict .stars').textContent(), '★★★', 'its stars stand');
+      assert.match(await p.locator('.score').innerText(), /100\/100/);
+      assert.equal(await p.locator('.answers > li').count(), first.report.length - 1, 'the question it wasn’t asked is left out');
+      assert.match(await p.locator('.answers').innerText(), /✗ An option no longer on the form/);
+    } finally { await old.close(); }
+  });
+
   await step('a message fits across the screen', async () => {
     await page.goto(base + `#/case/${first.id}/report`);
     await settle();

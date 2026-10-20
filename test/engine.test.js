@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   parseCond, test as cond, resolveText, clockAt, hoursLabel, deadline, newState, leads, visit, choices, choose,
-  walk, grade, fileReport, timeLeft, leave, usable, reportOptions, waitOut,
+  walk, grade, fileReport, filedGrade, timeLeft, leave, usable, reportOptions, waitOut,
 } from '../js/engine.js';
 import { toHTML, toPlain } from '../js/text.js';
 
@@ -206,6 +206,23 @@ test('walking a route and grading a report', () => {
   fileReport(tiny, st, { who: 'a', how: 'x' });
   assert.equal(st.done, true);
   assert.equal(leads(tiny, st).find(l => l.id === 'home').open, false);
+});
+
+test('a filed report keeps the grade it was given', () => {
+  const { st } = walk(tiny, tiny.solution.walk);
+  fileReport(tiny, st, { who: 'a', how: 'x' });
+  // Later the case gains a question, and the old one's option x is gone.
+  const later = {
+    ...tiny,
+    report: [tiny.report[0], { ...tiny.report[1], options: { y: 'Y', z: 'Z' }, answer: 'y' }, { id: 'new', q: 'New?', options: { p: 'P', q: 'Q' }, answer: 'p', points: 20, why: 'x' }],
+  };
+  const g = filedGrade(later, st);
+  assert.deepEqual([g.stars, g.pts, g.max, g.beatPar], [3, 100, 100, true], 'its stars and points stand');
+  assert.deepEqual(g.per.map(a => [a.id, a.asked]), [['who', true], ['how', true], ['new', false]], 'it isn’t marked on a question it wasn’t asked');
+  assert.equal(g.outcome, 'Right.');
+  // A report saved without its grade is graded now.
+  const bare = { ...st, report: { answers: { who: 'a', how: 'z' } } };
+  assert.deepEqual([filedGrade(tiny, bare).stars, filedGrade(tiny, bare).pts], [1, 60]);
 });
 
 test('the report deals its options in an order of its own, the same each time', () => {
