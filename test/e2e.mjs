@@ -458,6 +458,25 @@ try {
     } finally { await hunch.close(); }
   });
 
+  await step('a half-filled report asks again for an answer no longer on the form', async () => {
+    const st = walk(first, first.solution.walk).st;
+    st.draft = Object.fromEntries(first.report.map(q => [q.id, [].concat(q.answer)[0]]));
+    st.draft[first.report.at(-1).id] = 'gone'; // picked before that option was taken off the form
+    const old = await browser.newContext(PHONE);
+    try {
+      const p = watch(await old.newPage());
+      await p.addInitScript(s => localStorage.setItem('legwork.v1', s), JSON.stringify({ name: 'Kerr', cases: { [first.id]: { st } } }));
+      await p.goto(base + `#/case/${first.id}/report`);
+      await settle(p);
+      await p.click('#file');
+      assert.match(await p.locator('#toast').textContent(), /Answer every question first \(1 to go\)/);
+      await settle(p);
+      await p.click('#file');
+      await settle(p);
+      assert.equal(await p.locator('#rep').count(), 1, 'nothing was filed');
+    } finally { await old.close(); }
+  });
+
   await step('a message fits across the screen', async () => {
     await page.goto(base + `#/case/${first.id}/report`);
     await settle();

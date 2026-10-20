@@ -474,7 +474,7 @@ function report(def, st) {
   form.addEventListener('change', e => { st.draft[e.target.name] = e.target.value; persist(); });
   form.addEventListener('submit', e => {
     e.preventDefault();
-    const missing = def.report.filter(q => !st.draft[q.id]);
+    const missing = def.report.filter(q => !Object.hasOwn(q.options, st.draft[q.id] ?? '')); // an answer whose option has gone counts as none
     if (missing.length) { toast(`Answer every question first (${missing.length} to go).`); return; }
     const btn = app.querySelector('#file');
     if (!btn.dataset.sure) { btn.dataset.sure = '1'; btn.textContent = 'Sure? Tap again to file it'; changed(); return; }
