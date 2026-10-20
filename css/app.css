@@ -346,6 +346,7 @@ dialog h2 { font: 1.5rem/1.2 var(--type); margin-bottom: .5rem; }
 .answers .mine { font: .9rem/1.4 var(--mono); margin-top: 4px; }
 .answers .right { color: var(--green); }
 .answers .wrong { color: var(--red); }
+.answers .unproved { color: var(--muted); }
 .answers .why { font-size: .96rem; color: var(--muted); margin-top: 6px; line-height: 1.5; }
 section.block { margin-top: 28px; }
 section.block > h2 { font: 700 .8rem/1.3 var(--mono); text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin: 0 0 10px; }

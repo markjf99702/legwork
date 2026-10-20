@@ -460,6 +460,7 @@ Danny sits at his kitchen table the whole time and doesn’t say anything. When 
       answer: 'danny',
       points: 40,
       why: 'Danny was the last person with the bag, and the only one whose account of it is contradicted by the record.',
+      chain: 'danny_story & (alarm_log | vince_drop | rent_band & bands)',
     },
     {
       id: 'where',
@@ -473,6 +474,7 @@ Danny sits at his kitchen table the whole time and doesn’t say anything. When 
       answer: 'car',
       points: 20,
       why: 'Tasha watched Danny put it on his passenger seat at 10:08. It never went into the drop (the camera) or back into the store (the alarm log).',
+      chain: 'tasha_bag',
     },
     {
       id: 'proof',
@@ -486,6 +488,7 @@ Danny sits at his kitchen table the whole time and doesn’t say anything. When 
       answer: 'alarm',
       points: 20,
       why: 'Tasha saw the bag leave, and the bank’s camera shows it never reached the drop, but neither shows it didn’t come back. To come back in at 10:25 as he says, Danny would have had to disarm the alarm, and Keystone’s log shows no disarm until Irene’s code at 6:58 a.m. The untouched float is suggestive, but it isn’t proof.',
+      chain: 'alarm_log',
     },
     {
       id: 'why',
@@ -499,6 +502,7 @@ Danny sits at his kitchen table the whole time and doesn’t say anything. When 
       answer: 'rent',
       points: 20,
       why: 'Danny was three months behind on rent with an eviction hearing on Tuesday, and nobody would lend him the money. He paid it all off in Irene’s banded twenties at 7:40 the next morning. Calder Downs was Martin’s habit, not Danny’s.',
+      chain: 'rent_paid',
     },
   ],
 

@@ -354,17 +354,19 @@ export function grade(def, st, answers) {
     const right = [].concat(q.answer).includes(answers[q.id]);
     max += q.points;
     if (right) pts += q.points;
-    return { id: q.id, right, answer: answers[q.id] };
+    // proved: you found the chain clues behind this question's answer (its `chain` condition)
+    return { id: q.id, right, answer: answers[q.id], proved: test(q.chain, st, def) };
   });
   const culprit = per[0].right;
-  // Three stars, and matching the lieutenant, take the chain as well as the answers: every clue that
-  // proves it. A report that's all right without them (a hunch, or a replay filed at once) gets two.
-  const chain = def.solution.chain.every(id => id in st.clues);
-  const stars = !culprit ? 0 : pts === max && chain ? 3 : pts >= 0.7 * max ? 2 : 1;
+  // Three stars, and matching the lieutenant, take the proof as well as the answers: for each answer, the
+  // chain clues behind it, by any of the roads the case gives to it. Not every clue in the chain. A report
+  // that's all right without them (a hunch, or a replay filed at once) gets two.
+  const proved = per.every(a => a.proved);
+  const stars = !culprit ? 0 : pts === max && proved ? 3 : pts >= 0.7 * max ? 2 : 1;
   const par = walk(def, def.solution.walk).st.t;
   const key = answers[def.report[0].id];
   const outcome = def.outcomes?.[key] ?? def.outcomes?.default ?? '';
-  return { pts, max, per, stars, hours: st.t, par, beatPar: pts === max && chain && st.t <= par + 1e-9, outcome };
+  return { pts, max, per, stars, hours: st.t, par, beatPar: pts === max && proved && st.t <= par + 1e-9, outcome };
 }
 
 export function fileReport(def, st, answers) {

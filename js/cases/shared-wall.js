@@ -916,6 +916,7 @@ He saved the things he couldn’t replace. You stand there with that for a momen
       answer: 'gary',
       points: 40,
       why: 'The can was the one Surefill on Pete’s last delivery, and Marie’s book puts it on Gary’s account. Gary had a key to Pete’s alley door, and Walter heard Gary’s back door at 2:55. Pete was at St. Brigid’s all night, Curtis was filling his car, and Nora was in Toronto.',
+      chain: 'ledger | door_key & gary_key & buzzer',
     },
     {
       id: 'target',
@@ -929,6 +930,7 @@ He saved the things he couldn’t replace. You stand there with that for a momen
       answer: 'laundromat',
       points: 15,
       why: 'The gasoline ran along the shared wall and nowhere near Pete’s thinner and lamp oil, so the fire would climb the wall and go through it. The laundromat was the building whose coverage had just gone up and whose best machines had just gone out. Starting at Pete’s door was the frame, and the fire only stalled Harborline’s deal.',
+      chain: 'pour_trail & (coverage_raised | truck_sunday)',
     },
     {
       id: 'motive',
@@ -942,6 +944,7 @@ He saved the things he couldn’t replace. You stand there with that for a momen
       answer: 'insurance',
       points: 15,
       why: 'The laundromat had been losing money for two years, and Harborline wouldn’t buy it without Pete’s building. Five weeks before the fire Gary raised his coverage, and the afternoon after it he filed a claim.',
+      chain: 'coverage_raised',
     },
     {
       id: 'can',
@@ -955,6 +958,7 @@ He saved the things he couldn’t replace. You stand there with that for a momen
       answer: 'ledger',
       points: 15,
       why: 'The sticker only says the can came from Pete’s store. Its date makes it the one Surefill on the 9-25 delivery, and Marie’s book shows that can going on Gary’s account on 10/7. The store’s copy burned; hers was at home.',
+      chain: 'ledger',
     },
     {
       id: 'before',
@@ -968,6 +972,7 @@ He saved the things he couldn’t replace. You stand there with that for a momen
       answer: 'washers',
       points: 15,
       why: 'Yolanda Pierce watched four washers go into a Lakeshore truck on Sunday night. Tri-County never had them, the truck and a storage unit were rented in Gary’s name, and his claim lists them as burned. Nothing left the hardware store: the store’s copy of the accounts burned, and Marie’s was at home all along.',
+      chain: 'truck_sunday',
     },
   ],
 

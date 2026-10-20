@@ -41,11 +41,11 @@ const tiny = {
   },
   events: [{ at: 3, text: 'They fled.', set: ['fled'] }],
   report: [
-    { id: 'who', q: 'Who?', options: { a: 'A', b: 'B' }, answer: 'a', points: 60, why: 'x' },
-    { id: 'how', q: 'How?', options: { x: 'X', y: 'Y' }, answer: ['x', 'y'], points: 40, why: 'x' },
+    { id: 'who', q: 'Who?', options: { a: 'A', b: 'B' }, answer: 'a', points: 60, why: 'x', chain: 'c1' },
+    { id: 'how', q: 'How?', options: { x: 'X', y: 'Y' }, answer: ['x', 'y'], points: 40, why: 'x', chain: 'c2 | c3' }, // two roads
   ],
   outcomes: { a: 'Right.', default: 'Wrong.' },
-  solution: { text: 'x', chain: ['c1', 'c2'], walk: ['@home', 'Ask'] },
+  solution: { text: 'x', chain: ['c1', 'c2', 'c3'], walk: ['@home', 'Ask', 'Dig'] },
 };
 
 test('conditions', () => {
@@ -190,12 +190,12 @@ test('with nothing left that fits, you wait for what’s still due by the deadli
 
 test('walking a route and grading a report', () => {
   const { st } = walk(tiny, tiny.solution.walk);
-  assert.equal(st.t, 1);
+  assert.equal(st.t, 2);
   assert.throws(() => walk(tiny, ['@home', 'Nope']), /isn't a choice/);
   const right = grade(tiny, st, { who: 'a', how: 'y' });
   assert.equal(right.pts, 100);
   assert.equal(right.stars, 3);
-  assert.equal(right.par, 1);
+  assert.equal(right.par, 2);
   assert.equal(right.beatPar, true);
   assert.equal(right.outcome, 'Right.');
   const half = grade(tiny, st, { who: 'a', how: 'z' });
@@ -208,15 +208,19 @@ test('walking a route and grading a report', () => {
   assert.equal(leads(tiny, st).find(l => l.id === 'home').open, false);
 });
 
-test('three stars, and the lieutenant’s praise, take the whole chain', () => {
+test('three stars, and the lieutenant’s praise, take the clues behind every answer', () => {
   const answers = { who: 'a', how: 'x' };
+  const after = steps => grade(tiny, walk(tiny, steps).st, answers);
   const hunch = grade(tiny, newState(tiny), answers); // filed at once: every answer right, no clues
-  assert.deepEqual([hunch.pts, hunch.stars, hunch.beatPar], [100, 2, false]);
-  const half = walk(tiny, ['@home']).st; // c1 but not c2
-  assert.deepEqual([grade(tiny, half, answers).stars, grade(tiny, half, answers).beatPar], [2, false]);
-  const chain = walk(tiny, tiny.solution.walk).st;
-  assert.deepEqual([grade(tiny, chain, answers).stars, grade(tiny, chain, answers).beatPar], [3, true]);
-  assert.equal(grade(tiny, chain, { who: 'a', how: 'z' }).stars, 1, 'the chain doesn’t make up for wrong answers');
+  assert.deepEqual([hunch.pts, hunch.stars, hunch.beatPar, hunch.per.map(a => a.proved)], [100, 2, false, [false, false]]);
+  const half = after(['@home']); // c1 proves who; nothing behind how
+  assert.deepEqual([half.stars, half.beatPar, half.per.map(a => a.proved)], [2, false, [true, false]]);
+  // Either road to how will do, without the rest of the chain.
+  assert.deepEqual([after(['@home', 'Ask']).stars, after(['@home', 'Ask']).beatPar], [3, true], 'c2 and not c3, faster than the lieutenant');
+  assert.deepEqual([after(['@home', 'Dig']).stars, after(['@home', 'Dig']).beatPar], [3, true], 'c3 and not c2');
+  assert.deepEqual([after(['@home', 'Dig', '/', '@home', 'Ask']).stars, after(['@home', 'Dig', '/', '@home', 'Ask']).beatPar], [3, false], 'slower than the lieutenant');
+  assert.deepEqual([after(tiny.solution.walk).stars, after(tiny.solution.walk).beatPar], [3, true]);
+  assert.equal(grade(tiny, walk(tiny, tiny.solution.walk).st, { who: 'a', how: 'z' }).stars, 1, 'the clues don’t make up for wrong answers');
 });
 
 test('a filed report keeps the grade it was given', () => {

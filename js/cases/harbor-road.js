@@ -969,6 +969,7 @@ Dale Whitcomb doesn’t appear. The station uses a file photo of him cutting a r
       answer: 'dale',
       points: 40,
       why: 'The valet book puts the Lexus in Dale Whitcomb’s hands at the Harbor Club at 5:58 a.m., drunk, twelve minutes before the crash. Tyler was asleep in Kessler Park on the Chos’ doorbell camera, and everything known about the driver fits Dale, not his son: the gate camera and Ray’s racked-back seat say tall, and Carmen remembers a big man with gray hair.',
+      chain: '(valet_log | luis_drunk) & (dale_story | tyler_story | doorbell)',
     },
     {
       id: 'from',
@@ -982,6 +983,7 @@ Dale Whitcomb doesn’t appear. The station uses a file photo of him cutting a r
       answer: 'club',
       points: 15,
       why: 'The Lexus spent the night at the Harbor Club: out to “Mr. W” at 5:58 in the valet book, swerving out of the valet circle at 6:03 in front of Roz Petrakis, and on its own trip log. It was heading east, toward Bluffside, when it hit her.',
+      chain: 'valet_log | luis_drunk | roz_saw',
     },
     {
       id: 'repair',
@@ -995,6 +997,7 @@ Dale Whitcomb doesn’t appear. The station uses a file photo of him cutting a r
       answer: 'brooke',
       points: 15,
       why: 'Brooke called Ray Castellano at 10:15 Thursday for a rush cash job, told him her son had hit a deer, and had him collect the car from her garage.',
+      chain: 'brooke_repair',
     },
     {
       id: 'proof',
@@ -1008,6 +1011,7 @@ Dale Whitcomb doesn’t appear. The station uses a file photo of him cutting a r
       answer: 'doorbell',
       points: 15,
       why: 'Maddie’s word is a girlfriend’s word, and the text only shows he was asked to lie. The doorbell camera is a record: Tyler went into the Chos’ house at 11:02 p.m. and didn’t come out until his mother picked him up at 7:41 a.m., an hour and a half after the crash.',
+      chain: 'doorbell',
     },
     {
       id: 'why',
@@ -1021,6 +1025,7 @@ Dale Whitcomb doesn’t appear. The station uses a file photo of him cutting a r
       answer: 'juvenile',
       points: 15,
       why: 'Voigt said it himself: seventeen, no record, no alcohol. Dale had been drinking scotch until 5:40 a.m., and as the driver he faced prison and the end of his career. Tyler told Maddie the plan at noon.',
+      chain: 'maddie_why | shay_tab | luis_drunk',
     },
   ],
 

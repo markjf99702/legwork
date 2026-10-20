@@ -84,9 +84,29 @@ test('no later report question names the culprit', () => {
   }
 });
 
+// Each answer names the chain clues behind it, and the checker holds them to the rules in docs/WRITING.md.
+test('the checker wants the chain clues behind every answer', () => {
+  const errors = (id, qid, chain) => {
+    const def = CASES.find(c => c.id === id);
+    return checkCase({ ...def, report: def.report.map(q => (q.id === qid ? { ...q, chain } : q)) }).join('\n');
+  };
+  assert.match(errors('night-deposit', 'where', undefined), /report question where needs a chain/);
+  assert.match(errors('night-deposit', 'where', 'tasha_bag | camera'), /names "camera", which isn't in the solution's chain/);
+  assert.match(errors('night-deposit', 'where', 'tasha_bag & !camera'), /should only join clues with & and \|/);
+  assert.match(errors('night-deposit', 'where', 'tasha_bag &'), /where chain: Bad condition/);
+  assert.match(errors('the-heron', 'how', 'console_log'), /is met before you've found anything/, 'console_log is known from the start');
+  assert.equal(errors('night-deposit', 'where', 'tasha_bag'), '');
+});
+
 for (const def of CASES) {
   test(`${def.id}: passes the case checker`, () => {
     assert.deepEqual(checkCase(def), []);
+  });
+
+  test(`${def.id}: a report filed at once, every answer right, gets two stars`, () => {
+    const answers = Object.fromEntries(def.report.map(q => [q.id, [].concat(q.answer)[0]]));
+    const g = grade(def, newState(def), answers);
+    assert.deepEqual([g.pts, g.stars, g.beatPar], [g.max, 2, false]);
   });
 
   test(`${def.id}: the lieutenant's route solves it in time`, () => {

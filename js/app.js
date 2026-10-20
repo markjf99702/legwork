@@ -163,7 +163,7 @@ function home() {
         <li><b>What you learn opens doors.</b> A name in one interview becomes a place to go; a fact becomes a question you can put to someone else. Go back when you have something new to ask.</li>
         <li><b>Labs and records take hours.</b> Send the request early, and the answer turns up while you work.</li>
         <li><b>Your notebook keeps everything:</b> the clues, the people, and a timeline of the night in question.</li>
-        <li><b>File your report</b> when you’re sure, or when the clock runs out: who did it, how, and why. Three stars takes every answer right and every clue that proves it. Then see what really happened, and how the lieutenant would have worked it.</li>
+        <li><b>File your report</b> when you’re sure, or when the clock runs out: who did it, how, and why. Three stars takes every answer right and the clues that prove each one. Then see what really happened, and how the lieutenant would have worked it.</li>
       </ul>
     </details>
     <p class="footnote">Your cases are saved in this browser. Nothing is sent anywhere.</p>
@@ -496,13 +496,15 @@ function result(def, st) {
   const lt = E.routeLeads(def);
   const mine = st.log.map(l => l.lead);
   const found = def.solution.chain.filter(id => id in st.clues).length;
+  const asked = g.per.filter(a => a.asked);
+  const unproved = g.stars < 3 ? asked.filter(a => a.right && !a.proved).length : 0; // right, without the clues behind it
   app.innerHTML = `<div class="wrap">
     ${caseHead(def)}
     <div class="verdict">
       <span class="stamp ${closed ? 'ok' : 'bad'}">${closed ? 'Case closed' : 'Wrong suspect'}</span>
       <span class="stars" aria-label="${g.stars} of 3 stars">${starText(g.stars)}</span>
       ${g.beatPar ? '<p class="mono" style="margin:.4rem 0 0">Every answer right, as fast as the lieutenant. She’s impressed. She won’t say so.</p>' : ''}
-      ${g.pts === g.max && g.stars === 2 ? `<p class="mono" style="margin:.4rem 0 0">Every answer right, but the third star takes the whole chain, and you found ${found} of its ${def.solution.chain.length} clues.</p>` : ''}
+      ${g.pts === g.max && g.stars === 2 && unproved ? `<p class="mono" style="margin:.4rem 0 0">Every answer right, but the third star takes the clues that prove each one, and you couldn’t prove ${unproved === asked.length ? 'any of them' : `${unproved}&nbsp;of the ${asked.length}`}.</p>` : ''}
     </div>
     <div class="score">
       <div><b>${g.pts}/${g.max}</b><span>Points</span></div>
@@ -519,6 +521,7 @@ function result(def, st) {
         return `<li><div class="qq">${esc(q.q)}</div>
           <div class="mine ${a.right ? 'right' : 'wrong'}">${a.right ? '✓' : '✗'} ${esc(q.options[a.answer] || (a.answer ? 'An option no longer on the form' : 'No answer'))}</div>
           ${a.right ? '' : `<div class="mine right">✓ ${esc(q.options[right])}</div>`}
+          ${a.right && !a.proved && g.stars < 3 ? '<div class="mine unproved">○ You couldn’t prove it</div>' : ''}
           <div class="why">${esc(toPlain(q.why, who()))}</div></li>`;
       }).join('')}
     </ol></section>

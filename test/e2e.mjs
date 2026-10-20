@@ -452,10 +452,40 @@ try {
       await p.goto(base + `#/case/${first.id}/result`);
       assert.equal(await p.locator('.verdict .stars').textContent(), '★★☆');
       const verdict = (await p.locator('.verdict').innerText()).replace(/\s+/g, ' ');
-      assert.match(verdict, new RegExp(`the third star takes the whole chain, and you found 0 of its ${first.solution.chain.length} clues`));
+      assert.match(verdict, /the third star takes the clues that prove each one, and you couldn’t prove any of them\./);
       assert.doesNotMatch(verdict, /as fast as the lieutenant/);
+      assert.equal(await p.locator('.answers .unproved').count(), first.report.length, 'every answer is marked');
       await fits('the result', p);
     } finally { await hunch.close(); }
+  });
+
+  await step('the third star takes the clues behind each answer, not the whole chain', async () => {
+    const right = Object.fromEntries(first.report.map(q => [q.id, [].concat(q.answer)[0]]));
+    const routeWithout = (...skip) => {
+      const st = walk(first, first.solution.walk.filter(s => !skip.includes(s))).st;
+      submit(first, st, right);
+      return st;
+    };
+    // Without Amato's, the night drop that worked never turns up, but the alarm log still breaks Danny's story:
+    // every answer proved, half an hour quicker than the lieutenant. Without asking Tasha, nothing in the
+    // chain says where the bag was at closing.
+    const games = [
+      [routeWithout('@amato', 'Ask if he uses'), '★★★', [], /as fast as the lieutenant/],
+      [routeWithout('Ask about closing up'), '★★☆', ['where'], /the third star takes the clues that prove each one, and you couldn’t prove 1 of the 4\./],
+    ];
+    for (const [st, stars, marked, line] of games) {
+      const own = await browser.newContext(PHONE);
+      try {
+        const p = watch(await own.newPage());
+        await p.addInitScript(s => localStorage.setItem('legwork.v1', s), JSON.stringify({ name: 'Kerr', cases: { [first.id]: { st } } }));
+        await p.goto(base + `#/case/${first.id}/result`);
+        assert.equal(await p.locator('.verdict .stars').textContent(), stars);
+        assert.match((await p.locator('.verdict').innerText()).replace(/\s+/g, ' '), line);
+        const isMarked = await p.locator('.answers > li').evaluateAll(lis => lis.map(li => !!li.querySelector('.unproved')));
+        assert.deepEqual(first.report.filter((q, i) => isMarked[i]).map(q => q.id), marked, 'the answers it couldn’t prove are marked');
+        await fits('the result', p);
+      } finally { await own.close(); }
+    }
   });
 
   await step('a half-filled report asks again for an answer no longer on the form', async () => {
@@ -525,6 +555,8 @@ try {
     const late = newState(first);
     late.t = first.hours;
     const closed = { best: { stars: 3, pts: 100, max: 100, hours: 4, beatPar: true } };
+    const hunch = newState(first); // filed at once with every answer right: each one marked as not proved
+    submit(first, hunch, Object.fromEntries(first.report.map(q => [q.id, [].concat(q.answer)[0]])));
     // [colour scheme, the case's save, page, the things on it to check]
     const checks = [];
     for (const scheme of ['light', 'dark']) {
@@ -535,6 +567,7 @@ try {
         [scheme, { st: fresh }, `#/case/${first.id}/board`, ['.tag.new', '.clock .left', '.group h2']],
         [scheme, { st: late }, `#/case/${first.id}/board`, ['.timesup h3']],
         [scheme, { st: visited }, `#/case/${first.id}/notes/clues`, ['.card .src', '.tabs a:not([aria-current])']],
+        [scheme, { st: hunch }, `#/case/${first.id}/result`, ['.answers .unproved']],
       );
     }
     for (const [colorScheme, saved, hash, sels] of checks) {
@@ -585,6 +618,7 @@ try {
       await fileReport(def, q => [].concat(q.answer)[0]);
       assert.match(await text('.stamp'), /Case closed/);
       assert.equal((await text('.verdict .stars')), '★★★');
+      assert.equal(await page.locator('.answers .unproved').count(), 0, 'every answer proved');
       assert.match(await text('.chain'), new RegExp(def.clues[def.solution.chain[0]].title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
     });
   }
