@@ -40,6 +40,24 @@ test('the report form doesn’t give its answers away by their order', () => {
   }
 });
 
+// Nor by their length: a careful reader who picks the longest, most specific option shouldn't find the
+// right one any more often than picking at random would.
+test('the report form doesn’t give its answers away by their length', () => {
+  let longest = 0, chance = 0;
+  for (const def of CASES) {
+    for (const q of def.report) {
+      const right = [].concat(q.answer);
+      const len = k => q.options[k].length;
+      const r = Math.max(...right.map(len));
+      const w = Math.max(...Object.keys(q.options).filter(k => !right.includes(k)).map(len));
+      assert.ok(r <= 1.1 * w, `${def.id} ${q.id}: the right option is ${(r / w).toFixed(2)} times as long as the longest wrong one`);
+      if (r > w) longest++;
+      chance += 1 / Object.keys(q.options).length;
+    }
+  }
+  assert.ok(longest <= Math.round(chance), `the right option is the longest in ${longest} questions; picking at random would find it in ${chance.toFixed(1)}`);
+});
+
 // The first question names the suspects. A later question that names the culprit answers it for you.
 test('no later report question names the culprit', () => {
   for (const def of CASES) {

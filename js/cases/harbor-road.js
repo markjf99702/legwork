@@ -1013,10 +1013,10 @@ Dale Whitcomb doesn’t appear. The station uses a file photo of him cutting a r
       id: 'why',
       q: 'Why did the family put Tyler forward?',
       options: {
-        juvenile: 'A sober seventeen-year-old with no record would get probation',
+        juvenile: 'A sober seventeen-year-old with no record gets probation',
         loyal: 'Tyler insisted on taking the blame himself',
         insurance: 'Tyler was the only one insured to drive the Lexus',
-        club: 'To keep the Harbor Club out of the papers',
+        club: 'To keep the Harbor Club’s all-night party out of the papers',
       },
       answer: 'juvenile',
       points: 15,
