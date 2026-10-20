@@ -217,6 +217,53 @@ try {
     } finally { await keys.close(); }
   });
 
+  await step('Back leaves a case in one step', async () => {
+    const nav = await browser.newContext(PHONE);
+    try {
+      await nav.addInitScript(() => { if (!localStorage.getItem('legwork.v1')) localStorage.setItem('legwork.v1', JSON.stringify({ name: 'Kerr', cases: {} })); });
+      const p = watch(await nav.newPage());
+      const back = async () => { await p.evaluate(() => history.back()); await settle(p); };
+      const casebook = async () => (await p.locator('.folders').count()) === 1;
+      await p.goto(base);
+      await settle(p);
+      const steps = await p.evaluate(() => history.length);
+      await p.click(`a[href="#/case/${first.id}"]`);
+      await settle(p);
+      await p.click('#take');
+      await settle(p);
+      for (const lead of ['market', 'amato']) {
+        await p.click(`[data-lead="${lead}"]`);
+        await settle(p);
+        await p.click('.choice[data-key]:not([disabled])');
+        await settle(p);
+        await p.click('#leave');
+        await settle(p);
+      }
+      assert.equal(await p.evaluate(() => history.length), steps + 1, 'the case is one step in the history, however many leads you follow');
+      // The notebook opens on top of the board; its tabs add nothing.
+      await p.click('.dock a[href$="/notes"]');
+      await settle(p);
+      for (const tab of ['people', 'timeline']) { await p.click(`.tabs a[href$="${tab}"]`); await settle(p); }
+      await back();
+      assert.equal(await p.evaluate(() => location.hash), `#/case/${first.id}/board`, 'Back from the notebook goes to the board');
+      await back();
+      assert.ok(await casebook(), 'Back from the board goes to the casebook');
+      // Filing the report steps down to the case, so the result is one Back from the casebook too.
+      await p.click(`a[href="#/case/${first.id}"]`);
+      await settle(p);
+      await p.click('.dock a[href$="/report"]');
+      await settle(p);
+      for (const q of first.report) await p.check(`input[name="${q.id}"][value="${[].concat(q.answer)[0]}"]`);
+      await p.click('#file');
+      await settle(p);
+      await p.click('#file');
+      await settle(p);
+      assert.equal(await p.locator('.stamp').count(), 1, 'the result is showing');
+      await back();
+      assert.ok(await casebook(), 'Back from the result goes to the casebook');
+    } finally { await nav.close(); }
+  });
+
   await step('small buttons and links are easy to tap', async () => {
     // A tap just past the edges of each, above and below it (and beside the logo), still reaches it.
     const roomy = (sel, sides = [[0, -1], [0, 1]]) => page.locator(sel).first().evaluate((el, sides) => {

@@ -14,7 +14,6 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': 
 const who = () => data.name || 'Novak';
 const html = (t) => toHTML(t, who());
 const persist = () => save(data);
-const go = hash => { if (location.hash === hash) route(); else location.hash = hash; };
 const KIND = { place: 'Place', person: 'Person', records: 'Records', lab: 'Lab', phone: 'Call' };
 const dots = n => '●'.repeat(n) + '○'.repeat(3 - n);
 const starText = n => '★'.repeat(n) + '☆'.repeat(3 - n);
@@ -45,7 +44,45 @@ app.addEventListener('click', e => {
   if (performance.now() - changedAt < STEADY) { e.preventDefault(); e.stopPropagation(); }
 }, true);
 
-window.addEventListener('hashchange', route);
+// The board, a scene and the result are the case itself, and share one step in the browser's history:
+// going from one to another replaces it. The notebook, the report and the briefing (once you've taken
+// the case) open on top of it. So Back from any of those goes back to the case, and Back from the case
+// goes back to the casebook, however many leads you followed.
+const ON_TOP = ['notes', 'report', 'briefing'];
+function place(hash) {
+  const [, id, sub] = hash.replace(/^#\/?/, '').split('/');
+  const def = hash.startsWith('#/case/') ? byId(id) : null;
+  return def ? { id, top: ON_TOP.includes(sub) && !!caseState(def) } : {};
+}
+
+let landing = null; // where to end up after stepping back down to the case
+function go(hash) {
+  const from = route.at || {}, to = place(hash);
+  // Down from a page on top to the case under it (even to the same address: the briefing after
+  // "Start this case over" is the case now).
+  if (from.id === to.id && from.top && !to.top && history.state?.top === to.id) { landing = hash; history.back(); return; }
+  if (location.hash === hash) { route(); return; }
+  if (!from.id || from.id !== to.id) { location.hash = hash; return; } // into a case, or out of one
+  if (!from.top && to.top) history.pushState({ top: to.id }, '', hash);
+  else history.replaceState(from.top && to.top ? history.state : null, '', hash);
+  route();
+}
+
+// Links within the app move the same way.
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="#"]');
+  if (!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  e.preventDefault();
+  go(a.getAttribute('href'));
+});
+
+window.addEventListener('hashchange', () => {
+  if (landing) {
+    if (location.hash !== landing) history.replaceState(history.state, '', landing);
+    landing = null;
+  }
+  route();
+});
 // Another tab, or the installed app, saved: take its save before this one writes over it. A tab that
 // isn't showing waits until it is to redraw, or its board would mark the other tab's new leads as seen.
 let stale = false;
@@ -77,6 +114,7 @@ function route() {
     ({ briefing, board, scene, notes, report, result }[page] || board)(def, st, arg);
     bar(def, caseState(def));
   }
+  route.at = place(location.hash);
   changed();
   if (was !== location.hash) { window.scrollTo(0, 0); app.focus({ preventScroll: true }); }
 }
