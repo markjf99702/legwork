@@ -1214,7 +1214,7 @@ A pause. “She hasn’t taken two weeks off in six years. Should I be worried a
       id: 'why',
       q: 'Why was the theft staged now?',
       options: {
-        exam: 'The Art Institute would examine it when the loan arrived',
+        exam: 'To keep the Art Institute from examining it on arrival',
         insurance: 'To collect the $420,000 it had just been insured for',
         lawsuit: 'To keep Erik Lindqvist’s lawsuit out of court',
         resale: 'To sell the painting before the loan took it out of reach',

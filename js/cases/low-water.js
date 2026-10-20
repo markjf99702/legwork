@@ -1116,7 +1116,7 @@ She doesn’t wait for an answer.`,
       id: 'wound',
       q: 'What made the wound on his head?',
       options: {
-        lantern: 'One of a pair of bronze lanterns on a patio',
+        lantern: 'The base of a bronze patio lantern, one of a pair',
         rim: 'The rim of a hot tub, as he slipped getting in',
         dock: 'The edge of the dock, as he fell in beside his boat',
         tailgate: 'The tailgate of his pickup, with his blood on it',

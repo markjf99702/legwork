@@ -491,7 +491,7 @@ Danny sits at his kitchen table the whole time and doesn’t say anything. When 
       id: 'why',
       q: 'Why was the deposit taken?',
       options: {
-        rent: 'The thief was about to be evicted for back rent',
+        rent: 'To pay off the back rent before an eviction',
         gambling: 'To pay off gambling debts at Calder Downs',
         loan: 'To pay back a loan shark who wanted it fast',
         tasha: 'To cover Tasha’s daycare after Irene said no',

@@ -58,6 +58,21 @@ test('the report form doesn’t give its answers away by their length', () => {
   assert.ok(longest <= Math.round(chance), `the right option is the longest in ${longest} questions; picking at random would find it in ${chance.toFixed(1)}`);
 });
 
+// Nor by how they start: when every wrong option starts the same way (“To pay…”, “To cover…”), a right
+// one that starts some other way is the odd one out, and a careful reader picks it.
+test('the report form doesn’t give its answers away by how they start', () => {
+  for (const def of CASES) {
+    for (const q of def.report) {
+      const right = [].concat(q.answer);
+      const first = k => q.options[k].split(' ')[0];
+      const wrong = Object.keys(q.options).filter(k => !right.includes(k)).map(first);
+      if (wrong.every(w => w === wrong[0])) {
+        assert.ok(right.some(k => first(k) === wrong[0]), `${def.id} ${q.id}: every wrong option starts “${wrong[0]}” and the right one doesn’t`);
+      }
+    }
+  }
+});
+
 // The first question names the suspects. A later question that names the culprit answers it for you.
 test('no later report question names the culprit', () => {
   for (const def of CASES) {
