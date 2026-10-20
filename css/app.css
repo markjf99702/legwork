@@ -177,6 +177,9 @@ h1, h2, h3 { line-height: 1.2; margin: 0; }
 .status.open { color: var(--blue); }
 .status.wrong { color: var(--red); }
 .stars { color: var(--red); letter-spacing: 1px; }
+@media (prefers-color-scheme: dark) {
+  .status .stars { color: color-mix(in srgb, var(--red) 70%, var(--ink)); } /* plain red is too faint on the dark folder */
+}
 details.how { margin: 32px 0 0; }
 details.how summary { cursor: pointer; font: 700 .9rem/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em; }
 details.how ul { padding-left: 1.2rem; margin: .8rem 0 0; }

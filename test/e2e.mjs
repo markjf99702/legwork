@@ -83,9 +83,15 @@ const contrast = (p, sel) => p.locator(sel).first().evaluate(el => {
     return [r, g, b, a];
   };
   const over = (top, under) => [0, 1, 2].map(i => top[i] * top[3] + under[i] * (1 - top[3])).concat(1);
+  // A gradient counts as its last colour, which fills the rest of the element: the case folders fade
+  // from --manila-2 to --manila in their top 7 px, and what's on them sits below that.
+  const fill = e => {
+    const s = getComputedStyle(e);
+    return (s.backgroundImage.startsWith('linear-gradient') && s.backgroundImage.match(/(?:rgba?|color)\([^)]*\)/g)?.at(-1)) || s.backgroundColor;
+  };
   const layers = [];
   for (let e = el; e; e = e.parentElement) {
-    const c = rgba(getComputedStyle(e).backgroundColor);
+    const c = rgba(fill(e));
     if (c[3]) { layers.unshift(c); if (c[3] === 1) break; }
   }
   const bg = layers.reduce((under, c) => over(c, under), [255, 255, 255, 1]);
@@ -396,22 +402,24 @@ try {
     const visited = walk(first, ['@market', 'Ask Irene what she found']).st;
     const late = newState(first);
     late.t = first.hours;
-    // [colour scheme, the game in progress, page, the things on it to check]
+    const closed = { best: { stars: 3, pts: 100, max: 100, hours: 4, beatPar: true } };
+    // [colour scheme, the case's save, page, the things on it to check]
     const checks = [];
     for (const scheme of ['light', 'dark']) {
       checks.push(
         [scheme, null, '#/', ['.hero p', '.who', '.footnote']],
+        [scheme, closed, '#/', ['.status .stars']],
         [scheme, null, `#/case/${first.id}`, ['.eyebrow', '.facts span', '#take']],
-        [scheme, fresh, `#/case/${first.id}/board`, ['.tag.new', '.clock .left', '.group h2']],
-        [scheme, late, `#/case/${first.id}/board`, ['.timesup h3']],
-        [scheme, visited, `#/case/${first.id}/notes/clues`, ['.card .src', '.tabs a:not([aria-current])']],
+        [scheme, { st: fresh }, `#/case/${first.id}/board`, ['.tag.new', '.clock .left', '.group h2']],
+        [scheme, { st: late }, `#/case/${first.id}/board`, ['.timesup h3']],
+        [scheme, { st: visited }, `#/case/${first.id}/notes/clues`, ['.card .src', '.tabs a:not([aria-current])']],
       );
     }
-    for (const [colorScheme, st, hash, sels] of checks) {
+    for (const [colorScheme, saved, hash, sels] of checks) {
       const look = await browser.newContext({ ...PHONE, colorScheme });
       try {
         const p = watch(await look.newPage());
-        const cases = st ? { [first.id]: { st } } : {};
+        const cases = saved ? { [first.id]: saved } : {};
         await p.addInitScript(s => localStorage.setItem('legwork.v1', s), JSON.stringify({ name: 'Kerr', cases }));
         await p.goto(base + hash);
         for (const sel of sels) {
