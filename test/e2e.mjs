@@ -543,6 +543,36 @@ try {
     await fits('the casebook');
   });
 
+  await step('the maskable icon keeps its picture inside the safe zone', async () => {
+    // Android crops a maskable icon to a circle, a squircle or a rounded square, and only the middle
+    // circle, 80% across, survives every shape. Outside it there should be nothing but background.
+    const look = await browser.newContext();
+    try {
+      const p = watch(await look.newPage());
+      await p.goto(base);
+      const stray = await p.evaluate(async () => {
+        const icons = (await (await fetch('manifest.webmanifest')).json()).icons;
+        const src = icons.find(i => i.purpose === 'maskable').src;
+        const img = await createImageBitmap(await (await fetch(src)).blob());
+        const n = img.width;
+        const g = new OffscreenCanvas(n, n).getContext('2d');
+        g.drawImage(img, 0, 0);
+        const px = g.getImageData(0, 0, n, n).data;
+        const background = [[0xef, 0xd7, 0xa0], [0xe2, 0xc2, 0x7c]]; // the paper and the desk edge
+        let count = 0;
+        for (let y = 0; y < n; y++) {
+          for (let x = 0; x < n; x++) {
+            if (Math.hypot(x + 0.5 - n / 2, y + 0.5 - n / 2) <= 0.4 * n) continue;
+            const i = (y * n + x) * 4;
+            if (!background.some(b => b.every((v, k) => Math.abs(v - px[i + k]) <= 8))) count++;
+          }
+        }
+        return count;
+      });
+      assert.equal(stray, 0, `${stray} pixels of the picture fall outside the safe zone`);
+    } finally { await look.close(); }
+  });
+
   await step('it works offline once it has been opened', async () => {
     const away = await browser.newContext(PHONE);
     try {
