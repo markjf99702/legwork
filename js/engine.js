@@ -357,11 +357,14 @@ export function grade(def, st, answers) {
     return { id: q.id, right, answer: answers[q.id] };
   });
   const culprit = per[0].right;
-  const stars = !culprit ? 0 : pts === max ? 3 : pts >= 0.7 * max ? 2 : 1;
+  // Three stars, and matching the lieutenant, take the chain as well as the answers: every clue that
+  // proves it. A report that's all right without them (a hunch, or a replay filed at once) gets two.
+  const chain = def.solution.chain.every(id => id in st.clues);
+  const stars = !culprit ? 0 : pts === max && chain ? 3 : pts >= 0.7 * max ? 2 : 1;
   const par = walk(def, def.solution.walk).st.t;
   const key = answers[def.report[0].id];
   const outcome = def.outcomes?.[key] ?? def.outcomes?.default ?? '';
-  return { pts, max, per, stars, hours: st.t, par, beatPar: pts === max && st.t <= par + 1e-9, outcome };
+  return { pts, max, per, stars, hours: st.t, par, beatPar: pts === max && chain && st.t <= par + 1e-9, outcome };
 }
 
 export function fileReport(def, st, answers) {

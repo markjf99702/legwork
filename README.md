@@ -22,7 +22,7 @@
 - **What you learn opens doors.** A name in one interview becomes a place to go. A fact you find becomes a question you can put to someone else, so go back to them when you’ve got something new. Show a suspect the log that contradicts them and watch the story change.
 - **Records and the lab take time.** Send the request early, and a few hours later the answer reaches you wherever you are, while you work other leads. Some things happen on their own schedule: a witness wakes up, a lawyer stops the interviews, someone files a claim.
 - **Your notebook** keeps every clue, a page for each person with what you know about them, a timeline of the night in question built from every time anyone gives you, and a log of your own day.
-- **The report** asks who did it, and then the questions a guess won’t get: how, why, where the money went, what proves the alibi false. Afterward you see what really happened, which clues proved it (and which you missed), and the lieutenant’s shorter route next to yours.
+- **The report** asks who did it, and then the questions a guess won’t get: how, why, where the money went, what proves the alibi false. Three stars takes every answer right and every clue in the chain that proves it. Afterward you see what really happened, which clues proved it (and which you missed), and the lieutenant’s shorter route next to yours.
 - **The cases**
   1. **The Night Deposit** · theft · a grocery’s Saturday takings never reach the bank, and the safe wasn’t forced
   2. **The Shared Wall** · arson · a hardware store burns, and its broke owner looks guilty

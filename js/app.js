@@ -163,7 +163,7 @@ function home() {
         <li><b>What you learn opens doors.</b> A name in one interview becomes a place to go; a fact becomes a question you can put to someone else. Go back when you have something new to ask.</li>
         <li><b>Labs and records take hours.</b> Send the request early, and the answer turns up while you work.</li>
         <li><b>Your notebook keeps everything:</b> the clues, the people, and a timeline of the night in question.</li>
-        <li><b>File your report</b> when you’re sure, or when the clock runs out: who did it, how, and why. Then see what really happened, and how the lieutenant would have worked it.</li>
+        <li><b>File your report</b> when you’re sure, or when the clock runs out: who did it, how, and why. Three stars takes every answer right and every clue that proves it. Then see what really happened, and how the lieutenant would have worked it.</li>
       </ul>
     </details>
     <p class="footnote">Your cases are saved in this browser. Nothing is sent anywhere.</p>
@@ -495,12 +495,14 @@ function result(def, st) {
   const closed = g.stars > 0;
   const lt = E.routeLeads(def);
   const mine = st.log.map(l => l.lead);
+  const found = def.solution.chain.filter(id => id in st.clues).length;
   app.innerHTML = `<div class="wrap">
     ${caseHead(def)}
     <div class="verdict">
       <span class="stamp ${closed ? 'ok' : 'bad'}">${closed ? 'Case closed' : 'Wrong suspect'}</span>
       <span class="stars" aria-label="${g.stars} of 3 stars">${starText(g.stars)}</span>
       ${g.beatPar ? '<p class="mono" style="margin:.4rem 0 0">Every answer right, as fast as the lieutenant. She’s impressed. She won’t say so.</p>' : ''}
+      ${g.pts === g.max && g.stars === 2 ? `<p class="mono" style="margin:.4rem 0 0">Every answer right, but the third star takes the whole chain, and you found ${found} of its ${def.solution.chain.length} clues.</p>` : ''}
     </div>
     <div class="score">
       <div><b>${g.pts}/${g.max}</b><span>Points</span></div>
@@ -524,7 +526,7 @@ function result(def, st) {
     <section class="block"><h2>What really happened</h2><article class="paper prose">${html(def.solution.text)}</article></section>
 
     <section class="block"><h2>The chain</h2>
-      <p class="muted" style="margin:0 0 10px;font-size:.98rem">The clues that prove it. You found ${def.solution.chain.filter(id => id in st.clues).length} of ${def.solution.chain.length}.</p>
+      <p class="muted" style="margin:0 0 10px;font-size:.98rem">The clues that prove it. You found ${found} of ${def.solution.chain.length}.</p>
       <ul class="chain">${def.solution.chain.map(id => {
         const had = id in st.clues;
         return `<li><span class="mark ${had ? 'had' : 'miss'}">${had ? '✓' : '○'}</span><span><b>${esc(def.clues[id].title)}.</b> ${esc(toPlain(def.clues[id].text, who()))}</span></li>`;

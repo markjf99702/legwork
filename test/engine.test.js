@@ -208,6 +208,17 @@ test('walking a route and grading a report', () => {
   assert.equal(leads(tiny, st).find(l => l.id === 'home').open, false);
 });
 
+test('three stars, and the lieutenant’s praise, take the whole chain', () => {
+  const answers = { who: 'a', how: 'x' };
+  const hunch = grade(tiny, newState(tiny), answers); // filed at once: every answer right, no clues
+  assert.deepEqual([hunch.pts, hunch.stars, hunch.beatPar], [100, 2, false]);
+  const half = walk(tiny, ['@home']).st; // c1 but not c2
+  assert.deepEqual([grade(tiny, half, answers).stars, grade(tiny, half, answers).beatPar], [2, false]);
+  const chain = walk(tiny, tiny.solution.walk).st;
+  assert.deepEqual([grade(tiny, chain, answers).stars, grade(tiny, chain, answers).beatPar], [3, true]);
+  assert.equal(grade(tiny, chain, { who: 'a', how: 'z' }).stars, 1, 'the chain doesn’t make up for wrong answers');
+});
+
 test('a filed report keeps the grade it was given', () => {
   const { st } = walk(tiny, tiny.solution.walk);
   fileReport(tiny, st, { who: 'a', how: 'x' });

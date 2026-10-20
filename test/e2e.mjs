@@ -442,6 +442,22 @@ try {
     } finally { await old.close(); }
   });
 
+  await step('a report filed on a hunch gets two stars and says why', async () => {
+    const st = newState(first); // filed at once, every answer right, none of the chain
+    submit(first, st, Object.fromEntries(first.report.map(q => [q.id, [].concat(q.answer)[0]])));
+    const hunch = await browser.newContext(PHONE);
+    try {
+      const p = watch(await hunch.newPage());
+      await p.addInitScript(s => localStorage.setItem('legwork.v1', s), JSON.stringify({ name: 'Kerr', cases: { [first.id]: { st } } }));
+      await p.goto(base + `#/case/${first.id}/result`);
+      assert.equal(await p.locator('.verdict .stars').textContent(), '★★☆');
+      const verdict = (await p.locator('.verdict').innerText()).replace(/\s+/g, ' ');
+      assert.match(verdict, new RegExp(`the third star takes the whole chain, and you found 0 of its ${first.solution.chain.length} clues`));
+      assert.doesNotMatch(verdict, /as fast as the lieutenant/);
+      await fits('the result', p);
+    } finally { await hunch.close(); }
+  });
+
   await step('a message fits across the screen', async () => {
     await page.goto(base + `#/case/${first.id}/report`);
     await settle();
