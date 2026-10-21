@@ -149,8 +149,9 @@ export function checkCase(def) {
   }
 
   // Each question names the chain clues behind its answer (`chain`), and the third star takes them: clues
-  // from the solution's chain, joined with & and |, none of them known at the start (or a report filed at
-  // once would get it), and all found by the lieutenant's route.
+  // from the solution's chain, joined with & and |, in a condition that doesn't hold at the start (or a
+  // report filed at once would get it; a start clue is fine beside one you have to find) and that the
+  // lieutenant's route meets.
   if (Array.isArray(def.report) && Array.isArray(sol.chain)) {
     const inChain = new Set(sol.chain);
     const start = newState(def);
