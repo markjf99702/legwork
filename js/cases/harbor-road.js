@@ -969,7 +969,7 @@ Dale Whitcomb doesn’t appear. The station uses a file photo of him cutting a r
       answer: 'dale',
       points: 40,
       why: 'The valet book puts the Lexus in Dale Whitcomb’s hands at the Harbor Club at 5:58 a.m., drunk, twelve minutes before the crash. Tyler was asleep in Kessler Park on the Chos’ doorbell camera, and everything known about the driver fits Dale, not his son: the gate camera and Ray’s racked-back seat say tall, and Carmen remembers a big man with gray hair.',
-      chain: '(valet_log | luis_drunk) & (dale_story | tyler_story | doorbell)',
+      chain: '(valet_log | luis_drunk) & (dale_story | tyler_story | doorbell | gate_video | ray_seat | carmen_account)',
     },
     {
       id: 'from',

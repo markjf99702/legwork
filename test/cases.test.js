@@ -109,6 +109,9 @@ test('the clues an answer’s why cites prove it', () => {
     ['night-deposit', 'where', 'alarm_log camera'], // never went into the drop (the camera) or back into the store (the alarm log)
     ['shared-wall', 'target', 'pour_trail no_ticket'], // whose best machines had just gone out
     ['shared-wall', 'before', 'no_ticket'], // Tri-County never had them
+    ['harbor-road', 'who', 'valet_log gate_video'], // the gate camera and Ray’s racked-back seat say tall
+    ['harbor-road', 'who', 'luis_drunk ray_seat'],
+    ['harbor-road', 'who', 'valet_log carmen_account'], // Carmen remembers a big man with gray hair
     ['harbor-road', 'from', 'nav_log'], // and on its own trip log
     ['harbor-road', 'repair', 'ray_job'], // Brooke called Ray Castellano at 10:15 Thursday for a rush cash job
     ['power-of-attorney', 'who', 'bank_records'], // to move $203,393 of Harold’s savings and a $190,000 loan on his house
@@ -127,6 +130,7 @@ test('the clues an answer’s why cites prove it', () => {
     ['low-water', 'moved', 'hollis_saw hollis_cap'], // Hollis saw a tall man in a ball cap
     ['low-water', 'moved', 'phone_location seat_back'], // the truck’s seat was set for someone much taller than Ben
     ['low-water', 'wound', 'wound_square lantern_receipt'], // he bought a match at 7:14 the next morning
+    ['low-water', 'wound', 'twin_lantern lantern_match'], // the corner of the one that was left fits the wound at 4.1 cm
   ];
   for (const [id, qid, clues] of roads) {
     const def = CASES.find(c => c.id === id);

@@ -1128,7 +1128,7 @@ She doesn’t wait for an answer.`,
       answer: 'lantern',
       points: 15,
       why: 'The wound has a straight edge and a square corner, about 4 cm, which the dock’s rounded, padded edge and a hot tub’s molded rim couldn’t make. One of Ian’s pair of bronze lanterns went missing that night, he bought a match at 7:14 the next morning, and the corner of the one that was left fits the wound at 4.1 cm. The blood on the tailgate was wiped there when Ben’s body was dragged into the truck.',
-      chain: 'wound_square & (twin_lantern | lantern_receipt)',
+      chain: 'wound_square & (twin_lantern | lantern_receipt) | lantern_match',
     },
   ],
 
