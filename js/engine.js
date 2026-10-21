@@ -354,12 +354,12 @@ export function grade(def, st, answers) {
     const right = [].concat(q.answer).includes(answers[q.id]);
     max += q.points;
     if (right) pts += q.points;
-    // proved: you found the chain clues behind this question's answer (its `chain` condition)
+    // proved: you found the clues behind this question's answer (its `chain` condition)
     return { id: q.id, right, answer: answers[q.id], proved: test(q.chain, st, def) };
   });
   const culprit = per[0].right;
   // Three stars, and matching the lieutenant, take the proof as well as the answers: for each answer, the
-  // chain clues behind it, by any of the roads the case gives to it. Not every clue in the chain. A report
+  // clues its why cites, by any of the roads the case gives to it. Not every clue in the chain. A report
   // that's all right without them (a hunch, or a replay filed at once) gets two.
   const proved = per.every(a => a.proved);
   const stars = !culprit ? 0 : pts === max && proved ? 3 : pts >= 0.7 * max ? 2 : 1;

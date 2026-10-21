@@ -930,7 +930,7 @@ He saved the things he couldn’t replace. You stand there with that for a momen
       answer: 'laundromat',
       points: 15,
       why: 'The gasoline ran along the shared wall and nowhere near Pete’s thinner and lamp oil, so the fire would climb the wall and go through it. The laundromat was the building whose coverage had just gone up and whose best machines had just gone out. Starting at Pete’s door was the frame, and the fire only stalled Harborline’s deal.',
-      chain: 'pour_trail & (coverage_raised | truck_sunday)',
+      chain: 'pour_trail & (coverage_raised | truck_sunday | no_ticket)',
     },
     {
       id: 'motive',
@@ -972,7 +972,7 @@ He saved the things he couldn’t replace. You stand there with that for a momen
       answer: 'washers',
       points: 15,
       why: 'Yolanda Pierce watched four washers go into a Lakeshore truck on Sunday night. Tri-County never had them, the truck and a storage unit were rented in Gary’s name, and his claim lists them as burned. Nothing left the hardware store: the store’s copy of the accounts burned, and Marie’s was at home all along.',
-      chain: 'truck_sunday',
+      chain: 'truck_sunday | no_ticket',
     },
   ],
 

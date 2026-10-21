@@ -983,7 +983,7 @@ Dale Whitcomb doesn’t appear. The station uses a file photo of him cutting a r
       answer: 'club',
       points: 15,
       why: 'The Lexus spent the night at the Harbor Club: out to “Mr. W” at 5:58 in the valet book, swerving out of the valet circle at 6:03 in front of Roz Petrakis, and on its own trip log. It was heading east, toward Bluffside, when it hit her.',
-      chain: 'valet_log | luis_drunk | roz_saw',
+      chain: 'valet_log | luis_drunk | roz_saw | nav_log',
     },
     {
       id: 'repair',
@@ -997,7 +997,7 @@ Dale Whitcomb doesn’t appear. The station uses a file photo of him cutting a r
       answer: 'brooke',
       points: 15,
       why: 'Brooke called Ray Castellano at 10:15 Thursday for a rush cash job, told him her son had hit a deer, and had him collect the car from her garage.',
-      chain: 'brooke_repair',
+      chain: 'brooke_repair | ray_job',
     },
     {
       id: 'proof',

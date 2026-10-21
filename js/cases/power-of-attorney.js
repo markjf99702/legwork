@@ -834,7 +834,7 @@ Paper rustles. “Kevin swears Harold signed the power of attorney ‘in my pres
       answer: 'kevin',
       points: 40,
       why: 'Kevin used a power of attorney Harold never signed to move $203,393 of Harold’s savings and a $190,000 loan on his house into Beck Realty Group, to keep his failing flip on Overlook Drive afloat.',
-      chain: 'poa_copy & in_hospital | statement | harold_story',
+      chain: 'poa_copy & in_hospital | statement | bank_records | harold_story',
     },
     {
       id: 'where',
@@ -849,7 +849,7 @@ Paper rustles. “Kevin swears Harold signed the power of attorney ‘in my pres
       answer: 'rosa_free',
       points: 15,
       why: 'Harold packed his own suitcase, left the cat with Dot, asked her to cover for him and drove to Rosa’s. The Buick ticket, the library card and his own account all put him in Lakeview, free to come and go.',
-      chain: 'harold_found',
+      chain: 'harold_found | buick_ticket & library_card',
     },
     {
       id: 'proof',
@@ -864,7 +864,7 @@ Paper rustles. “Kevin swears Harold signed the power of attorney ‘in my pres
       answer: 'hospital',
       points: 15,
       why: 'The notary certifies that Harold “personally appeared” at Ship & Sign on March 14, but Mercy General has him in bed on 4 West from March 12 to 18, a day out of surgery on the 14th, with no leave. He can’t have been in both places. The signature and thumbprint in her journal aren’t his, and the cognitive screen shows he’s competent, not whether he signed.',
-      chain: 'poa_copy & in_hospital',
+      chain: 'in_hospital & (poa_copy | journal_entry)',
     },
     {
       id: 'helper',
@@ -894,7 +894,7 @@ Paper rustles. “Kevin swears Harold signed the power of attorney ‘in my pres
       answer: 'maple',
       points: 15,
       why: 'When Harold confronted him, Kevin said he was “getting confused” and had a room at Maple Crest waiting “for his own good,” backed by a forged doctor’s letter. The move-in date was October 6. Harold left on the fourth. The man in the gray car came the next weekend, sent by Kevin to find him, and the loan on the house was Kevin’s doing.',
-      chain: 'harold_story',
+      chain: 'harold_story | (maple_packet | maple_app) & (last_seen | seen_leaving)',
     },
   ],
 

@@ -1169,7 +1169,7 @@ A pause. “She hasn’t taken two weeks off in six years. Should I be worried a
       answer: 'imogen',
       points: 40,
       why: 'Imogen swapped the original for a copy in September, signing it out for a photographer who was in Traverse City, and staged the theft to make the copy vanish before Chicago could examine it. Cole cut the canvas, but she got him the job, gave him the code and told him when to go.',
-      chain: 'cole_flips | imogen_slip | modern_canvas & sign_out_log & lena_no_booking',
+      chain: 'cole_flips | imogen_slip | (modern_canvas | weave_differs) & sign_out_log & lena_no_booking',
     },
     {
       id: 'copy',
@@ -1182,7 +1182,7 @@ A pause. “She hasn’t taken two weeks off in six years. Should I be worried a
       answer: 'copy',
       points: 15,
       why: 'The strips left in the frame are modern linen on a titanium-white acrylic ground, which didn’t exist in 1911, and they don’t match Nadia’s 2019 photographs of the real canvas. Mina Varga painted it for Imogen.',
-      chain: 'modern_canvas',
+      chain: 'modern_canvas | weave_differs',
     },
     {
       id: 'hands',
@@ -1212,7 +1212,7 @@ A pause. “She hasn’t taken two weeks off in six years. Should I be worried a
       answer: 'toronto',
       points: 15,
       why: 'Two weeks before the theft, Fisk offered a Carrow heron to a Toronto collector, and on September 12 he wired $118,000 to Egret Holdings, an LLC at Imogen’s address. What was in Cole’s closet was the copy, which he had been told to burn.',
-      chain: 'toronto_offer & modern_canvas',
+      chain: 'toronto_offer & (modern_canvas | weave_differs)',
     },
     {
       id: 'why',
@@ -1226,7 +1226,7 @@ A pause. “She hasn’t taken two weeks off in six years. Should I be worried a
       answer: 'exam',
       points: 10,
       why: 'The copy could have hung in Port Calder for years, but it wouldn’t survive a condition exam in Chicago in five weeks. A theft made it disappear without anyone asking whether it was real.',
-      chain: 'loan_exam & modern_canvas',
+      chain: '(loan_exam | condo_search) & (modern_canvas | weave_differs)',
     },
     {
       id: 'how',
@@ -1240,7 +1240,7 @@ A pause. “She hasn’t taken two weeks off in six years. Should I be worried a
       answer: 'note',
       points: 10,
       why: 'The console log shows Walt’s code, 04, and a sensor can only be bypassed at the console itself. Walt kept the code on a note under the keyboard. Imogen sat alone at that desk last Tuesday and passed it to Cole, who used it at 9:14 while the dock camera shows Walt smoking outside.',
-      chain: 'console_log & cole_flips',
+      chain: 'console_log & (cole_flips | code_note & dock_camera)',
     },
   ],
 

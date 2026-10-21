@@ -461,17 +461,19 @@ try {
 
   await step('the third star takes the clues behind each answer, not the whole chain', async () => {
     const right = Object.fromEntries(first.report.map(q => [q.id, [].concat(q.answer)[0]]));
-    const routeWithout = (...skip) => {
-      const st = walk(first, first.solution.walk.filter(s => !skip.includes(s))).st;
+    const routeWithout = (skip, more = []) => {
+      const st = walk(first, [...first.solution.walk.filter(s => !skip.includes(s)), ...more]).st;
       submit(first, st, right);
       return st;
     };
     // Without Amato's, the night drop that worked never turns up, but the alarm log still breaks Danny's story:
-    // every answer proved, half an hour quicker than the lieutenant. Without asking Tasha, nothing in the
-    // chain says where the bag was at closing.
+    // every answer proved, half an hour quicker than the lieutenant. Without asking Tasha, nothing on the
+    // route says where the bag was at closing. The bank's camera isn't in the chain, but the answer's why
+    // cites it: with the alarm log it shows the bag went neither into the drop nor back into the store.
     const games = [
-      [routeWithout('@amato', 'Ask if he uses'), '★★★', [], /as fast as the lieutenant/],
-      [routeWithout('Ask about closing up'), '★★☆', ['where'], /the third star takes the clues that prove each one, and you couldn’t prove 1 of the 4\./],
+      [routeWithout(['@amato', 'Ask if he uses']), '★★★', [], /as fast as the lieutenant/],
+      [routeWithout(['Ask about closing up']), '★★☆', ['where'], /the third star takes the clues that prove each one, and you couldn’t prove 1 of the 4\./],
+      [routeWithout(['Ask about closing up'], ['@bank', 'Ask whether the night drop', '@camera']), '★★★', [], /^case closed ★★★$/i],
     ];
     for (const [st, stars, marked, line] of games) {
       const own = await browser.newContext(PHONE);

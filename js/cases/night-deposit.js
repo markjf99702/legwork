@@ -474,7 +474,7 @@ Danny sits at his kitchen table the whole time and doesn’t say anything. When 
       answer: 'car',
       points: 20,
       why: 'Tasha watched Danny put it on his passenger seat at 10:08. It never went into the drop (the camera) or back into the store (the alarm log).',
-      chain: 'tasha_bag',
+      chain: 'tasha_bag | alarm_log & camera',
     },
     {
       id: 'proof',

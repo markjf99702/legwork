@@ -84,18 +84,57 @@ test('no later report question names the culprit', () => {
   }
 });
 
-// Each answer names the chain clues behind it, and the checker holds them to the rules in docs/WRITING.md.
-test('the checker wants the chain clues behind every answer', () => {
+// Each answer names the clues behind it, and the checker holds them to the rules in docs/WRITING.md.
+test('the checker wants the clues behind every answer', () => {
   const errors = (id, qid, chain) => {
     const def = CASES.find(c => c.id === id);
     return checkCase({ ...def, report: def.report.map(q => (q.id === qid ? { ...q, chain } : q)) }).join('\n');
   };
   assert.match(errors('night-deposit', 'where', undefined), /report question where needs a chain/);
-  assert.match(errors('night-deposit', 'where', 'tasha_bag | camera'), /names "camera", which isn't in the solution's chain/);
+  assert.match(errors('night-deposit', 'where', 'tasha_bag | bank_tape'), /names "bank_tape", which isn't one of the case's clues/);
+  assert.match(errors('night-deposit', 'where', 'tasha_bag | camera_offer'), /names "camera_offer", which isn't one of the case's clues/, 'a flag isn’t a clue');
   assert.match(errors('night-deposit', 'where', 'tasha_bag & !camera'), /should only join clues with & and \|/);
   assert.match(errors('night-deposit', 'where', 'tasha_bag &'), /where chain: Bad condition/);
   assert.match(errors('the-heron', 'how', 'console_log'), /is met before you've found anything/, 'console_log is known from the start');
   assert.equal(errors('night-deposit', 'where', 'tasha_bag'), '');
+  assert.ok(!CASES[0].solution.chain.includes('camera'));
+  assert.equal(errors('night-deposit', 'where', 'tasha_bag | alarm_log & camera'), '', 'a clue outside the solution’s chain will do');
+});
+
+// The third star takes the clues each answer's why cites, in the solution's chain or not, so a player
+// who found them isn't told “You couldn’t prove it” above a why that quotes them. Each of these roads
+// proves its answer with nothing else found.
+test('the clues an answer’s why cites prove it', () => {
+  const roads = [
+    ['night-deposit', 'where', 'alarm_log camera'], // never went into the drop (the camera) or back into the store (the alarm log)
+    ['shared-wall', 'target', 'pour_trail no_ticket'], // whose best machines had just gone out
+    ['shared-wall', 'before', 'no_ticket'], // Tri-County never had them
+    ['harbor-road', 'from', 'nav_log'], // and on its own trip log
+    ['harbor-road', 'repair', 'ray_job'], // Brooke called Ray Castellano at 10:15 Thursday for a rush cash job
+    ['power-of-attorney', 'who', 'bank_records'], // to move $203,393 of Harold’s savings and a $190,000 loan on his house
+    ['power-of-attorney', 'where', 'buick_ticket library_card'], // the Buick ticket, the library card … put him in Lakeview
+    ['power-of-attorney', 'proof', 'in_hospital journal_entry'], // the signature and thumbprint in her journal aren’t his
+    ['power-of-attorney', 'why', 'maple_packet last_seen'], // the move-in date was October 6; Harold left on the fourth
+    ['power-of-attorney', 'why', 'maple_app seen_leaving'],
+    ['the-heron', 'who', 'weave_differs sign_out_log lena_no_booking'], // swapped the original for a copy
+    ['the-heron', 'copy', 'weave_differs'], // they don’t match Nadia’s 2019 photographs of the real canvas
+    ['the-heron', 'where', 'toronto_offer weave_differs'],
+    ['the-heron', 'why', 'loan_exam weave_differs'],
+    ['the-heron', 'why', 'condo_search modern_canvas'], // the Egret folder’s loan schedule, its condition exam highlighted
+    ['the-heron', 'how', 'code_note dock_camera'], // a note under the keyboard … the dock camera shows Walt smoking outside
+    ['low-water', 'who', 'phone_location wound_square lantern_receipt'], // the weapon, by either of the wound’s roads
+    ['low-water', 'where', 'lung_water voices_ten'], // his neighbor heard the argument on the patio a little after ten
+    ['low-water', 'moved', 'hollis_saw hollis_cap'], // Hollis saw a tall man in a ball cap
+    ['low-water', 'moved', 'phone_location seat_back'], // the truck’s seat was set for someone much taller than Ben
+    ['low-water', 'wound', 'wound_square lantern_receipt'], // he bought a match at 7:14 the next morning
+  ];
+  for (const [id, qid, clues] of roads) {
+    const def = CASES.find(c => c.id === id);
+    const st = newState(def);
+    for (const c of clues.split(' ')) { assert.ok(c in def.clues, `${id} has no clue ${c}`); st.clues[c] = 0; }
+    const answers = Object.fromEntries(def.report.map(q => [q.id, [].concat(q.answer)[0]]));
+    assert.ok(grade(def, st, answers).per.find(a => a.id === qid).proved, `${id} ${qid}: ${clues} should prove it`);
+  }
 });
 
 for (const def of CASES) {

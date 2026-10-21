@@ -1,6 +1,6 @@
 // Checks a case for mistakes a player would trip over: a lead with no scene, a clue nobody can find,
-// a condition naming a flag that's never set, a report answer that isn't one of its options or has no
-// chain clues behind it, or a solution that can't be reached in the hours given. Used by the tests
+// a condition naming a flag that's never set, a report answer that isn't one of its options or names
+// no clues behind it, or a solution that can't be reached in the hours given. Used by the tests
 // (npm test).
 
 import { parseCond, condNames, textConds, walk, newState, test as holds } from './engine.js';
@@ -148,20 +148,19 @@ export function checkCase(def) {
     } catch (e) { err(`the lieutenant's route fails: ${e.message}`); }
   }
 
-  // Each question names the chain clues behind its answer (`chain`), and the third star takes them: clues
-  // from the solution's chain, joined with & and |, in a condition that doesn't hold at the start (or a
-  // report filed at once would get it; a start clue is fine beside one you have to find) and that the
-  // lieutenant's route meets.
+  // Each question names the clues behind its answer (`chain`), and the third star takes them: the clues
+  // its why cites, in the solution's chain or not, joined with & and |, in a condition that doesn't hold
+  // at the start (or a report filed at once would get it; a start clue is fine beside one you have to
+  // find) and that the lieutenant's route meets.
   if (Array.isArray(def.report) && Array.isArray(sol.chain)) {
-    const inChain = new Set(sol.chain);
     const start = newState(def);
     for (const q of def.report) {
       const where = `report question ${q.id} chain`;
-      if (typeof q.chain !== 'string' || !q.chain.trim()) { err(`report question ${q.id} needs a chain: the chain clues behind its answer`); continue; }
+      if (typeof q.chain !== 'string' || !q.chain.trim()) { err(`report question ${q.id} needs a chain: the clues behind its answer`); continue; }
       try {
         const n = condNames(q.chain);
         if (/[!<>=]/.test(q.chain) || n.visited.length) err(`${where} "${q.chain}" should only join clues with & and |`);
-        for (const id of n.has) if (!inChain.has(id)) err(`${where} names "${id}", which isn't in the solution's chain`);
+        for (const id of n.has) if (!clueIds.has(id)) err(`${where} names "${id}", which isn't one of the case's clues`);
         if (holds(q.chain, start, def)) err(`${where} "${q.chain}" is met before you've found anything`);
         if (walked && !holds(q.chain, walked, def)) err(`${where} "${q.chain}" isn't met by the lieutenant's route`);
       } catch (e) { err(`${where}: ${e.message}`); }
