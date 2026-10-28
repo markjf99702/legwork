@@ -53,7 +53,7 @@ To put it online with GitHub Pages: **Settings → Pages → Build and deploymen
 - `js/engine.js`: the rules, with no DOM: conditions like `alarm_log & !danny_lawyer`, the working-hours clock, visiting leads, choices, timers and events, grading, and walking a route.
 - `js/check.js`: catches mistakes in a case, such as a clue nobody can find, a lead with no scene, a condition naming something that doesn’t exist, or a solution that can’t be reached in the hours given.
 - `js/app.js`: the pages. `js/text.js` turns case text into HTML, and `js/store.js` saves and restores.
-- `sw.js`: keeps a copy for playing offline.
+- `sw.js`: keeps a copy for playing offline. On a connection that isn't answering, a page opens from that copy after four seconds. `FILES` in it is a fingerprint of the files it keeps: change one and `npm test` says what to set it to, so a release never leaves the copy half old.
 - `carry.js`: the first time the game opens at this address, brings your cases over from the old one, junkdrawer.works/legwork/.
 - `fonts/`: Source Serif 4 and Courier Prime (SIL Open Font License) and Special Elite (Apache License 2.0), served from here so nothing loads from elsewhere.
 
